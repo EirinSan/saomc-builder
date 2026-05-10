@@ -48,6 +48,7 @@ Exécutez le contenu de `supabase-setup.sql` dans le **SQL Editor** de Supabase 
 npm run dev
 ```
 
+
 ## 📸 Extraction des Données
 
 Le projet inclut un système automatisé pour peupler la base de données à partir de captures d'écran du jeu :
