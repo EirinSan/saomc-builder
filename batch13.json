@@ -1,0 +1,108 @@
+[
+  {
+    "name": "Bottes d'Ika",
+    "classes": ["guerrier"],
+    "required_level": 3,
+    "stats": {"defense_stat": 0.8, "sante": 20},
+    "lore": "Forgée à partir des plaques d'Ika, ces tortues ancestrales confèrent robustesse et stabilité.",
+    "type": "bottes",
+    "palier": 1,
+    "set_name": "Set Ika",
+    "set_bonuses": ["[3] +10 Santé"],
+    "rarity": "commun"
+  },
+  {
+    "name": "Jambières du Titan",
+    "classes": ["guerrier"],
+    "required_level": 7,
+    "stats": {"defense_stat": 1.92, "sante": 37},
+    "lore": "Forgée dans la forge royale de Tolbana. Cette armure peut être très pratique pour les boss palier de l'Aincrad.",
+    "type": "jambieres",
+    "palier": 1,
+    "set_name": "Set Titan",
+    "set_bonuses": ["[3] +2.5 Défense", "[4] -2% Dégâts Subis"],
+    "rarity": "rare"
+  },
+  {
+    "name": "Bouclier puissant de Tolbana",
+    "classes": ["guerrier"],
+    "required_level": 7,
+    "stats": {"degats_attaque": 2, "defense_stat": 1.4, "sante": 12},
+    "lore": "La version équilibrée parmi tous les boucliers de Tolbana",
+    "type": "bouclier_rondache",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Bouclier puissant de Tolbana",
+    "classes": ["guerrier"],
+    "required_level": 7,
+    "stats": {"degats_attaque": 2, "defense_stat": 1.4, "sante": 12},
+    "lore": "La version équilibrée parmi tous les boucliers de Tolbana",
+    "type": "bouclier_rondache",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Arbalète de Chasse",
+    "classes": ["archer"],
+    "required_level": 7,
+    "stats": {"degats_attaque": 19, "vitesse_attaque": 0.7, "chance_critique_competence": 3, "stamina": 3},
+    "lore": "Arbalète pour chasser les puissants monstres du Palier 1.",
+    "type": "arbalete",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Jambières du Ninja",
+    "classes": ["assassin"],
+    "required_level": 7,
+    "stats": {"defense_stat": 1.4, "sante": 27},
+    "lore": "Tenue parfaite pour se mouvoir dans l'ombre et sans bruit. Elle aurait des fragments de lune en elle.",
+    "type": "jambieres",
+    "palier": 1,
+    "set_name": "Set de Ninja",
+    "set_bonuses": ["[2] +1.5% Chance d'Esquive", "[3] +2.5% Chance d'Esquive"],
+    "rarity": "rare"
+  },
+  {
+    "name": "Épée Magique",
+    "classes": ["guerrier"],
+    "required_level": 7,
+    "stats": {"degats_attaque": 20, "vitesse_attaque": 1.15},
+    "lore": "Épée dont la magie a été imprégnée des monstres de la citadelle des neiges.",
+    "type": "epee",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Bâton Sylvestre",
+    "classes": ["shaman"],
+    "required_level": 3,
+    "stats": {"degats_attaque": 10, "vitesse_attaque": 1, "soins_bonus": 2},
+    "lore": "Grâce au Coeur de Bois et des Brindilles Enchantées un baton est né",
+    "type": "baton",
+    "palier": 1,
+    "rarity": "commun"
+  },
+  {
+    "name": "Bottes du Débutant",
+    "classes": null,
+    "required_level": 1,
+    "stats": {"sante": 7},
+    "lore": "Protège à peine contre une lame, mais c'est toujours mieux que rien.",
+    "type": "bottes",
+    "palier": 1,
+    "rarity": "commun"
+  },
+  {
+    "name": "Anneau d'Amour",
+    "classes": null,
+    "required_level": 10,
+    "stats": {"chance_critique": 5, "degats_critique": 5, "chance_critique_competence": 5, "degats_critique_competence": 5, "sante": 15},
+    "lore": "Un anneau délicatement gravé, aux reflets chaleureux, symbole d'un lien précieux",
+    "type": "anneau",
+    "palier": 1,
+    "rarity": "exclusif"
+  }
+]

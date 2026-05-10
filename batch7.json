@@ -1,0 +1,217 @@
+[
+  {
+    "name": "Lanterne Noire",
+    "classes": null,
+    "required_level": 12,
+    "stats": {"degats_competence": 5, "defense_stat": 3.5},
+    "lore": "Une petite lanterne lumineuse, a l'aura mystérieuse et envoûtante",
+    "type": "artefact",
+    "palier": 2,
+    "rarity": "exclusif"
+  },
+  {
+    "name": "Bracelet de Cuivre",
+    "classes": null,
+    "required_level": 3,
+    "stats": {"sante": 5},
+    "lore": "Forgé avec le cuivre que l'on trouve sur le palier 1. La base parmi les accessoires",
+    "type": "bracelet",
+    "palier": 1,
+    "set_name": "Set de Cuivre",
+    "set_bonuses": ["[2] +1 Dégât d'Attaque", "[3] +1 Défense", "[4] +1 Dégâts d'Attaque", "[5] +5 Santé"],
+    "rarity": "commun"
+  },
+  {
+    "name": "Bracelet de Fer",
+    "classes": null,
+    "required_level": 5,
+    "stats": {"defense_stat": 1, "sante": 5},
+    "lore": "Une simple bande de fer, forgée pour protéger le poignet ou compléter un équipement rudimentaire",
+    "type": "bracelet",
+    "palier": 1,
+    "set_name": "Set de Fer",
+    "set_bonuses": ["[2] +1.5 Dégâts d'Attaque", "[3] +10 Santé", "[4] +2 Dégâts d'Attaque", "[5] +1.5 Défense"],
+    "rarity": "rare"
+  },
+  {
+    "name": "Bracelet Gluant",
+    "classes": null,
+    "required_level": 7,
+    "stats": {"sante": 5, "regen_sante": 0.1, "soins_bonus": 1},
+    "lore": "Une simple bande de fer, forgée et gelifiée avec du slime",
+    "type": "bracelet",
+    "palier": 1,
+    "set_name": "Set des Slimes Gélatineux",
+    "rarity": "rare"
+  },
+  {
+    "name": "Bracelet Sylvestre",
+    "classes": null,
+    "required_level": 5,
+    "stats": {"regen_sante": 0.2, "regen_mana": 0.2, "regen_stamina": 0.2},
+    "lore": "Tressé à partir de lianes et de feuilles imprégnées de l'énergie apaisante du marécage",
+    "type": "bracelet",
+    "palier": 1,
+    "set_name": "Set de la Sylve",
+    "set_bonuses": ["[2] +0.1 Mana/s\n+0.05 Stamina/s", "[3] +0.05 Santé/s\n+1 Soins Bonus", "[4] +5 Santé\n+0.5 Mana\n+0.5 Stamina"],
+    "rarity": "commun"
+  },
+  {
+    "name": "Bracelet des Cerfs",
+    "classes": null,
+    "required_level": 7,
+    "stats": {"mana": 2, "stamina": 1, "regen_mana": 0.2, "regen_stamina": 0.2},
+    "lore": "Un bracelet fait à base de crocs de loups et peaux de cerfs",
+    "type": "bracelet",
+    "palier": 1,
+    "set_name": "Set des Cerfs Paisibles",
+    "rarity": "rare"
+  },
+  {
+    "name": "Bracelet d'Araignée",
+    "classes": null,
+    "required_level": 7,
+    "stats": {"esquive": 2.5, "vitesse_deplacement": 5},
+    "lore": "Tressé à partir de tissu d'araignée et enchanté par des spores corrompu",
+    "type": "bracelet",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Bracelet de Glace",
+    "classes": null,
+    "required_level": 9,
+    "stats": {"degats_competence": 5, "regen_mana": 0.3, "regen_stamina": 0.2},
+    "lore": "Bracelet taillé dans un cristal gelé, il conserve le froid éternel du mini-boss de glace.",
+    "type": "bracelet",
+    "palier": 1,
+    "rarity": "epique"
+  },
+  {
+    "name": "Bracelet Occulte",
+    "classes": null,
+    "required_level": 10,
+    "required_attributes": {"defense_stat": 1},
+    "stats": {"degats_physiques": 3, "degats_magiques": 2, "defense_stat": 2, "sante": 20},
+    "lore": "Tressé lors d'une cérémonie nocturne du Cercle, il marque l'appartenance à l'Eclipse.",
+    "type": "bracelet",
+    "palier": 1,
+    "set_name": "Set Néophyte de l'Ombre",
+    "rarity": "legendaire"
+  },
+  {
+    "name": "Bracelet d'Oceiros",
+    "classes": null,
+    "required_level": 10,
+    "stats": {"degats_competence": 8, "regen_mana": 0.5, "regen_stamina": 0.3},
+    "lore": "Forgé dans les profondeurs ce bracelet porte encore la marque d'un chevalier déchu consumé par les ténèbres qu'il servait !",
+    "type": "bracelet",
+    "palier": 1,
+    "rarity": "exclusif"
+  },
+  {
+    "name": "Bracelet de Wolnir",
+    "classes": null,
+    "required_level": 10,
+    "stats": {"vitesse_attaque": 0.3, "degats_critique": 10},
+    "lore": "Un bracelet forgé dans les ténèbres du tombeau de Wolnir imprégné de la poussière d'os et du pouvoir maudit du Maraudeur.",
+    "type": "bracelet",
+    "palier": 1,
+    "rarity": "exclusif"
+  },
+  {
+    "name": "Bracelet de Yuleck",
+    "classes": null,
+    "required_level": 10,
+    "stats": {"sante": 7, "regen_sante": 0.3, "soins_bonus": 2, "vitesse_deplacement": -5},
+    "lore": "Bracelet du maudit gardien de la forêt des brumes bleues. Il brille comme un sapin",
+    "type": "bracelet",
+    "palier": 1,
+    "rarity": "exclusif"
+  },
+  {
+    "name": "Bracelet du Krampus",
+    "classes": null,
+    "required_level": 10,
+    "stats": {"vitesse_attaque": 0.1, "chance_critique": 5, "degats_critique": 10, "sante": 5},
+    "lore": "Bracelet du démon Krampus, terreur et ennemi juré du Père Noel.",
+    "type": "bracelet",
+    "palier": 1,
+    "rarity": "exclusif"
+  },
+  {
+    "name": "Bracelet de Kazor",
+    "classes": null,
+    "required_level": 10,
+    "required_attributes": {"defense_stat": 2, "vitalite": 3},
+    "stats": {"hate_aptitude": 3, "defense_stat": 2, "sante": 20, "regen_sante": 0.5, "soins_bonus": 2},
+    "lore": "Emblème d'une machine de guerre, transmet les ordres d'un roi oublié",
+    "type": "bracelet",
+    "palier": 1,
+    "rarity": "godlike"
+  },
+  {
+    "name": "Bracelet de Ferraille",
+    "classes": null,
+    "required_level": 11,
+    "stats": {"defense_stat": 1, "sante": 10},
+    "lore": "Forgé avec la ferraille que l'on forge sur le palier 2",
+    "type": "bracelet",
+    "palier": 2,
+    "set_name": "Set de Ferraille",
+    "rarity": "commun"
+  },
+  {
+    "name": "Bracelet de Bauxite",
+    "classes": null,
+    "required_level": 12,
+    "stats": {"defense_stat": 2, "sante": 10},
+    "lore": "Forgé avec la bauxite que l'on récolte sur le palier 2",
+    "type": "bracelet",
+    "palier": 2,
+    "set_name": "Set de Bauxite",
+    "rarity": "rare"
+  },
+  {
+    "name": "Bracelet d'Onyx Impur",
+    "classes": null,
+    "required_level": 13,
+    "stats": {"defense_stat": 2, "sante": 15, "regen_sante": 0.1},
+    "lore": "Forgé avec de l'onyx impur un fragment incomplet du palier 2",
+    "type": "bracelet",
+    "palier": 2,
+    "set_name": "Set dOnyx Impur",
+    "rarity": "epique"
+  },
+  {
+    "name": "Bracelet d'Onyx Pur",
+    "classes": null,
+    "required_level": 14,
+    "stats": {"defense_stat": 2, "sante": 20, "regen_sante": 0.2},
+    "lore": "Forgé avec de l'onyx pur un fragment brillant du palier 2",
+    "type": "bracelet",
+    "palier": 2,
+    "set_name": "Set dOnyx Pur",
+    "rarity": "legendaire"
+  },
+  {
+    "name": "Bracelet Mielleux",
+    "classes": null,
+    "required_level": 11,
+    "stats": {"hate_aptitude": 2.5, "sante": 5, "mana": 2.5, "soins_bonus": 2},
+    "lore": "Forgé avec de nombreux matériaux obtenu des abeilles",
+    "type": "bracelet",
+    "palier": 2,
+    "rarity": "rare"
+  },
+  {
+    "name": "Bracelet Runimiel",
+    "classes": null,
+    "required_level": 11,
+    "stats": {"sante": -10, "mana": -10, "soins_bonus": 5},
+    "lore": "Forgé avec des pierres runiques et des matériaux obtenu des abeilles",
+    "type": "bracelet",
+    "palier": 2,
+    "rarity": "rare"
+  }
+]

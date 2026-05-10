@@ -1,0 +1,217 @@
+[
+  {
+    "name": "Arc de Chasse",
+    "classes": ["archer"],
+    "required_level": 7,
+    "stats": {"degats_attaque": 12.99, "vitesse_attaque": 1},
+    "lore": "Arc pour chasser les puissants monstres du Palier 1.",
+    "type": "arme",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Jambières du Magicien",
+    "classes": ["shaman"],
+    "required_level": 7,
+    "stats": {"defense_stat": 1.4, "sante": 24},
+    "lore": "Habit d'un autre âge, brodé de fils magiques. Il était jadis porté par un magicien légendaire.",
+    "type": "jambier",
+    "palier": 1,
+    "set_name": "Set du Magicien",
+    "set_bonuses": ["[2] +15 Max Mana", "[3] -4% Hâte d'Aptitude"],
+    "rarity": "rare"
+  },
+  {
+    "name": "Jambières Spectrales",
+    "classes": ["shaman", "mage"],
+    "required_level": 3,
+    "stats": {"defense_stat": 0.4, "sante": 17},
+    "lore": "Façonnée dans un tissu spectral lié aux forces de la forêt. Elle pulse doucement au contact de la magie.",
+    "type": "jambier",
+    "palier": 1,
+    "set_name": "Set Spectral",
+    "set_bonuses": ["[2] +15 Max Mana", "[3] +3% Dégâts Magiques"],
+    "rarity": "commun"
+  },
+  {
+    "name": "Bâton Sylvestre",
+    "classes": ["mage"],
+    "required_level": 3,
+    "stats": {"degats_attaque": 13, "vitesse_attaque": 1},
+    "lore": "Grâce aux Coeurs de Bois et des Brindilles Enchantées, un bâton est né.",
+    "type": "baton",
+    "palier": 1,
+    "rarity": "commun"
+  },
+  {
+    "name": "Bâton du Sorcier Puissant",
+    "classes": ["shaman"],
+    "required_level": 7,
+    "stats": {"degats_attaque": 20, "vitesse_attaque": 1.1, "sante": -30, "regen_mana": 0.2, "soins_bonus": 4.5},
+    "lore": "Ce bâton est une version plus puissante et concentrée d'énergie, face à l'autre qui est plus sûre et moins puissante",
+    "type": "baton",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Bouclier Résistant de Tolbana",
+    "classes": ["guerrier"],
+    "required_level": 7,
+    "stats": {"defense_stat": 2.1, "sante": 20},
+    "lore": "Le bouclier le plus résistant que Tolbana puisse offrir",
+    "type": "secondaire",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Bottes d'Ika",
+    "classes": ["guerrier"],
+    "required_level": 3,
+    "stats": {"defense_stat": 0.8, "sante": 20},
+    "lore": "Forgée à partir des plaques d'Ika, ces tortues ancestrales confèrent robustesse et stabilité.",
+    "type": "boots",
+    "palier": 1,
+    "set_name": "Set Ika",
+    "set_bonuses": ["[3] +10 Santé"],
+    "rarity": "commun"
+  },
+  {
+    "name": "Jambières du Titan",
+    "classes": ["guerrier"],
+    "required_level": 7,
+    "stats": {"defense_stat": 1.92, "sante": 37},
+    "lore": "Forgée dans la forge royale de Tolbana. Cette armure peut être très pratique pour les boss palier de l'Aincrad.",
+    "type": "jambier",
+    "palier": 1,
+    "set_name": "Set Titan",
+    "set_bonuses": ["[3] +2.5 Défense", "[4] -2% Dégâts Subis"],
+    "rarity": "rare"
+  },
+  {
+    "name": "Bouclier puissant de Tolbana",
+    "classes": ["guerrier"],
+    "required_level": 7,
+    "stats": {"degats_attaque": 2, "defense_stat": 1.4, "sante": 12},
+    "lore": "La version équilibrée parmi tous les boucliers de Tolbana",
+    "type": "secondaire",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Arbalète de Chasse",
+    "classes": ["archer"],
+    "required_level": 7,
+    "stats": {"degats_attaque": 19, "vitesse_attaque": 0.7, "chance_critique": 3, "stamina": 3},
+    "lore": "Arbalète pour chasser les puissants monstres du Palier 1.",
+    "type": "arme",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Jambières du Ninja",
+    "classes": ["assassin"],
+    "required_level": 7,
+    "stats": {"defense_stat": 1.4, "sante": 27},
+    "lore": "Tenue parfaite pour se mouvoir dans l'ombre et sans bruit. Elle aurait des fragments de lune en elle.",
+    "type": "jambier",
+    "palier": 1,
+    "set_name": "Set de Ninja",
+    "set_bonuses": ["[2] +1.5% Chance d'Esquive", "[3] +2.5% Chance d'Esquive"],
+    "rarity": "rare"
+  },
+  {
+    "name": "Épée Magique",
+    "classes": ["guerrier"],
+    "required_level": 7,
+    "stats": {"degats_attaque": 20, "vitesse_attaque": 1.15},
+    "lore": "Épée dont la magie a été imprégnée des monstres de la citadelle des neiges.",
+    "type": "arme",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Bâton Sylvestre",
+    "classes": ["shaman"],
+    "required_level": 3,
+    "stats": {"degats_attaque": 10, "vitesse_attaque": 1, "soins_bonus": 2},
+    "lore": "Grâce au Coeur de Bois et des Brindilles Enchantées un baton est né",
+    "type": "baton",
+    "palier": 1,
+    "rarity": "commun"
+  },
+  {
+    "name": "Bottes du Débutant",
+    "classes": null,
+    "required_level": 1,
+    "stats": {"sante": 7},
+    "lore": "Protège à peine contre une lame, mais c'est toujours mieux que rien.",
+    "type": "boots",
+    "palier": 1,
+    "rarity": "commun"
+  },
+  {
+    "name": "Anneau d'Amour",
+    "classes": null,
+    "required_level": 10,
+    "stats": {"chance_critique": 5, "degats_critique": 5, "chance_critique_competence": 5, "degats_critique_competence": 5, "sante": 15},
+    "lore": "Un anneau délicatement gravé, aux reflets chaleureux, symbole d'un lien précieux",
+    "type": "anneau",
+    "palier": 1,
+    "rarity": "exclusif"
+  },
+  {
+    "name": "Bâton du Sorcier",
+    "classes": ["shaman"],
+    "required_level": 7,
+    "stats": {"degats_attaque": 18, "vitesse_attaque": 1, "soins_bonus": 3.5},
+    "lore": "Forgé au cœur d'un orage silencieux. Ce bâton vibre d'une énergie céleste et puissante",
+    "type": "baton",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Hache Double en Fer",
+    "classes": ["guerrier"],
+    "required_level": 3,
+    "stats": {"degats_attaque": 24, "vitesse_attaque": 0.9, "range": 3.5},
+    "lore": "Double hache en fer créée grâce aux loups de la vallée et avec un autre ingrédient",
+    "type": "arme",
+    "tags": ["arme à deux mains"],
+    "palier": 1,
+    "rarity": "commun"
+  },
+  {
+    "name": "Robe du Magicien",
+    "classes": ["shaman"],
+    "required_level": 7,
+    "stats": {"defense_stat": 2.3, "sante": 32},
+    "lore": "Habit d'un autre âge, brodé de fils magiques. Il était jadis porté par un magicien légendaire.",
+    "type": "plastron",
+    "palier": 1,
+    "set_name": "Set du Magicien",
+    "set_bonuses": ["[2] +15 Max Mana", "[3] -4% Hâte d'Aptitude"],
+    "rarity": "rare"
+  },
+  {
+    "name": "Grimoire du Magicien",
+    "classes": ["mage"],
+    "required_level": 7,
+    "stats": {"degats_magiques": 3.5, "mana": 10},
+    "lore": "Ce livre a été forgé par le biais de puissants matériaux du palier 1 Il incarne la puissance d'un Magicien",
+    "type": "catalyseur",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Jambières d'Ika",
+    "classes": ["guerrier"],
+    "required_level": 3,
+    "stats": {"defense_stat": 1, "sante": 25},
+    "lore": "Forgée à partir des plaques d'Ika, ces tortues ancestrales confèrent robustesse et stabilité.",
+    "type": "jambier",
+    "palier": 1,
+    "set_name": "Set Ika",
+    "set_bonuses": ["[3] +10 Santé"],
+    "rarity": "commun"
+  }
+]

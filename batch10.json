@@ -1,0 +1,218 @@
+[
+  {
+    "name": "Amulette de la Faille Corrompue",
+    "classes": null,
+    "required_level": 13,
+    "stats": {"degats_competence": 5, "hate_aptitude": 5, "sante": 5, "mana": 10, "stamina": 5},
+    "lore": "Née au coeur d'une faille corrompue, cette amulette pulse d'une magie instable et vorace",
+    "type": "amulette",
+    "palier": 1,
+    "rarity": "mythique"
+  },
+  {
+    "name": "Collier de la Faille Corrompue",
+    "classes": null,
+    "required_level": 13,
+    "stats": {"vitesse_attaque": 0.15, "hate_aptitude": 3.5, "sante": 15, "soins_bonus": 2},
+    "lore": "Forgé au coeur d'une faille corrompue, ce collier pulse d'une magie instable et vorace",
+    "type": "amulette",
+    "palier": 1,
+    "rarity": "mythique"
+  },
+  {
+    "name": "Collier Runique",
+    "classes": null,
+    "required_level": 12,
+    "stats": {"defense_stat": 3.5, "sante": 20},
+    "lore": "Collier fabriqué par d'ancien matérieux poussiéreux, mais drôlement resistant",
+    "type": "amulette",
+    "palier": 2,
+    "set_name": "Set Squelette Poussiéreux",
+    "rarity": "epique"
+  },
+  {
+    "name": "Collier des Taureaux",
+    "classes": null,
+    "required_level": 12,
+    "stats": {"chance_critique": 2.5, "degats_physiques": 2.5, "sante": 5},
+    "lore": "Collier fabriqué par des ficelles de chêne et des cornes de taureaux",
+    "type": "amulette",
+    "palier": 2,
+    "set_name": "Set des Taureaux",
+    "rarity": "rare"
+  },
+  {
+    "name": "Amulette de Ferraille",
+    "classes": null,
+    "required_level": 11,
+    "stats": {"defense_stat": 1, "sante": 10},
+    "lore": "Une amulette rudimentaire, forgée avec un mélange de ferraille. Rien de magique, juste de la robustesse",
+    "type": "amulette",
+    "palier": 2,
+    "set_name": "Set de Ferraille",
+    "rarity": "commun"
+  },
+  {
+    "name": "Amulette de Bauxite",
+    "classes": null,
+    "required_level": 12,
+    "stats": {"defense_stat": 1.5, "sante": 10},
+    "lore": "Une amulette efficace, forgée avec de la bauxite. Une énergie s'en dégage...",
+    "type": "amulette",
+    "palier": 2,
+    "set_name": "Set de Bauxite",
+    "rarity": "rare"
+  },
+  {
+    "name": "Amulette d'Onyx Impur",
+    "classes": null,
+    "required_level": 13,
+    "stats": {"defense_stat": 2, "sante": 15},
+    "lore": "Une amulette puissant, forgée avec de l'onyx impur",
+    "type": "amulette",
+    "palier": 2,
+    "set_name": "Set dOnyx Impur",
+    "rarity": "epique"
+  },
+  {
+    "name": "Amulette d'Onyx Pur",
+    "classes": null,
+    "required_level": 14,
+    "stats": {"defense_stat": 2, "sante": 20},
+    "lore": "Une amulette éclatante, forgée avec de l'onyx pur",
+    "type": "amulette",
+    "palier": 2,
+    "set_name": "Set dOnyx Pur",
+    "rarity": "legendaire"
+  },
+  {
+    "name": "Collier Acamiel",
+    "classes": null,
+    "required_level": 11,
+    "stats": {"vitesse_attaque": 0.15, "soins_bonus": 1},
+    "lore": "Un collier orange, avec un noyau pur de miel",
+    "type": "amulette",
+    "palier": 2,
+    "rarity": "rare"
+  },
+  {
+    "name": "Collier Tricolore",
+    "classes": null,
+    "required_level": 12,
+    "stats": {"degats_attaque": 10, "degats_competence": 5, "lifesteal": 3, "defense_stat": 1, "reduction_degats": 1, "puissance_blocage": 0.5, "chance_blocage": 2.5, "sante": 5, "mana": 5, "stamina": 2.5},
+    "lore": "Un collier tricolore, inspirant la terreur des harpies",
+    "type": "amulette",
+    "palier": 2,
+    "rarity": "epique"
+  },
+  {
+    "name": "Collier du Gardien",
+    "classes": null,
+    "required_level": 13,
+    "stats": {"sante": 30, "mana": 15, "stamina": 7.5, "regen_mana": 0.4, "regen_stamina": 0.2},
+    "lore": "Un collier squelettique, porté par le gardien du sanctuaire",
+    "type": "amulette",
+    "palier": 2,
+    "set_name": "Set Squelette Poussiéreux",
+    "rarity": "legendaire"
+  },
+  {
+    "name": "Amulette Occulte",
+    "classes": null,
+    "required_level": 14,
+    "required_attributes": {"esprit": 2},
+    "stats": {"defense_stat": 2, "sante": 10, "mana": 8, "stamina": 4, "regen_mana": 0.4, "regen_stamina": 0.4},
+    "lore": "Imprégnée du sang d'un rituel d'éveil, elle lie son porteur à l'ombre d'Aincrad",
+    "type": "amulette",
+    "palier": 2,
+    "set_name": "Set Néophyte de l'Ombre",
+    "rarity": "legendaire"
+  },
+  {
+    "name": "Anneau de Pacte",
+    "classes": null,
+    "required_level": 10,
+    "stats": {"defense_stat": 1, "sante": 20, "mana": 10, "stamina": 5, "vitesse_deplacement": 10},
+    "lore": "La signature est écrite avec du sang. Il confère une puissance démoniaque",
+    "type": "anneau",
+    "palier": 1,
+    "rarity": "exclusif"
+  },
+  {
+    "name": "Anneau de Cuivre",
+    "classes": null,
+    "required_level": 3,
+    "stats": {"sante": 5},
+    "lore": "Forgé dans un cuivre légèrement poli, cet anneau se distingue par sa conductivité et sa légèreté",
+    "type": "anneau",
+    "palier": 1,
+    "set_name": "Set de Cuivre",
+    "rarity": "commun"
+  },
+  {
+    "name": "Anneau de Pumba",
+    "classes": null,
+    "required_level": 3,
+    "stats": {"defense_stat": 1, "sante": 10},
+    "lore": "Taillé dans un métal épais et marqué par une rayure rouge, cet anneau est inspiré du célèbre sanglier massif",
+    "type": "anneau",
+    "palier": 1,
+    "rarity": "legendaire"
+  },
+  {
+    "name": "Anneau Sylvestre",
+    "classes": null,
+    "required_level": 7,
+    "stats": {"mana": 1, "stamina": 0.5, "regen_sante": 0.15, "soins_bonus": 1},
+    "lore": "Taillé dans du bois de chêne, renforcé par des bois magiques et enchanté d'allium",
+    "type": "anneau",
+    "palier": 1,
+    "set_name": "Set de la Sylve",
+    "rarity": "rare"
+  },
+  {
+    "name": "Bague Gluante",
+    "classes": null,
+    "required_level": 5,
+    "stats": {"sante": 2.5, "regen_sante": 0.1},
+    "lore": "Taillé dans un alliage de métal et de gelée, cet anneau est visqueux et solide au toucher",
+    "type": "anneau",
+    "palier": 1,
+    "set_name": "Set des Slimes Gélatineux",
+    "rarity": "commun"
+  },
+  {
+    "name": "Anneau de Fer",
+    "classes": null,
+    "required_level": 5,
+    "stats": {"defense_stat": 0.5},
+    "lore": "Taillé dans un fer brut, cet anneau est apprécié pour sa solidité plus que pour son apparence",
+    "type": "anneau",
+    "palier": 1,
+    "set_name": "Set de Fer",
+    "rarity": "rare"
+  },
+  {
+    "name": "Anneau de la Faucheuse",
+    "classes": null,
+    "required_level": 9,
+    "stats": {"mana": 20, "stamina": 10},
+    "lore": "Anneau qui appartenait à la faucheuse. A son départ il est tombé par terre, encore imprégné de sa grande magie",
+    "type": "anneau",
+    "palier": 1,
+    "set_name": "Set Anneau Déchu",
+    "set_bonuses": ["[2] +10% Hâte d'Aptitude"],
+    "rarity": "legendaire"
+  },
+  {
+    "name": "Anneau Déchu",
+    "classes": null,
+    "required_level": 9,
+    "stats": {"degats_competence": 8},
+    "lore": "Les monstres Déchu recevait cette anneau témoin de leur puissance",
+    "type": "anneau",
+    "palier": 1,
+    "set_name": "Set Anneau Déchu",
+    "rarity": "legendaire"
+  }
+]

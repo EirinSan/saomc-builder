@@ -1,0 +1,120 @@
+[
+  {
+    "name": "Tunique d'Ika",
+    "classes": ["guerrier"],
+    "required_level": 3,
+    "stats": {"defense_stat": 1.2, "sante": 25.99},
+    "lore": "Forgée à partir des plaques d'Ika, ces tortues ancestrales confèrent robustesse et stabilité.",
+    "type": "plastron",
+    "palier": 1,
+    "set_name": "Set Ika",
+    "set_bonuses": ["[3] +10 Santé"],
+    "rarity": "commun"
+  },
+  {
+    "name": "Grimoire Sylvestre",
+    "classes": ["mage"],
+    "required_level": 3,
+    "stats": {"degats_magiques": 2.5, "mana": 7.5},
+    "lore": "Un livre forgé par des matériaux venant d'un marécage putride et ancien. Il renferme une magie élémentaire",
+    "type": "catalyseur",
+    "palier": 1,
+    "rarity": "commun"
+  },
+  {
+    "name": "Bâton du Magicien",
+    "classes": ["mage"],
+    "required_level": 7,
+    "stats": {"degats_attaque": 21, "vitesse_attaque": 1},
+    "lore": "Forgé au coeur d'un orage silencieux. Ce bâton vibre d'une énergie céleste et puissante.",
+    "type": "baton",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Jambières du Débutant",
+    "classes": null,
+    "required_level": 1,
+    "stats": {"sante": 10},
+    "lore": "Protège à peine contre une lame, mais c'est toujours mieux que rien.",
+    "type": "jambieres",
+    "palier": 1,
+    "rarity": "commun"
+  },
+  {
+    "name": "Longue Dague Sombre",
+    "classes": ["assassin"],
+    "required_level": 7,
+    "stats": {"degats_attaque": 42, "vitesse_attaque": 0.9, "range": 3.5, "chance_critique_competence": 3, "stamina": 3},
+    "lore": "Une longue dague sombre, forgé avec des éclats magiques et d'autre loot. Utile pour les compétences",
+    "type": "long_poignard",
+    "palier": 1,
+    "rarity": "rare"
+  },
+  {
+    "name": "Sandales du Sorcier",
+    "classes": ["mage"],
+    "required_level": 7,
+    "stats": {"defense_stat": 0.9, "sante": 18.72},
+    "lore": "Habit d'un autre âge, brodé de fils magiques. Il était jadis porté par un sorcier légendaire.",
+    "type": "bottes",
+    "palier": 1,
+    "set_name": "Set du Sorcier",
+    "set_bonuses": ["[2] +15 Max Mana", "[3] +4% Dégâts Magiques"],
+    "rarity": "rare"
+  },
+  {
+    "name": "Grimoire Bestial",
+    "classes": ["shaman"],
+    "required_level": 3,
+    "stats": {"mana": 7.5, "regen_mana": 0.15},
+    "lore": "Un livre forgé par des matériaux venant d'un marécage putride et ancien. Il renferme une magie bestiale",
+    "type": "catalyseur",
+    "palier": 1,
+    "rarity": "commun"
+  },
+  {
+    "name": "Dague Intermédiaire",
+    "classes": ["assassin"],
+    "required_level": 3,
+    "stats": {"degats_attaque": 20, "vitesse_attaque": 1.2},
+    "lore": "Standard des nouvelles recrues. Facile à manier, légère et très fiable",
+    "type": "dague",
+    "palier": 1,
+    "rarity": "commun"
+  },
+  {
+    "name": "Épée en Fer",
+    "classes": ["guerrier"],
+    "required_level": 3,
+    "stats": {"degats_attaque": 16, "vitesse_attaque": 1},
+    "lore": "Épée en fer créée grâce aux loups de la vallée et avec un autre ingrédient",
+    "type": "epee",
+    "palier": 1,
+    "rarity": "commun"
+  },
+  {
+    "name": "Tunique du Chasseur",
+    "classes": ["archer"],
+    "required_level": 7,
+    "stats": {"defense_stat": 2, "sante": 30},
+    "lore": "Tenue parfaite pour traquer ses cibles et infliger de dégâts critiques sur eux",
+    "type": "plastron",
+    "palier": 1,
+    "set_name": "Set de Chasseur",
+    "set_bonuses": ["[2] +1.5% Chance Critique", "[3] +2.5% Chance Critique"],
+    "rarity": "rare"
+  },
+  {
+    "name": "Sandales du Magicien",
+    "classes": ["shaman"],
+    "required_level": 7,
+    "stats": {"defense_stat": 0.9, "sante": 18.72},
+    "lore": "Habit d'un autre âge, brodé de fils magiques. Il était jadis porté par un magicien légendaire.",
+    "type": "bottes",
+    "palier": 1,
+    "set_name": "Set du Magicien",
+    "set_bonuses": ["[2] +15 Max Mana", "[3] -4% Hâte d'Aptitude"],
+    "rarity": "rare"
+  }
+]
