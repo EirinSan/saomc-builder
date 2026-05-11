@@ -74,7 +74,7 @@ onMounted(() => {
 /* ── Ligne du bas : Stats (large) | Bonus sets | Calcul dégâts ── */
 .bottom-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 220px 1fr 1fr;
   gap: 1rem;
   align-items: start;
 }
