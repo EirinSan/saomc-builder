@@ -67,7 +67,7 @@ export const useBuildStore = defineStore('build', {
         if (!item?.set) return
         setCountMap[item.set] = (setCountMap[item.set] || 0) + 1
       })
-      const setStats = computeSetStats(setCountMap)
+      const setStats = computeSetStats(setCountMap, useItemsStore().sets)
       Object.entries(setStats).forEach(([statId, value]) => {
         if (stats[statId] !== undefined) stats[statId] += value
       })
