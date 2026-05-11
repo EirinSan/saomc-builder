@@ -70,7 +70,8 @@ function onLogoError() {
 
 function shareBuild() {
   const code = buildStore.exportBuild()
-  const url = `${window.location.origin}${window.location.pathname}?build=${code}`
+  // Hash history : l'URL correcte est /#/?build=xxx (pas /?build=xxx)
+  const url = `${window.location.origin}${window.location.pathname}#/?build=${code}`
   copyToClipboard(url)
 }
 
