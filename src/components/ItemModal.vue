@@ -66,7 +66,11 @@
                   class="stat-chip"
                   :class="{ negative: val < 0 }"
                 >
-                  {{ val > 0 ? '+' : '' }}{{ val }} {{ getStatLabel(statId) }}
+                  {{ val > 0 ? '+' : '' }}{{ val }}
+                  <template v-if="item.statsMax?.[statId] && item.statsMax[statId] !== val">
+                    → {{ item.statsMax[statId] > 0 ? '+' : '' }}{{ item.statsMax[statId] }}
+                  </template>
+                  {{ getStatLabel(statId) }}
                 </span>
               </div>
             </div>

@@ -93,20 +93,31 @@
         </div>
 
         <!-- Stats -->
-        <h4 class="form-section-title" style="margin-top:1rem">Stats</h4>
+        <h4 class="form-section-title" style="margin-top:1rem">
+          Stats
+          <span v-if="hasRange" class="range-badge">Min → Max (craft aléatoire)</span>
+        </h4>
         <div class="stats-list">
           <div v-for="cat in STAT_CATEGORIES" :key="cat.id">
             <div class="stat-cat-label" :style="{ color: cat.color }">{{ cat.label }}</div>
             <div class="attr-grid">
               <div class="field" v-for="stat in cat.stats" :key="stat.id">
                 <label>{{ stat.label }} <span class="unit">{{ stat.unit }}</span></label>
-                <input
-                  type="number"
-                  step="0.01"
+                <div v-if="hasRange" class="range-inputs">
+                  <input type="number" step="0.01"
+                    :value="form.stats[stat.id] ?? ''"
+                    @input="setStat(stat.id, $event.target.value)"
+                    placeholder="Min" class="range-in" />
+                  <span class="range-arrow">→</span>
+                  <input type="number" step="0.01"
+                    :value="form.statsMax[stat.id] ?? ''"
+                    @input="setStatMax(stat.id, $event.target.value)"
+                    placeholder="Max" class="range-in" />
+                </div>
+                <input v-else type="number" step="0.01"
                   :value="form.stats[stat.id] ?? ''"
                   @input="setStat(stat.id, $event.target.value)"
-                  placeholder="0"
-                />
+                  placeholder="0" />
               </div>
             </div>
           </div>
@@ -158,6 +169,9 @@ const saving = ref(false)
 const errorMsg = ref('')
 const editMode = computed(() => !!props.initial)
 
+const RANGED_TYPES = ['casque','plastron','jambier','boots','gant','arme','secondaire']
+const hasRange = computed(() => RANGED_TYPES.includes(form.value.type))
+
 const blankForm = () => ({
   id: '',
   name: '',
@@ -168,6 +182,7 @@ const blankForm = () => ({
   requiredLevel: 1,
   requiredAttributes: {},
   stats: {},
+  statsMax: {},
   lore: '',
   set: '',
   tags: [],
@@ -208,6 +223,15 @@ function setAttr(id, val) {
     form.value.requiredAttributes = a
   } else {
     form.value.requiredAttributes = { ...form.value.requiredAttributes, [id]: n }
+  }
+}
+
+function setStatMax(id, val) {
+  const n = parseFloat(val)
+  if (val === '' || isNaN(n) || n === 0) {
+    const s = { ...form.value.statsMax }; delete s[id]; form.value.statsMax = s
+  } else {
+    form.value.statsMax = { ...form.value.statsMax, [id]: n }
   }
 }
 
@@ -357,6 +381,44 @@ async function submit() {
 }
 
 .unit { color: var(--text-muted); font-size: 0.65rem; }
+
+.range-badge {
+  font-size: 0.65rem;
+  background: rgba(251,191,36,0.12);
+  border: 1px solid rgba(251,191,36,0.3);
+  color: #fbbf24;
+  border-radius: 10px;
+  padding: 0.1rem 0.5rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.range-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.range-in {
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 0.4rem 0.4rem;
+  font-size: 0.82rem;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+.range-in:focus { border-color: var(--accent); }
+
+.range-arrow {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
 
 .id-field {
   background: var(--surface-2);
