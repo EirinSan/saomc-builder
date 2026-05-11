@@ -59,7 +59,7 @@ onMounted(() => {
 /* ── Ligne du haut : Équipement+Classe | Attributs ── */
 .top-row {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 460px 1fr;
   gap: 1rem;
   align-items: start;
 }
@@ -74,7 +74,7 @@ onMounted(() => {
 /* ── Ligne du bas : Stats (large) | Bonus sets | Calcul dégâts ── */
 .bottom-row {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
   align-items: start;
 }

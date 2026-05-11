@@ -36,10 +36,18 @@ export const useBuildStore = defineStore('build', {
     computedStats: (state) => {
       const stats = {}
 
-      // Initialise toutes les stats à 0
+      // Initialise toutes les stats à 0, puis applique les valeurs de base
       STAT_CATEGORIES.forEach(cat =>
         cat.stats.forEach(s => { stats[s.id] = 0 })
       )
+
+      // ── Stats de base (avant items & attributs) ──
+      stats.degats_attaque               = 1
+      stats.chance_critique              = 1
+      stats.degats_critique              = 200
+      stats.degats_critique_competence   = 200
+      stats.mana                         = 20
+      stats.sante                        = 20
 
       // Ajoute les stats de chaque item équipé
       Object.values(state.equipment).forEach(itemId => {
