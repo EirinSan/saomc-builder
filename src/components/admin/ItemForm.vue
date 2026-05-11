@@ -68,9 +68,39 @@
           </div>
         </div>
 
-        <div class="field">
+        <div class="field set-field" ref="setFieldRef">
           <label>Set</label>
-          <input v-model="form.set" placeholder="ex: crocs_des_bois (snake_case)" />
+          <div class="set-input-wrap">
+            <input
+              v-model="setSearch"
+              class="set-search"
+              placeholder="Rechercher un set..."
+              autocomplete="off"
+              @focus="setDropdownOpen = true"
+              @input="setDropdownOpen = true"
+            />
+            <button v-if="form.set" type="button" class="set-clear" @click="clearSet" title="Retirer le set">✕</button>
+          </div>
+          <div v-if="form.set" class="set-selected-badge" :style="{ borderColor: selectedSetColor, color: selectedSetColor }">
+            ✨ {{ selectedSetName }}
+          </div>
+          <div v-if="setDropdownOpen && filteredSets.length > 0" class="set-dropdown">
+            <button
+              v-for="s in filteredSets" :key="s.id"
+              type="button"
+              class="set-option"
+              :class="{ active: form.set === s.id }"
+              :style="{ '--sc': s.color ?? '#888' }"
+              @click="pickSet(s)"
+            >
+              <span class="set-dot" :style="{ background: s.color ?? '#888' }"></span>
+              <span class="set-option-name">{{ s.name }}</span>
+              <span class="set-option-id">{{ s.id }}</span>
+            </button>
+          </div>
+          <div v-if="setDropdownOpen && filteredSets.length === 0 && setSearch" class="set-empty">
+            Aucun set trouvé
+          </div>
         </div>
 
         <div class="field">
@@ -154,8 +184,9 @@
 </template>
 
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, onMounted, onBeforeUnmount } from 'vue'
 import { CLASSES, RARITIES, ATTRIBUTES, STAT_CATEGORIES, EQUIPMENT_SLOTS } from '@/data/constants'
+import { useItemsStore } from '@/stores/itemsStore'
 
 const props = defineProps({
   initial: { type: Object, default: null },
@@ -180,8 +211,51 @@ const saving = ref(false)
 const errorMsg = ref('')
 const editMode = computed(() => !!props.initial)
 
+const itemsStore = useItemsStore()
+
 const RANGED_TYPES = ['casque','plastron','jambier','boots','gant','arme','secondaire']
 const hasRange = computed(() => RANGED_TYPES.includes(form.value.type))
+
+// ── Recherche de set ──
+const setSearch       = ref('')
+const setDropdownOpen = ref(false)
+const setFieldRef     = ref(null)
+
+const filteredSets = computed(() => {
+  const q = setSearch.value.toLowerCase()
+  return itemsStore.setsList.filter(s =>
+    s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q)
+  )
+})
+
+const selectedSetName  = computed(() => itemsStore.sets[form.value.set]?.name ?? form.value.set)
+const selectedSetColor = computed(() => itemsStore.sets[form.value.set]?.color ?? '#888')
+
+function pickSet(s) {
+  form.value.set = s.id
+  setSearch.value = ''
+  setDropdownOpen.value = false
+}
+
+function clearSet() {
+  form.value.set = ''
+  setSearch.value = ''
+  setDropdownOpen.value = false
+}
+
+// Fermer le dropdown si clic en dehors
+function onDocClick(e) {
+  if (setFieldRef.value && !setFieldRef.value.contains(e.target)) {
+    setDropdownOpen.value = false
+  }
+}
+onMounted(() => document.addEventListener('mousedown', onDocClick))
+onBeforeUnmount(() => document.removeEventListener('mousedown', onDocClick))
+
+// Sync setSearch avec le set initial (mode édition)
+watch(() => form.value.set, (val) => {
+  if (!val) setSearch.value = ''
+})
 
 const blankForm = () => ({
   id: '',
@@ -359,6 +433,110 @@ async function submit() {
 }
 
 .checkbox-label input { width: auto; }
+
+/* ── Set dropdown ── */
+.set-field { position: relative; }
+
+.set-input-wrap {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.set-search {
+  flex: 1;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 0.4rem 0.6rem;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+.set-search:focus { border-color: var(--accent); }
+
+.set-clear {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 6px;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.set-clear:hover { border-color: #e05c5c; color: #e05c5c; }
+
+.set-selected-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid;
+  border-radius: 20px;
+  padding: 0.15rem 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.25rem;
+}
+
+.set-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0; right: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  z-index: 100;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  margin-top: 0.25rem;
+}
+
+.set-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.45rem 0.75rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s;
+  border-bottom: 1px solid var(--border);
+}
+.set-option:last-child { border-bottom: none; }
+.set-option:hover { background: var(--surface-3); }
+.set-option.active { background: rgba(124,58,237,0.1); }
+
+.set-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.set-option-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--sc, #888);
+  flex: 1;
+}
+
+.set-option-id {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.set-empty {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
 
 .toutes-label {
   border-right: 1px solid var(--border);
