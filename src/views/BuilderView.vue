@@ -59,7 +59,7 @@ onMounted(() => {
 /* ── Ligne du haut : Équipement+Classe | Attributs ── */
 .top-row {
   display: grid;
-  grid-template-columns: 460px 260px;
+  grid-template-columns: 1fr 260px;
   gap: 1rem;
   align-items: start;
 }
