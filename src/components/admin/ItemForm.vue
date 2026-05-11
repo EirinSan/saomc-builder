@@ -46,14 +46,25 @@
         <div class="field">
           <label>Classe(s)</label>
           <div class="checkbox-row">
-            <label v-for="cls in CLASSES" :key="cls.id" class="checkbox-label">
-              <input type="checkbox" :value="cls.id" v-model="form.classes" />
-              {{ cls.label }}
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" :checked="form.classes === null" @change="form.classes = form.classes === null ? [] : null" />
+            <label class="checkbox-label toutes-label">
+              <input
+                type="checkbox"
+                :checked="form.classes === null"
+                @change="form.classes = form.classes === null ? [] : null"
+              />
               Toutes
             </label>
+            <template v-if="form.classes !== null">
+              <label v-for="cls in CLASSES" :key="cls.id" class="checkbox-label">
+                <input
+                  type="checkbox"
+                  :value="cls.id"
+                  :checked="form.classes.includes(cls.id)"
+                  @change="toggleClass(cls.id, $event.target.checked)"
+                />
+                {{ cls.label }}
+              </label>
+            </template>
           </div>
         </div>
 
@@ -208,6 +219,13 @@ watch(() => form.value.name, (name) => {
     + '_001'
 })
 
+function toggleClass(classId, checked) {
+  const arr = Array.isArray(form.value.classes) ? [...form.value.classes] : []
+  if (checked) { if (!arr.includes(classId)) arr.push(classId) }
+  else { const i = arr.indexOf(classId); if (i !== -1) arr.splice(i, 1) }
+  form.value.classes = arr
+}
+
 function toggleTag(tag, checked) {
   const tags = [...form.value.tags]
   if (checked && !tags.includes(tag)) tags.push(tag)
@@ -341,6 +359,12 @@ async function submit() {
 }
 
 .checkbox-label input { width: auto; }
+
+.toutes-label {
+  border-right: 1px solid var(--border);
+  padding-right: 0.6rem;
+  margin-right: 0.2rem;
+}
 
 .tag-checkbox {
   display: flex;
