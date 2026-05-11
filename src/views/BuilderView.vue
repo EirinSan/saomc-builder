@@ -11,8 +11,9 @@
       <AttributePanel />
     </section>
 
-    <!-- Colonne droite : Stats + Sets -->
+    <!-- Colonne droite : Calcul dégâts + Sets + Stats -->
     <section class="panel panel-stats">
+      <DamageCalcPanel />
       <SetBonusPanel />
       <StatsPanel />
     </section>
@@ -28,6 +29,7 @@ import EquipmentPanel from '@/components/EquipmentPanel.vue'
 import AttributePanel from '@/components/AttributePanel.vue'
 import StatsPanel from '@/components/StatsPanel.vue'
 import SetBonusPanel from '@/components/SetBonusPanel.vue'
+import DamageCalcPanel from '@/components/DamageCalcPanel.vue'
 
 const buildStore = useBuildStore()
 const route = useRoute()
