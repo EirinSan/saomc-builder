@@ -260,22 +260,36 @@ export const useBuildStore = defineStore('build', {
     },
 
     exportBuild() {
+      // On ne garde que les slots équipés (pas null) et les attributs > 0
+      const e = Object.fromEntries(
+        Object.entries(this.equipment).filter(([, v]) => v !== null)
+      )
+      const a = Object.fromEntries(
+        Object.entries(this.attributes).filter(([, v]) => v !== 0)
+      )
       const data = {
-        c: this.selectedClass,
-        e: this.equipment,
-        a: this.attributes,
-        n: this.buildName,
-        l: this.level,
+        c: this.selectedClass || undefined,
+        e: Object.keys(e).length ? e : undefined,
+        a: Object.keys(a).length ? a : undefined,
+        n: this.buildName !== 'Mon Build' ? this.buildName : undefined,
+        l: this.level !== 1 ? this.level : undefined,
       }
-      return btoa(encodeURIComponent(JSON.stringify(data)))
+      // JSON → UTF-8 bytes → base64 URL-safe (sans encodeURIComponent)
+      const json = JSON.stringify(data)
+      const b64 = btoa(unescape(encodeURIComponent(json)))
+      // URL-safe : remplace +→- /→_ et supprime le padding =
+      return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
     },
 
     importBuild(code) {
       try {
-        const data = JSON.parse(decodeURIComponent(atob(code)))
-        this.selectedClass = data.c
-        this.equipment = { ...emptyEquipment(), ...data.e }
-        this.attributes = { ...emptyAttributes(), ...data.a }
+        // Restaure le base64 standard avant atob
+        const b64 = code.replace(/-/g, '+').replace(/_/g, '/')
+        const json = decodeURIComponent(escape(atob(b64)))
+        const data = JSON.parse(json)
+        this.selectedClass = data.c ?? null
+        this.equipment = { ...emptyEquipment(), ...(data.e ?? {}) }
+        this.attributes = { ...emptyAttributes(), ...(data.a ?? {}) }
         this.buildName = data.n || 'Mon Build'
         this.level = data.l || 1
         return true

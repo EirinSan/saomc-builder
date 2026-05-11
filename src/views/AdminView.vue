@@ -9,7 +9,6 @@
         <button type="submit" class="btn-login">Connexion</button>
       </form>
       <p v-if="loginError" class="login-error">{{ loginError }}</p>
-      <p class="login-hint">Défini dans <code>VITE_ADMIN_PASSWORD</code></p>
     </div>
   </div>
 
