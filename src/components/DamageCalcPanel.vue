@@ -11,8 +11,15 @@
     <!-- Inputs -->
     <div class="inputs-row">
       <div class="input-field">
-        <label>Base Arme</label>
-        <input v-model.number="baseArme" type="number" min="0" placeholder="0" />
+        <label>
+          Base Arme
+          <span v-if="weaponBaseDmg" class="auto-badge">auto</span>
+        </label>
+        <div class="input-with-icon">
+          <input v-model.number="baseArmeOverride" type="number" min="0" :placeholder="weaponBaseDmg || '0'" />
+          <button v-if="baseArmeOverride !== null" class="reset-btn" @click="baseArmeOverride = null" title="Utiliser la valeur de l'arme">↺</button>
+        </div>
+        <span v-if="weaponName" class="weapon-hint">{{ weaponName }}</span>
       </div>
       <div class="input-field">
         <label>Base Compétence</label>
@@ -72,13 +79,28 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useBuildStore } from '@/stores/buildStore'
+import { useItemsStore } from '@/stores/itemsStore'
 import { CLASSES } from '@/data/constants'
 
-const buildStore = useBuildStore()
-const stats      = computed(() => buildStore.computedStats)
-const selClass   = computed(() => buildStore.selectedClass)
+const buildStore  = useBuildStore()
+const itemsStore  = useItemsStore()
+const stats       = computed(() => buildStore.computedStats)
+const selClass    = computed(() => buildStore.selectedClass)
 
-const baseArme  = ref(0)
+// Arme équipée → dégâts d'attaque automatiques
+const equippedWeapon = computed(() => {
+  const id = buildStore.equipment.arme
+  return id ? itemsStore.getById(id) : null
+})
+const weaponBaseDmg = computed(() => equippedWeapon.value?.stats?.degats_attaque ?? 0)
+const weaponName    = computed(() => equippedWeapon.value?.name ?? null)
+
+// Override manuel (null = utiliser l'arme)
+const baseArmeOverride = ref(null)
+const baseArme = computed(() =>
+  baseArmeOverride.value !== null ? baseArmeOverride.value : weaponBaseDmg.value
+)
+
 const baseSkill = ref(0)
 
 // Classes magiques vs physiques
@@ -122,7 +144,7 @@ const critChance = computed(() =>
     : (stats.value.chance_critique            ?? 0)
 )
 
-// Base
+// Base totale
 const base = computed(() => (baseArme.value || 0) + (baseSkill.value || 0))
 
 const normalDmg   = computed(() => base.value * multiplier.value)
@@ -216,6 +238,49 @@ function fmtMult(v) {
 }
 
 .input-field input:focus { border-color: var(--accent); }
+
+.auto-badge {
+  background: rgba(6,182,212,0.15);
+  color: #06b6d4;
+  border: 1px solid rgba(6,182,212,0.3);
+  border-radius: 10px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 0.05rem 0.35rem;
+  text-transform: uppercase;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+}
+
+.input-with-icon {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.input-with-icon input { flex: 1; }
+
+.reset-btn {
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 6px;
+  padding: 0.35rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.reset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.weapon-hint {
+  font-size: 0.65rem;
+  color: #06b6d4;
+  margin-top: 0.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /* Résultats */
 .results-grid {

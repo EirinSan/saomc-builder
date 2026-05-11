@@ -1,22 +1,32 @@
 <template>
   <div class="builder-view">
-    <!-- Colonne gauche : Équipement -->
-    <section class="panel panel-equipment">
-      <ClassSelector />
-      <EquipmentPanel />
-    </section>
 
-    <!-- Colonne centre : Attributs -->
-    <section class="panel panel-attributes">
-      <AttributePanel />
-    </section>
+    <!-- ═══ LIGNE DU HAUT : Équipement | Attributs | Stats ═══ -->
+    <div class="top-row">
+      <section class="panel panel-equipment">
+        <ClassSelector />
+        <EquipmentPanel />
+      </section>
 
-    <!-- Colonne droite : Calcul dégâts + Sets + Stats -->
-    <section class="panel panel-stats">
-      <DamageCalcPanel />
-      <SetBonusPanel />
-      <StatsPanel />
-    </section>
+      <section class="panel panel-attributes">
+        <AttributePanel />
+      </section>
+
+      <section class="panel panel-stats">
+        <StatsPanel />
+      </section>
+    </div>
+
+    <!-- ═══ LIGNE DU BAS : Calculateur dégâts + Bonus de set ═══ -->
+    <div class="bottom-row">
+      <section class="panel panel-dmg">
+        <DamageCalcPanel />
+      </section>
+      <section class="panel panel-sets">
+        <SetBonusPanel />
+      </section>
+    </div>
+
   </div>
 </template>
 
@@ -42,14 +52,30 @@ onMounted(() => {
 
 <style scoped>
 .builder-view {
-  display: grid;
-  grid-template-columns: 320px 280px 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
   padding: 1rem 1.5rem;
   min-height: calc(100vh - 60px);
+}
+
+/* ─── Ligne du haut ─── */
+.top-row {
+  display: grid;
+  grid-template-columns: 320px 260px 1fr;
+  gap: 1rem;
   align-items: start;
 }
 
+/* ─── Ligne du bas ─── */
+.bottom-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+/* ─── Panels ─── */
 .panel {
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -58,6 +84,10 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+/* Top panels : collent en haut et scrollent */
+.top-row .panel {
   position: sticky;
   top: 76px;
   max-height: calc(100vh - 92px);
@@ -69,14 +99,13 @@ onMounted(() => {
 .panel::-webkit-scrollbar-track { background: transparent; }
 .panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-@media (max-width: 900px) {
-  .builder-view {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 1100px) {
+  .top-row    { grid-template-columns: 1fr 1fr; }
+  .panel-stats { grid-column: 1 / -1; }
+}
 
-  .panel {
-    position: static;
-    max-height: none;
-  }
+@media (max-width: 700px) {
+  .top-row, .bottom-row { grid-template-columns: 1fr; }
+  .top-row .panel { position: static; max-height: none; }
 }
 </style>
