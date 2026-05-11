@@ -114,8 +114,23 @@ const PALIER_OPTIONS = [
 
 const allItems = computed(() => itemsStore.getByType(props.slotId))
 
+const ARTEFACT_SLOTS = ['artefact1', 'artefact2', 'artefact3']
+
+// Pour les artefacts : IDs déjà équipés dans les autres slots artefacts
+const equippedArtefactsElsewhere = computed(() => {
+  if (!ARTEFACT_SLOTS.includes(props.slotId)) return []
+  const eq = buildStore.equipment
+  return ARTEFACT_SLOTS
+    .filter(slot => slot !== props.slotId && eq[slot])
+    .map(slot => eq[slot])
+})
+
 const filteredItems = computed(() => {
   let items = allItems.value
+  // Artefacts : exclure ceux déjà équipés dans un autre slot artefact
+  if (ARTEFACT_SLOTS.includes(props.slotId)) {
+    items = items.filter(i => !equippedArtefactsElsewhere.value.includes(i.id))
+  }
   if (!showEvent.value) items = items.filter(i => !i.tags?.includes('event'))
   if (rarityFilter.value) items = items.filter(i => i.rarity === rarityFilter.value)
   if (palierFilter.value !== null) items = items.filter(i => i.palier === palierFilter.value)

@@ -100,6 +100,79 @@ export const useBuildStore = defineStore('build', {
       return stats
     },
 
+    // Retourne le détail des contributions pour une stat donnée
+    statBreakdown: (state) => (statId) => {
+      const itemsStore = useItemsStore()
+      const a = state.attributes
+
+      // Valeurs de base
+      const BASE = {
+        degats_attaque: 1, chance_critique: 1,
+        degats_critique: 200, degats_critique_competence: 200,
+        mana: 20, sante: 20,
+      }
+
+      // Formules d'attributs
+      const ATTR_FORMULAS = {
+        degats_attaque:              [{ attr: 'force',        rate: 1,    label: 'Force' }],
+        degats_critique:             [{ attr: 'force',        rate: 2,    label: 'Force' }],
+        chance_critique:             [{ attr: 'dexterite',    rate: 0.75, label: 'Dextérité' }],
+        esquive:                     [{ attr: 'dexterite',    rate: 0.3,  label: 'Dextérité' }],
+        degats_magiques:             [{ attr: 'intelligence', rate: 1,    label: 'Intelligence' }],
+        chance_critique_competence:  [{ attr: 'intelligence', rate: 0.75, label: 'Intelligence' }],
+        regen_mana:                  [{ attr: 'esprit',       rate: 0.1,  label: 'Esprit' }],
+        regen_sante:                 [{ attr: 'esprit',       rate: 0.15, label: 'Esprit' }],
+        regen_stamina:               [{ attr: 'esprit',       rate: 0.05, label: 'Esprit' }],
+        defense_stat:                [{ attr: 'defense',      rate: 0.4,  label: 'Défense' }],
+        sante:                       [{ attr: 'vitalite',     rate: 3,    label: 'Vitalité' }],
+      }
+
+      const lines = []
+
+      // Base
+      const base = BASE[statId] ?? 0
+      if (base !== 0) lines.push({ source: 'Base', value: base, type: 'base' })
+
+      // Items équipés
+      Object.values(state.equipment).forEach(itemId => {
+        if (!itemId) return
+        const item = itemsStore.getById(itemId)
+        if (!item) return
+        const val = item.stats?.[statId]
+        if (val) lines.push({ source: item.name, value: val, type: 'item', rarity: item.rarity })
+      })
+
+      // Bonus de sets
+      const setCountMap = {}
+      Object.values(state.equipment).forEach(itemId => {
+        if (!itemId) return
+        const item = itemsStore.getById(itemId)
+        if (!item?.set) return
+        setCountMap[item.set] = (setCountMap[item.set] || 0) + 1
+      })
+      for (const [setId, count] of Object.entries(setCountMap)) {
+        const set = itemsStore.sets[setId]
+        if (!set) continue
+        const activeBonuses = (set.bonuses ?? []).filter(b => count >= b.count)
+        let setVal = 0
+        activeBonuses.forEach(b => { setVal += b.stats?.[statId] ?? 0 })
+        if (setVal !== 0) lines.push({ source: `Set : ${set.name}`, value: setVal, type: 'set' })
+      }
+
+      // Attributs
+      ;(ATTR_FORMULAS[statId] ?? []).forEach(({ attr, rate, label }) => {
+        const pts = a[attr] || 0
+        if (pts > 0) lines.push({
+          source: `${label} (${pts} pts × ${rate})`,
+          value: round2(pts * rate),
+          type: 'attr',
+        })
+      })
+
+      const total = lines.reduce((s, l) => s + l.value, 0)
+      return { lines, total }
+    },
+
     equippedItems: (state) => {
       const result = {}
       Object.entries(state.equipment).forEach(([slot, itemId]) => {
