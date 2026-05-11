@@ -34,16 +34,18 @@ const buildStore = useBuildStore()
 .class-grid {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .class-btn {
   position: relative;
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
-  padding: 0.9rem 0.5rem;
+  padding: 0.8rem 0;
+  width: 110px;
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -56,7 +58,9 @@ const buildStore = useBuildStore()
 .class-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--cc) 18%, transparent), transparent 70%);
+  background: radial-gradient(ellipse at 50% -10%,
+    color-mix(in srgb, var(--cc) 22%, transparent) 0%,
+    transparent 65%);
   opacity: 0;
   transition: opacity 0.2s;
   pointer-events: none;
@@ -69,31 +73,31 @@ const buildStore = useBuildStore()
   border-color: color-mix(in srgb, var(--cc) 60%, transparent);
   color: var(--cc);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px color-mix(in srgb, var(--cc) 18%, transparent);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--cc) 18%, transparent);
 }
 
 .class-btn.active {
   border-color: var(--cc);
   color: var(--cc);
   background: color-mix(in srgb, var(--cc) 10%, var(--surface-2));
-  box-shadow: 0 0 18px color-mix(in srgb, var(--cc) 30%, transparent),
-              inset 0 1px 0 color-mix(in srgb, var(--cc) 30%, transparent);
+  box-shadow:
+    0 0 20px color-mix(in srgb, var(--cc) 25%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--cc) 25%, transparent);
 }
 
 .class-icon {
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   line-height: 1;
-  filter: drop-shadow(0 2px 6px color-mix(in srgb, var(--cc) 40%, transparent));
+  filter: drop-shadow(0 2px 5px color-mix(in srgb, var(--cc) 35%, transparent));
 }
-
 .class-btn.active .class-icon {
   filter: drop-shadow(0 0 8px var(--cc));
 }
 
 .class-label {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 </style>
