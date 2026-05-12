@@ -45,7 +45,7 @@ export const STAT_CATEGORIES = [
       { id: 'degats_attaque',              label: "Dégâts d'attaque",        unit: '' },
       { id: 'vitesse_attaque',             label: "Vitesse d'attaque",       unit: '/s' },
       { id: 'chance_critique',             label: 'Chance de critique',      unit: '%' },
-      { id: 'chance_critique_competence',  label: 'Crit. de compétence',     unit: '%' },
+      { id: 'chance_critique_competence',  label: 'Chance crit. compétence', unit: '%' },
       { id: 'degats_critique',             label: 'Dégâts critiques',        unit: '%' },
       { id: 'degats_critique_competence',  label: 'Crit. comp. dégâts',      unit: '%' },
       { id: 'degats_capacites',            label: 'Dégâts des capacités',    unit: '%' },
