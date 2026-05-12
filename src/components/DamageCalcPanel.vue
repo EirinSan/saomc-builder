@@ -189,7 +189,7 @@ const expectedDmg = computed(() => {
 })
 
 function fmtDmg(v) {
-  if (!base.value) return '—'
+  if (!baseArme.value && !baseSkill.value) return '—'
   return Math.round(v).toLocaleString('fr-FR')
 }
 function fmtMult(v) {
