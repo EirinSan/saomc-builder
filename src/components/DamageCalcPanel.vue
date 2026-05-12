@@ -16,7 +16,7 @@
           <span v-if="weaponBaseDmg" class="auto-badge">auto</span>
         </label>
         <div class="input-with-icon">
-          <input v-model.number="baseArmeOverride" type="number" min="0" :placeholder="weaponBaseDmg || '0'" />
+          <input v-model.number="baseArmeOverride" type="number" min="0" :placeholder="autoBase || '0'" />
           <button v-if="baseArmeOverride !== null" class="reset-btn" @click="baseArmeOverride = null" title="Utiliser la valeur de l'arme">↺</button>
         </div>
         <span v-if="weaponName" class="weapon-hint">{{ weaponName }}</span>
@@ -87,7 +87,7 @@ const itemsStore  = useItemsStore()
 const stats       = computed(() => buildStore.computedStats)
 const selClass    = computed(() => buildStore.selectedClass)
 
-// Arme équipée → dégâts d'attaque automatiques
+// Arme équipée
 const equippedWeapon = computed(() => {
   const id = buildStore.equipment.arme
   return id ? itemsStore.getById(id) : null
@@ -95,10 +95,21 @@ const equippedWeapon = computed(() => {
 const weaponBaseDmg = computed(() => equippedWeapon.value?.stats?.degats_attaque ?? 0)
 const weaponName    = computed(() => equippedWeapon.value?.name ?? null)
 
-// Override manuel (null = utiliser l'arme)
+// Override manuel (null = auto)
 const baseArmeOverride = ref(null)
-const baseArme = computed(() =>
-  baseArmeOverride.value !== null ? baseArmeOverride.value : weaponBaseDmg.value
+
+// ── Pour physique : baseArme = stats.degats_attaque (arme + bonus plats d'autres items)
+//    Pour magie   : baseArme = dégât brut de l'arme uniquement
+const baseArme = computed(() => {
+  if (baseArmeOverride.value !== null) return baseArmeOverride.value
+  return isMagic.value
+    ? weaponBaseDmg.value
+    : (stats.value.degats_attaque ?? 0)
+})
+
+// Valeur affichée dans le champ AUTO (pour le placeholder)
+const autoBase = computed(() =>
+  isMagic.value ? weaponBaseDmg.value : (stats.value.degats_attaque ?? 0)
 )
 
 const baseSkill = ref(0)
@@ -117,14 +128,14 @@ const classLabel = computed(() => {
 const formula = computed(() =>
   isMagic.value
     ? '(BaseArme + BaseSkill) × (1 + %Magie + %Capacité) × (1 + %CritSkill)'
-    : '(BaseArme + BaseSkill) × (1 + %Attaque + %Capacité) × (1 + %CritAttaque)'
+    : '(DégAtt + BaseSkill) × (1 + %Capacité) × (1 + %CritAttaque)'
 )
 
 // Multiplicateur de dégâts normal
+// Physique : degats_attaque est une valeur plate (déjà dans la base), pas un %
+// Magie    : degats_magiques est bien un % à multiplier
 const multiplier = computed(() => {
-  const dmgBonus = isMagic.value
-    ? (stats.value.degats_magiques ?? 0)
-    : (stats.value.degats_attaque  ?? 0)
+  const dmgBonus = isMagic.value ? (stats.value.degats_magiques ?? 0) : 0
   const capBonus = stats.value.degats_capacites ?? 0
   return 1 + (dmgBonus + capBonus) / 100
 })
