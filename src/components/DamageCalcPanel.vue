@@ -127,39 +127,62 @@ const classLabel = computed(() => {
 // Formule affichée
 const formula = computed(() =>
   isMagic.value
-    ? '(BaseArme + BaseSkill) × (1 + %Magie + %Capacité) × (1 + %CritSkill)'
+    ? 'BaseArme + BaseSkill × (1 + %Magie + %Cap) — puis ×Crit'
     : '(DégAtt + BaseSkill) × (1 + %Capacité) × (1 + %CritAttaque)'
 )
 
-// Multiplicateur de dégâts normal
-// Physique : degats_attaque est une valeur plate (déjà dans la base), pas un %
-// Magie    : degats_magiques est bien un % à multiplier
-const multiplier = computed(() => {
-  const dmgBonus = isMagic.value ? (stats.value.degats_magiques ?? 0) : 0
-  const capBonus = stats.value.degats_capacites ?? 0
-  return 1 + (dmgBonus + capBonus) / 100
-})
-
-// Multiplicateur crit (base ×1.5 + bonus)
 const critBonusPct = computed(() =>
   isMagic.value
     ? (stats.value.degats_critique_competence ?? 0)
     : (stats.value.degats_critique            ?? 0)
 )
-const critMultiplier = computed(() => multiplier.value * (1.5 + critBonusPct.value / 100))
 
-// Chance de crit
 const critChance = computed(() =>
   isMagic.value
     ? (stats.value.chance_critique_competence ?? 0)
     : (stats.value.chance_critique            ?? 0)
 )
 
-// Base totale
-const base = computed(() => (baseArme.value || 0) + (baseSkill.value || 0))
+// ── Calcul des dégâts ────────────────────────────────────────
+// Physique : (degats_attaque [plat] + BaseSkill) × (1 + %Cap)
+//   → degats_attaque = dégât brut de l'arme + bonus plats d'autres items
+// Magie    : BaseArme [fixe] + BaseSkill × (1 + %Magie + %Cap)
+//   → le bonus magie s'applique SEULEMENT à la Base Compétence, pas à l'arme
 
-const normalDmg   = computed(() => base.value * multiplier.value)
-const critDmg     = computed(() => base.value * critMultiplier.value)
+const normalDmg = computed(() => {
+  const arm  = baseArme.value  || 0
+  const skl  = baseSkill.value || 0
+  const cap  = (stats.value.degats_capacites ?? 0) / 100
+  if (isMagic.value) {
+    const mag = (stats.value.degats_magiques ?? 0) / 100
+    return arm + skl * (1 + mag + cap)
+  } else {
+    return (arm + skl) * (1 + cap)
+  }
+})
+
+const critDmg = computed(() => {
+  const critMult = 1.5 + critBonusPct.value / 100
+  return normalDmg.value * critMult
+})
+
+// Multiplicateur effectif affiché (pour info)
+const multiplier = computed(() => {
+  const arm = baseArme.value  || 0
+  const skl = baseSkill.value || 0
+  const total = arm + skl
+  if (!total) return 1
+  return normalDmg.value / total
+})
+
+const critMultiplier = computed(() => {
+  const arm = baseArme.value  || 0
+  const skl = baseSkill.value || 0
+  const total = arm + skl
+  if (!total) return 1
+  return critDmg.value / total
+})
+
 const expectedDmg = computed(() => {
   const c = critChance.value / 100
   return normalDmg.value * (1 - c) + critDmg.value * c
