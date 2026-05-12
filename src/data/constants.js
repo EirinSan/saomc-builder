@@ -51,6 +51,7 @@ export const STAT_CATEGORIES = [
       { id: 'degats_capacites',            label: 'Dégâts des capacités',    unit: '%' },
       { id: 'degats_projectile',           label: 'Dégâts de projectile',    unit: '%' },
       { id: 'degats_magiques',             label: 'Dégâts magiques',         unit: '%' },
+      { id: 'degats_physiques',            label: 'Dégâts physiques',        unit: '%' },
     ],
   },
   {
@@ -62,6 +63,8 @@ export const STAT_CATEGORIES = [
       { id: 'reduction_degats',  label: 'Réduction des dégâts', unit: '%' },
       { id: 'esquive',           label: 'Esquive',              unit: '%' },
       { id: 'tenacite',          label: 'Ténacité',             unit: '' },
+      { id: 'chance_blocage',    label: 'Chance de blocage',    unit: '%' },
+      { id: 'degats_blocage',    label: 'Dégâts de blocage',    unit: '%' },
     ],
   },
   {
