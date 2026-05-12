@@ -184,7 +184,10 @@ const expectedDmg = computed(() => {
 
 function fmtDmg(v) {
   if (!baseArme.value && !baseSkill.value) return '—'
-  return Math.round(v).toLocaleString('fr-FR')
+  // Affiche jusqu'à 2 décimales seulement si nécessaire
+  return Number.isInteger(v)
+    ? v.toLocaleString('fr-FR')
+    : v.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 function fmtMult(v) {
   return v.toFixed(2) + 'x'
