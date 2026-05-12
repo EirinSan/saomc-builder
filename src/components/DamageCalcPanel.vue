@@ -65,7 +65,7 @@
         </div>
         <div class="bonus-line">
           <span>{{ isMagic ? 'Crit. comp. dégâts' : 'Dégâts critiques' }}</span>
-          <span class="bv crit-col">+{{ isMagic ? stats.degats_critique_competence : stats.degats_critique }}% <span class="base-note">(base 50%)</span></span>
+          <span class="bv crit-col">{{ isMagic ? stats.degats_critique_competence : stats.degats_critique }}% → ×{{ ((isMagic ? stats.degats_critique_competence : stats.degats_critique) / 100).toFixed(2) }}</span>
         </div>
         <div class="bonus-line">
           <span>{{ isMagic ? 'Crit. de compétence' : 'Chance de critique' }}</span>
@@ -127,11 +127,13 @@ const classLabel = computed(() => {
 // Formule affichée
 const formula = computed(() =>
   isMagic.value
-    ? 'BaseArme + BaseSkill × (1 + %Magie + %Cap) — puis ×Crit'
-    : '(DégAtt + BaseSkill) × (1 + %Capacité) × (1 + %CritAttaque)'
+    ? '(BaseArme + BaseSkill) × (1 + %Magie + %Cap) × (%CritSkill/100)'
+    : '(DégAtt + BaseSkill) × (1 + %Cap) × (%Crit/100)'
 )
 
-const critBonusPct = computed(() =>
+// Dégâts critiques : critDamage% de la stat (ex: 200 → ×2.0)
+// Formule in-game : normalDmg × critDamage/100
+const critDamagePct = computed(() =>
   isMagic.value
     ? (stats.value.degats_critique_competence ?? 0)
     : (stats.value.degats_critique            ?? 0)
@@ -145,40 +147,32 @@ const critChance = computed(() =>
 
 // ── Calcul des dégâts ────────────────────────────────────────
 // Physique : (degats_attaque [plat] + BaseSkill) × (1 + %Cap)
-//   → degats_attaque = dégât brut de l'arme + bonus plats d'autres items
-// Magie    : BaseArme [fixe] + BaseSkill × (1 + %Magie + %Cap)
-//   → le bonus magie s'applique SEULEMENT à la Base Compétence, pas à l'arme
+// Magie    : (BaseArme + BaseSkill) × (1 + %Magie + %Cap)
+// Crit     : normalDmg × critDamage/100   (ex: 200% → ×2.0)
 
 const normalDmg = computed(() => {
-  const arm  = baseArme.value  || 0
-  const skl  = baseSkill.value || 0
-  const cap  = (stats.value.degats_capacites ?? 0) / 100
+  const arm = baseArme.value  || 0
+  const skl = baseSkill.value || 0
+  const cap = (stats.value.degats_capacites ?? 0) / 100
   if (isMagic.value) {
     const mag = (stats.value.degats_magiques ?? 0) / 100
-    return arm + skl * (1 + mag + cap)
+    return (arm + skl) * (1 + mag + cap)
   } else {
     return (arm + skl) * (1 + cap)
   }
 })
 
-const critDmg = computed(() => {
-  const critMult = 1.5 + critBonusPct.value / 100
-  return normalDmg.value * critMult
-})
+const critDmg = computed(() => normalDmg.value * (critDamagePct.value / 100))
 
-// Multiplicateur effectif affiché (pour info)
+// Multiplicateur effectif affiché
 const multiplier = computed(() => {
-  const arm = baseArme.value  || 0
-  const skl = baseSkill.value || 0
-  const total = arm + skl
+  const total = (baseArme.value || 0) + (baseSkill.value || 0)
   if (!total) return 1
   return normalDmg.value / total
 })
 
 const critMultiplier = computed(() => {
-  const arm = baseArme.value  || 0
-  const skl = baseSkill.value || 0
-  const total = arm + skl
+  const total = (baseArme.value || 0) + (baseSkill.value || 0)
   if (!total) return 1
   return critDmg.value / total
 })
