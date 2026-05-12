@@ -56,8 +56,8 @@
       <summary>Détail des bonus appliqués</summary>
       <div class="bonus-lines">
         <div class="bonus-line">
-          <span>{{ isMagic ? 'Dégâts magiques' : "Dégâts d'attaque" }}</span>
-          <span class="bv">+{{ isMagic ? stats.degats_magiques : stats.degats_attaque }}%</span>
+          <span>{{ isMagic ? 'Dégâts magiques' : 'Dégâts physiques' }}</span>
+          <span class="bv">+{{ isMagic ? stats.degats_magiques : stats.degats_physiques }}%</span>
         </div>
         <div class="bonus-line">
           <span>Dégâts des capacités</span>
@@ -128,7 +128,7 @@ const classLabel = computed(() => {
 const formula = computed(() =>
   isMagic.value
     ? '(BaseArme + BaseSkill) × (1 + %Magie + %Cap) × (%CritSkill/100)'
-    : '(DégAtt + BaseSkill) × (1 + %Cap) × (%Crit/100)'
+    : '(DégAtt + BaseSkill) × (1 + %Physique + %Cap) × (%Crit/100)'
 )
 
 // Dégâts critiques : critDamage% de la stat (ex: 200 → ×2.0)
@@ -158,7 +158,8 @@ const normalDmg = computed(() => {
     const mag = (stats.value.degats_magiques ?? 0) / 100
     return (arm + skl) * (1 + mag + cap)
   } else {
-    return (arm + skl) * (1 + cap)
+    const phys = (stats.value.degats_physiques ?? 0) / 100
+    return (arm + skl) * (1 + phys + cap)
   }
 })
 
