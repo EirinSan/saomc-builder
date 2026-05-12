@@ -161,6 +161,7 @@ function toDbRow(item) {
     lore:                item.lore ?? '',
     set_id:              item.set || null,
     tags:                item.tags ?? [],
+    rune_slots:          item.runeSlots ?? 0,
   }
 }
 
@@ -178,5 +179,6 @@ function normalizeRow(row) {
     lore:               row.lore ?? '',
     set:                row.set_id ?? null,
     tags:               row.tags ?? [],
+    runeSlots:          row.rune_slots ?? 0,
   }
 }

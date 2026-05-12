@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { EQUIPMENT_SLOTS, ATTRIBUTES, STAT_CATEGORIES } from '@/data/constants'
 import { computeSetStats } from '@/data/sets'
 import { useItemsStore } from '@/stores/itemsStore'
+import { getRuneById } from '@/data/runes'
 
 function getItemById(id) {
   return useItemsStore().getById(id)
@@ -18,6 +19,7 @@ export const useBuildStore = defineStore('build', {
     selectedClass: null,
     equipment: emptyEquipment(),
     attributes: emptyAttributes(),
+    runes: {},
     buildName: 'Mon Build',
     level: 1,
   }),
@@ -48,6 +50,19 @@ export const useBuildStore = defineStore('build', {
         if (!item) return
         Object.entries(item.stats).forEach(([statId, value]) => {
           if (stats[statId] !== undefined) stats[statId] += value
+        })
+      })
+
+      // Ajoute les stats des runes équipées
+      Object.entries(state.runes).forEach(([, runeIds]) => {
+        if (!runeIds) return
+        runeIds.forEach(runeId => {
+          if (!runeId) return
+          const rune = getRuneById(runeId)
+          if (!rune) return
+          Object.entries(rune.stats).forEach(([statId, value]) => {
+            if (stats[statId] !== undefined) stats[statId] += value
+          })
         })
       })
 
@@ -148,10 +163,35 @@ export const useBuildStore = defineStore('build', {
 
     equipItem(slotId, itemId) {
       this.equipment[slotId] = itemId
+      // Réinitialise les runes si l'item change
+      const r = { ...this.runes }
+      delete r[slotId]
+      this.runes = r
     },
 
     unequipItem(slotId) {
       this.equipment[slotId] = null
+      const r = { ...this.runes }
+      delete r[slotId]
+      this.runes = r
+    },
+
+    equipRune(slotId, index, runeId) {
+      const item = getItemById(this.equipment[slotId])
+      if (!item?.runeSlots) return
+      const current = this.runes[slotId] ?? Array(item.runeSlots).fill(null)
+      const updated = [...current]
+      if (index >= updated.length) return
+      updated[index] = runeId
+      this.runes = { ...this.runes, [slotId]: updated }
+    },
+
+    unequipRune(slotId, index) {
+      const current = this.runes[slotId]
+      if (!current) return
+      const updated = [...current]
+      updated[index] = null
+      this.runes = { ...this.runes, [slotId]: updated }
     },
 
     incrementAttribute(attrId) {
@@ -173,6 +213,7 @@ export const useBuildStore = defineStore('build', {
     resetBuild() {
       this.equipment = emptyEquipment()
       this.attributes = emptyAttributes()
+      this.runes = {}
       this.selectedClass = null
       this.buildName = 'Mon Build'
       this.level = 1
@@ -183,6 +224,7 @@ export const useBuildStore = defineStore('build', {
         c: this.selectedClass,
         e: this.equipment,
         a: this.attributes,
+        r: this.runes,
         n: this.buildName,
         l: this.level,
       }
@@ -195,6 +237,7 @@ export const useBuildStore = defineStore('build', {
         this.selectedClass = data.c
         this.equipment = { ...emptyEquipment(), ...data.e }
         this.attributes = { ...emptyAttributes(), ...data.a }
+        this.runes = data.r || {}
         this.buildName = data.n || 'Mon Build'
         this.level = data.l || 1
         return true

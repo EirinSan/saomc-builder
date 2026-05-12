@@ -67,6 +67,17 @@
           <textarea v-model="form.lore" rows="3" placeholder="Description de l'item..."></textarea>
         </div>
 
+        <div class="field" v-if="isRuneSlotType">
+          <label>Slots de rune (0–5)</label>
+          <input
+            v-model.number="form.runeSlots"
+            type="number"
+            min="0"
+            max="5"
+            placeholder="0"
+          />
+        </div>
+
         <div class="field">
           <label>Tags</label>
           <label class="tag-checkbox">
@@ -135,6 +146,8 @@
 import { ref, watch, computed } from 'vue'
 import { CLASSES, RARITIES, ATTRIBUTES, STAT_CATEGORIES, EQUIPMENT_SLOTS } from '@/data/constants'
 
+const RUNE_SLOT_TYPES = ['casque', 'plastron', 'jambier', 'boots', 'gant', 'arme', 'secondaire']
+
 const props = defineProps({
   initial: { type: Object, default: null },
 })
@@ -157,6 +170,7 @@ const ITEM_TYPES = [
 const saving = ref(false)
 const errorMsg = ref('')
 const editMode = computed(() => !!props.initial)
+const isRuneSlotType = computed(() => RUNE_SLOT_TYPES.includes(form.value?.type))
 
 const blankForm = () => ({
   id: '',
@@ -171,6 +185,7 @@ const blankForm = () => ({
   lore: '',
   set: '',
   tags: [],
+  runeSlots: 0,
 })
 
 const form = ref(blankForm())

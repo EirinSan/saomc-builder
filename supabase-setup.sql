@@ -25,8 +25,12 @@ create table if not exists items (
   lore                 text default '',
   set_id               text references sets(id) on delete set null,
   tags                 text[] default '{}',
+  rune_slots           integer default 0,               -- Nombre de slots de rune (armure/arme)
   created_at           timestamptz default now()
 );
+
+-- Migration : ajouter rune_slots si la table existe déjà
+-- alter table items add column if not exists rune_slots integer default 0;
 
 -- Index
 create index if not exists items_type_idx   on items(type);
