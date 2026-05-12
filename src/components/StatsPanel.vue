@@ -29,6 +29,15 @@
               <span class="stat-label">{{ stat.label }}</span>
               <div class="stat-right">
                 <span
+                  v-if="statsMaxDelta[stat.id]"
+                  class="stat-range"
+                >
+                  {{ formatValue(computedStats[stat.id], stat.unit) }}
+                  <span class="range-arrow">→</span>
+                  {{ formatValue(computedStats[stat.id] + statsMaxDelta[stat.id], stat.unit) }}
+                </span>
+                <span
+                  v-else
                   class="stat-value"
                   :class="{
                     positive: computedStats[stat.id] > 0,
@@ -94,6 +103,7 @@ import { useBuildStore } from '@/stores/buildStore'
 
 const buildStore     = useBuildStore()
 const computedStats  = computed(() => buildStore.computedStats)
+const statsMaxDelta  = computed(() => buildStore.statsMaxDelta)
 const openCategories = ref(new Set(STAT_CATEGORIES.map(c => c.id)))
 const selectedStat   = ref(null)
 const selectedStatUnit = ref('')
@@ -212,6 +222,22 @@ function rarityColor(id) {
 
 .stat-value.positive { color: #5dde8a; }
 .stat-value.negative { color: #e05c5c; }
+
+.stat-range {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.78rem;
+  text-align: right;
+  color: #f0a844;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.range-arrow {
+  opacity: 0.6;
+  font-size: 0.7rem;
+}
 
 .stat-arrow {
   font-size: 0.55rem;
