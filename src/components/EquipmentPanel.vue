@@ -3,39 +3,30 @@
     <h3 class="section-title">Équipement</h3>
 
     <div class="slots-section">
-<<<<<<< HEAD
-      <div class="slots-label">Armure</div>
-      <div class="slots-grid">
-        <div v-for="slot in armorSlots" :key="slot.id" class="slot-cell">
-          <SlotButton
-            :slot="slot"
-            :item="equippedItems[slot.id]"
-            @click="openModal(slot)"
-          />
-          <div
-            v-if="equippedItems[slot.id]?.runeSlots > 0"
-            class="rune-row"
-          >
-            <button
-              v-for="i in equippedItems[slot.id].runeSlots"
-              :key="i"
-              class="rune-dot"
-              :class="{ 'rune-filled': getSlottedRune(slot.id, i - 1) }"
-              :style="getSlottedRune(slot.id, i - 1)
-                ? { '--rune-color': getRuneById(getSlottedRune(slot.id, i - 1))?.color ?? '#888' }
-                : {}"
-              :title="getRuneById(getSlottedRune(slot.id, i - 1))?.name ?? 'Slot de rune vide'"
-              @click.stop="openRuneModal(slot.id, i - 1)"
-            >{{ getRuneById(getSlottedRune(slot.id, i - 1))?.icon ?? '◇' }}</button>
-          </div>
-=======
 
       <div class="slots-group">
         <div class="slots-label">Armure</div>
         <div class="slots-grid cols-3">
-          <SlotButton v-for="slot in armorSlots" :key="slot.id"
-            :slot="slot" :item="equippedItems[slot.id]" @click="openModal(slot)" />
->>>>>>> b1fbc06de6f8f39fd5ecff106f75ad3f8edddfbc
+          <div v-for="slot in armorSlots" :key="slot.id" class="slot-cell">
+            <SlotButton
+              :slot="slot"
+              :item="equippedItems[slot.id]"
+              @click="openModal(slot)"
+            />
+            <div v-if="equippedItems[slot.id]?.runeSlots > 0" class="rune-row">
+              <button
+                v-for="i in equippedItems[slot.id].runeSlots"
+                :key="i"
+                class="rune-dot"
+                :class="{ 'rune-filled': getSlottedRune(slot.id, i - 1) }"
+                :style="getSlottedRune(slot.id, i - 1)
+                  ? { '--rune-color': getRuneById(getSlottedRune(slot.id, i - 1))?.color ?? '#888' }
+                  : {}"
+                :title="getRuneById(getSlottedRune(slot.id, i - 1))?.name ?? 'Slot de rune vide'"
+                @click.stop="openRuneModal(slot.id, i - 1)"
+              >{{ getRuneById(getSlottedRune(slot.id, i - 1))?.icon ?? '◇' }}</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -47,37 +38,30 @@
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div class="slots-label">Armes</div>
-      <div class="slots-grid">
-        <div v-for="slot in weaponSlots" :key="slot.id" class="slot-cell">
-          <SlotButton
-            :slot="slot"
-            :item="equippedItems[slot.id]"
-            @click="openModal(slot)"
-          />
-          <div
-            v-if="equippedItems[slot.id]?.runeSlots > 0"
-            class="rune-row"
-          >
-            <button
-              v-for="i in equippedItems[slot.id].runeSlots"
-              :key="i"
-              class="rune-dot"
-              :class="{ 'rune-filled': getSlottedRune(slot.id, i - 1) }"
-              :style="getSlottedRune(slot.id, i - 1)
-                ? { '--rune-color': getRuneById(getSlottedRune(slot.id, i - 1))?.color ?? '#888' }
-                : {}"
-              :title="getRuneById(getSlottedRune(slot.id, i - 1))?.name ?? 'Slot de rune vide'"
-              @click.stop="openRuneModal(slot.id, i - 1)"
-            >{{ getRuneById(getSlottedRune(slot.id, i - 1))?.icon ?? '◇' }}</button>
-=======
       <div class="slots-group two-col-groups">
         <div class="sub-group">
           <div class="slots-label">Armes</div>
           <div class="slots-grid cols-2">
-            <SlotButton v-for="slot in weaponSlots" :key="slot.id"
-              :slot="slot" :item="equippedItems[slot.id]" @click="openModal(slot)" />
+            <div v-for="slot in weaponSlots" :key="slot.id" class="slot-cell">
+              <SlotButton
+                :slot="slot"
+                :item="equippedItems[slot.id]"
+                @click="openModal(slot)"
+              />
+              <div v-if="equippedItems[slot.id]?.runeSlots > 0" class="rune-row">
+                <button
+                  v-for="i in equippedItems[slot.id].runeSlots"
+                  :key="i"
+                  class="rune-dot"
+                  :class="{ 'rune-filled': getSlottedRune(slot.id, i - 1) }"
+                  :style="getSlottedRune(slot.id, i - 1)
+                    ? { '--rune-color': getRuneById(getSlottedRune(slot.id, i - 1))?.color ?? '#888' }
+                    : {}"
+                  :title="getRuneById(getSlottedRune(slot.id, i - 1))?.name ?? 'Slot de rune vide'"
+                  @click.stop="openRuneModal(slot.id, i - 1)"
+                >{{ getRuneById(getSlottedRune(slot.id, i - 1))?.icon ?? '◇' }}</button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="sub-group">
@@ -85,7 +69,6 @@
           <div class="slots-grid cols-3">
             <SlotButton v-for="slot in artifactSlots" :key="slot.id"
               :slot="slot" :item="equippedItems[slot.id]" @click="openModal(slot)" />
->>>>>>> b1fbc06de6f8f39fd5ecff106f75ad3f8edddfbc
           </div>
         </div>
       </div>
@@ -122,14 +105,9 @@ import { getRuneById } from '@/data/runes'
 import ItemModal from './ItemModal.vue'
 import RuneModal from './RuneModal.vue'
 
-<<<<<<< HEAD
-const buildStore = useBuildStore()
-const activeSlot     = ref(null)
-const activeRuneSlot = ref(null)
-=======
 const buildStore     = useBuildStore()
 const activeSlot     = ref(null)
->>>>>>> b1fbc06de6f8f39fd5ecff106f75ad3f8edddfbc
+const activeRuneSlot = ref(null)
 const equippedItems  = computed(() => buildStore.equippedItems)
 
 const armorSlots     = EQUIPMENT_SLOTS.filter(s => s.category === 'armor')
@@ -137,10 +115,7 @@ const accessorySlots = EQUIPMENT_SLOTS.filter(s => s.category === 'accessory')
 const weaponSlots    = EQUIPMENT_SLOTS.filter(s => s.category === 'weapon')
 const artifactSlots  = EQUIPMENT_SLOTS.filter(s => s.category === 'artifact')
 
-<<<<<<< HEAD
-function openModal(slot) {
-  activeSlot.value = slot
-}
+function openModal(slot) { activeSlot.value = slot }
 
 function getSlottedRune(slotId, index) {
   return buildStore.runes[slotId]?.[index] ?? null
@@ -161,9 +136,6 @@ function onRuneUnequip() {
   buildStore.unequipRune(activeRuneSlot.value.slotId, activeRuneSlot.value.index)
   activeRuneSlot.value = null
 }
-=======
-function openModal(slot) { activeSlot.value = slot }
->>>>>>> b1fbc06de6f8f39fd5ecff106f75ad3f8edddfbc
 </script>
 
 <script>
@@ -245,7 +217,6 @@ export default { components: { SlotButton } }
   padding-left: 0.15rem;
 }
 
-/* Grilles — taille fixe par slot, pas d'étirement */
 .slots-grid {
   display: grid;
   gap: 0.4rem;
@@ -255,19 +226,18 @@ export default { components: { SlotButton } }
 .cols-3 { grid-template-columns: repeat(3, minmax(140px, 200px)); }
 .cols-4 { grid-template-columns: repeat(4, minmax(120px, 180px)); }
 
-<<<<<<< HEAD
 /* Wrapper pour slot + rune-row */
 .slot-cell {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.2rem;
 }
 
 /* Rangée de dots de rune */
 .rune-row {
   display: flex;
   gap: 0.25rem;
-  padding: 0 0.3rem 0.15rem;
+  padding: 0 0.3rem 0.1rem;
   flex-wrap: wrap;
 }
 
@@ -305,9 +275,7 @@ export default { components: { SlotButton } }
   background: color-mix(in srgb, var(--rune-color, #888) 30%, var(--surface-3));
 }
 
-=======
 /* ── Slot button ── */
->>>>>>> b1fbc06de6f8f39fd5ecff106f75ad3f8edddfbc
 :deep(.slot-btn) {
   position: relative;
   display: flex;
