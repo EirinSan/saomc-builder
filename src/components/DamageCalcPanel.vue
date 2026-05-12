@@ -59,6 +59,10 @@
           <span>{{ isMagic ? 'Dégâts magiques' : 'Dégâts physiques' }}</span>
           <span class="bv">+{{ isMagic ? stats.degats_magiques : stats.degats_physiques }}%</span>
         </div>
+        <div v-if="!isMagic" class="bonus-line">
+          <span>Dégâts d'arme</span>
+          <span class="bv">+{{ stats.degats_arme }}%</span>
+        </div>
         <div class="bonus-line">
           <span>Dégâts des capacités</span>
           <span class="bv">+{{ stats.degats_capacites }}%</span>
@@ -128,7 +132,7 @@ const classLabel = computed(() => {
 const formula = computed(() =>
   isMagic.value
     ? '(BaseArme + BaseSkill) × (1 + %Magie + %Cap) × (%CritSkill/100)'
-    : '(DégAtt + BaseSkill) × (1 + %Physique + %Cap) × (%Crit/100)'
+    : '(DégAtt + BaseSkill) × (1 + %Physique + %Cap + %Arme) × (%Crit/100)'
 )
 
 // Dégâts critiques : critDamage% de la stat (ex: 200 → ×2.0)
@@ -146,7 +150,7 @@ const critChance = computed(() =>
 )
 
 // ── Calcul des dégâts ────────────────────────────────────────
-// Physique : (degats_attaque [plat] + BaseSkill) × (1 + %Cap)
+// Physique : (DégAtt + BaseSkill) × (1 + %Physique + %Cap + %Arme)
 // Magie    : (BaseArme + BaseSkill) × (1 + %Magie + %Cap)
 // Crit     : normalDmg × critDamage/100   (ex: 200% → ×2.0)
 
@@ -159,7 +163,8 @@ const normalDmg = computed(() => {
     return (arm + skl) * (1 + mag + cap)
   } else {
     const phys = (stats.value.degats_physiques ?? 0) / 100
-    return (arm + skl) * (1 + phys + cap)
+    const arme = (stats.value.degats_arme ?? 0) / 100
+    return (arm + skl) * (1 + phys + cap + arme)
   }
 })
 
