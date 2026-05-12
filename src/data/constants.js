@@ -52,6 +52,7 @@ export const STAT_CATEGORIES = [
       { id: 'degats_projectile',           label: 'Dégâts de projectile',    unit: '%' },
       { id: 'degats_magiques',             label: 'Dégâts magiques',         unit: '%' },
       { id: 'degats_physiques',            label: 'Dégâts physiques',        unit: '%' },
+      { id: 'degats_arme',               label: "Dégâts d'arme",           unit: '%' },
     ],
   },
   {
@@ -88,6 +89,8 @@ export const STAT_CATEGORIES = [
       { id: 'regen_sante',       label: 'Rég. de santé',        unit: '/s' },
       { id: 'regen_mana',        label: 'Rég. de mana',         unit: '/s' },
       { id: 'regen_stamina',     label: 'Rég. de stamina',      unit: '/s' },
+      { id: 'vampirise',         label: 'Vampirise',            unit: '%' },
+      { id: 'vol_de_vie',        label: 'Vol de vie',           unit: '%' },
     ],
   },
 ]
