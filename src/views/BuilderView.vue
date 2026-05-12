@@ -1,21 +1,30 @@
 <template>
   <div class="builder-view">
-    <!-- Colonne gauche : Équipement -->
-    <section class="panel panel-equipment">
-      <ClassSelector />
-      <EquipmentPanel />
-    </section>
 
-    <!-- Colonne centre : Attributs -->
-    <section class="panel panel-attributes">
-      <AttributePanel />
-    </section>
+    <!-- ═══ LIGNE DU HAUT ═══ -->
+    <div class="top-row">
+      <section class="panel panel-equipment">
+        <ClassSelector />
+        <EquipmentPanel />
+      </section>
+      <section class="panel panel-attributes">
+        <AttributePanel />
+      </section>
+    </div>
 
-    <!-- Colonne droite : Stats + Sets -->
-    <section class="panel panel-stats">
-      <SetBonusPanel />
-      <StatsPanel />
-    </section>
+    <!-- ═══ LIGNE DU BAS ═══ -->
+    <div class="bottom-row">
+      <section class="panel panel-stats">
+        <StatsPanel />
+      </section>
+      <section class="panel panel-sets">
+        <SetBonusPanel />
+      </section>
+      <section class="panel panel-dmg">
+        <DamageCalcPanel />
+      </section>
+    </div>
+
   </div>
 </template>
 
@@ -28,6 +37,7 @@ import EquipmentPanel from '@/components/EquipmentPanel.vue'
 import AttributePanel from '@/components/AttributePanel.vue'
 import StatsPanel from '@/components/StatsPanel.vue'
 import SetBonusPanel from '@/components/SetBonusPanel.vue'
+import DamageCalcPanel from '@/components/DamageCalcPanel.vue'
 
 const buildStore = useBuildStore()
 const route = useRoute()
@@ -40,14 +50,36 @@ onMounted(() => {
 
 <style scoped>
 .builder-view {
-  display: grid;
-  grid-template-columns: 320px 280px 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
   padding: 1rem 1.5rem;
-  min-height: calc(100vh - 60px);
+}
+
+/* ── Ligne du haut : Équipement+Classe | Attributs ── */
+.top-row {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 1rem;
   align-items: start;
 }
 
+.top-row .panel {
+  position: sticky;
+  top: 76px;
+  max-height: calc(100vh - 92px);
+  overflow-y: auto;
+}
+
+/* ── Ligne du bas : Stats (large) | Bonus sets | Calcul dégâts ── */
+.bottom-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+/* ── Panel base ── */
 .panel {
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -56,25 +88,21 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  position: sticky;
-  top: 76px;
-  max-height: calc(100vh - 92px);
-  overflow-y: auto;
 }
 
-/* Scrollbar custom */
-.panel::-webkit-scrollbar { width: 4px; }
+/* Scrollbar */
+.panel::-webkit-scrollbar       { width: 4px; }
 .panel::-webkit-scrollbar-track { background: transparent; }
 .panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-@media (max-width: 900px) {
-  .builder-view {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 1100px) {
+  .top-row    { grid-template-columns: 1fr 1fr; }
+  .bottom-row { grid-template-columns: 1fr 1fr; }
+  .panel-stats { grid-column: 1 / -1; }
+  .top-row .panel { position: static; max-height: none; }
+}
 
-  .panel {
-    position: static;
-    max-height: none;
-  }
+@media (max-width: 650px) {
+  .top-row, .bottom-row { grid-template-columns: 1fr; }
 }
 </style>

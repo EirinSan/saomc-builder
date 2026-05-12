@@ -38,10 +38,18 @@ export const useBuildStore = defineStore('build', {
     computedStats: (state) => {
       const stats = {}
 
-      // Initialise toutes les stats à 0
+      // Initialise toutes les stats à 0, puis applique les valeurs de base
       STAT_CATEGORIES.forEach(cat =>
         cat.stats.forEach(s => { stats[s.id] = 0 })
       )
+
+      // ── Stats de base (avant items & attributs) ──
+      stats.degats_attaque               = 1
+      stats.chance_critique              = 1
+      stats.degats_critique              = 200
+      stats.degats_critique_competence   = 200
+      stats.mana                         = 20
+      stats.sante                        = 20
 
       // Ajoute les stats de chaque item équipé
       Object.values(state.equipment).forEach(itemId => {
@@ -74,7 +82,7 @@ export const useBuildStore = defineStore('build', {
         if (!item?.set) return
         setCountMap[item.set] = (setCountMap[item.set] || 0) + 1
       })
-      const setStats = computeSetStats(setCountMap)
+      const setStats = computeSetStats(setCountMap, useItemsStore().sets)
       Object.entries(setStats).forEach(([statId, value]) => {
         if (stats[statId] !== undefined) stats[statId] += value
       })
@@ -105,6 +113,79 @@ export const useBuildStore = defineStore('build', {
       stats.sante                  += (a.vitalite || 0) * 3
 
       return stats
+    },
+
+    // Retourne le détail des contributions pour une stat donnée
+    statBreakdown: (state) => (statId) => {
+      const itemsStore = useItemsStore()
+      const a = state.attributes
+
+      // Valeurs de base
+      const BASE = {
+        degats_attaque: 1, chance_critique: 1,
+        degats_critique: 200, degats_critique_competence: 200,
+        mana: 20, sante: 20,
+      }
+
+      // Formules d'attributs
+      const ATTR_FORMULAS = {
+        degats_attaque:              [{ attr: 'force',        rate: 1,    label: 'Force' }],
+        degats_critique:             [{ attr: 'force',        rate: 2,    label: 'Force' }],
+        chance_critique:             [{ attr: 'dexterite',    rate: 0.75, label: 'Dextérité' }],
+        esquive:                     [{ attr: 'dexterite',    rate: 0.3,  label: 'Dextérité' }],
+        degats_magiques:             [{ attr: 'intelligence', rate: 1,    label: 'Intelligence' }],
+        chance_critique_competence:  [{ attr: 'intelligence', rate: 0.75, label: 'Intelligence' }],
+        regen_mana:                  [{ attr: 'esprit',       rate: 0.1,  label: 'Esprit' }],
+        regen_sante:                 [{ attr: 'esprit',       rate: 0.15, label: 'Esprit' }],
+        regen_stamina:               [{ attr: 'esprit',       rate: 0.05, label: 'Esprit' }],
+        defense_stat:                [{ attr: 'defense',      rate: 0.4,  label: 'Défense' }],
+        sante:                       [{ attr: 'vitalite',     rate: 3,    label: 'Vitalité' }],
+      }
+
+      const lines = []
+
+      // Base
+      const base = BASE[statId] ?? 0
+      if (base !== 0) lines.push({ source: 'Base', value: base, type: 'base' })
+
+      // Items équipés
+      Object.values(state.equipment).forEach(itemId => {
+        if (!itemId) return
+        const item = itemsStore.getById(itemId)
+        if (!item) return
+        const val = item.stats?.[statId]
+        if (val) lines.push({ source: item.name, value: val, type: 'item', rarity: item.rarity })
+      })
+
+      // Bonus de sets
+      const setCountMap = {}
+      Object.values(state.equipment).forEach(itemId => {
+        if (!itemId) return
+        const item = itemsStore.getById(itemId)
+        if (!item?.set) return
+        setCountMap[item.set] = (setCountMap[item.set] || 0) + 1
+      })
+      for (const [setId, count] of Object.entries(setCountMap)) {
+        const set = itemsStore.sets[setId]
+        if (!set) continue
+        const activeBonuses = (set.bonuses ?? []).filter(b => count >= b.count)
+        let setVal = 0
+        activeBonuses.forEach(b => { setVal += b.stats?.[statId] ?? 0 })
+        if (setVal !== 0) lines.push({ source: `Set : ${set.name}`, value: setVal, type: 'set' })
+      }
+
+      // Attributs
+      ;(ATTR_FORMULAS[statId] ?? []).forEach(({ attr, rate, label }) => {
+        const pts = a[attr] || 0
+        if (pts > 0) lines.push({
+          source: `${label} (${pts} pts × ${rate})`,
+          value: round2(pts * rate),
+          type: 'attr',
+        })
+      })
+
+      const total = lines.reduce((s, l) => s + l.value, 0)
+      return { lines, total }
     },
 
     equippedItems: (state) => {
@@ -220,24 +301,53 @@ export const useBuildStore = defineStore('build', {
     },
 
     exportBuild() {
+      // On ne garde que les slots équipés (pas null) et les attributs > 0
+      const e = Object.fromEntries(
+        Object.entries(this.equipment).filter(([, v]) => v !== null)
+      )
+      const a = Object.fromEntries(
+        Object.entries(this.attributes).filter(([, v]) => v !== 0)
+      )
       const data = {
+<<<<<<< HEAD
         c: this.selectedClass,
         e: this.equipment,
         a: this.attributes,
         r: this.runes,
         n: this.buildName,
         l: this.level,
+=======
+        c: this.selectedClass || undefined,
+        e: Object.keys(e).length ? e : undefined,
+        a: Object.keys(a).length ? a : undefined,
+        n: this.buildName !== 'Mon Build' ? this.buildName : undefined,
+        l: this.level !== 1 ? this.level : undefined,
+>>>>>>> b1fbc06de6f8f39fd5ecff106f75ad3f8edddfbc
       }
-      return btoa(encodeURIComponent(JSON.stringify(data)))
+      // JSON → UTF-8 bytes → base64 URL-safe (sans encodeURIComponent)
+      const json = JSON.stringify(data)
+      const b64 = btoa(unescape(encodeURIComponent(json)))
+      // URL-safe : remplace +→- /→_ et supprime le padding =
+      return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
     },
 
     importBuild(code) {
       try {
+<<<<<<< HEAD
         const data = JSON.parse(decodeURIComponent(atob(code)))
         this.selectedClass = data.c
         this.equipment = { ...emptyEquipment(), ...data.e }
         this.attributes = { ...emptyAttributes(), ...data.a }
         this.runes = data.r || {}
+=======
+        // Restaure le base64 standard avant atob
+        const b64 = code.replace(/-/g, '+').replace(/_/g, '/')
+        const json = decodeURIComponent(escape(atob(b64)))
+        const data = JSON.parse(json)
+        this.selectedClass = data.c ?? null
+        this.equipment = { ...emptyEquipment(), ...(data.e ?? {}) }
+        this.attributes = { ...emptyAttributes(), ...(data.a ?? {}) }
+>>>>>>> b1fbc06de6f8f39fd5ecff106f75ad3f8edddfbc
         this.buildName = data.n || 'Mon Build'
         this.level = data.l || 1
         return true

@@ -9,7 +9,6 @@
         <button type="submit" class="btn-login">Connexion</button>
       </form>
       <p v-if="loginError" class="login-error">{{ loginError }}</p>
-      <p class="login-hint">Défini dans <code>VITE_ADMIN_PASSWORD</code></p>
     </div>
   </div>
 
@@ -143,7 +142,7 @@
 
     <!-- ════════ MODAL ITEM ════════ -->
     <Teleport to="body">
-      <div v-if="showItemForm" class="modal-overlay" @click.self="showItemForm = false">
+      <div v-if="showItemForm" class="modal-overlay">
         <div class="modal-large">
           <div class="modal-header">
             <h3>{{ editItemTarget ? `Modifier — ${editItemTarget.name}` : 'Ajouter un item' }}</h3>
@@ -158,7 +157,7 @@
 
     <!-- ════════ MODAL SET ════════ -->
     <Teleport to="body">
-      <div v-if="showSetForm" class="modal-overlay" @click.self="showSetForm = false">
+      <div v-if="showSetForm" class="modal-overlay">
         <div class="modal-medium">
           <div class="modal-header">
             <h3>{{ editSetTarget ? `Modifier — ${editSetTarget.name}` : 'Créer un set' }}</h3>

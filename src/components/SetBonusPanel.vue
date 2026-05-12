@@ -51,17 +51,17 @@
 <script setup>
 import { computed } from 'vue'
 import { useBuildStore } from '@/stores/buildStore'
-import { SETS } from '@/data/sets'
-import { getItemById } from '@/data/items'
+import { useItemsStore } from '@/stores/itemsStore'
 
-const buildStore = useBuildStore()
+const buildStore  = useBuildStore()
+const itemsStore  = useItemsStore()
 
 // Sets avec exactement 1 pièce (pas encore actifs)
 const partialSets = computed(() => {
   const counts = {}
   Object.values(buildStore.equipment).forEach(itemId => {
     if (!itemId) return
-    const item = getItemById(itemId)
+    const item = itemsStore.getById(itemId)
     if (!item?.set) return
     counts[item.set] = (counts[item.set] || 0) + 1
   })
@@ -71,16 +71,17 @@ const partialSets = computed(() => {
 const hasPartialSets = computed(() => partialSets.value.length > 0)
 
 function getSet(setId) {
-  return SETS[setId]
+  return itemsStore.sets[setId]
 }
 
 function allBonuses(setId) {
-  return SETS[setId]?.bonuses ?? []
+  return itemsStore.sets[setId]?.bonuses ?? []
 }
 
+// Nombre total d'items dans ce set (dans la DB)
 function maxPieces(setId) {
-  const bonuses = SETS[setId]?.bonuses ?? []
-  return bonuses.length > 0 ? bonuses[bonuses.length - 1].count : '?'
+  const count = itemsStore.items.filter(i => i.set === setId).length
+  return count > 0 ? count : '?'
 }
 </script>
 

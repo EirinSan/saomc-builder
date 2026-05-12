@@ -66,7 +66,11 @@
                   class="stat-chip"
                   :class="{ negative: val < 0 }"
                 >
-                  {{ val > 0 ? '+' : '' }}{{ val }} {{ getStatLabel(statId) }}
+                  {{ val > 0 ? '+' : '' }}{{ val }}
+                  <template v-if="item.statsMax?.[statId] && item.statsMax[statId] !== val">
+                    → {{ item.statsMax[statId] > 0 ? '+' : '' }}{{ item.statsMax[statId] }}
+                  </template>
+                  {{ getStatLabel(statId) }}
                 </span>
               </div>
             </div>
@@ -114,8 +118,23 @@ const PALIER_OPTIONS = [
 
 const allItems = computed(() => itemsStore.getByType(props.slotId))
 
+const ARTEFACT_SLOTS = ['artefact1', 'artefact2', 'artefact3']
+
+// Pour les artefacts : IDs déjà équipés dans les autres slots artefacts
+const equippedArtefactsElsewhere = computed(() => {
+  if (!ARTEFACT_SLOTS.includes(props.slotId)) return []
+  const eq = buildStore.equipment
+  return ARTEFACT_SLOTS
+    .filter(slot => slot !== props.slotId && eq[slot])
+    .map(slot => eq[slot])
+})
+
 const filteredItems = computed(() => {
   let items = allItems.value
+  // Artefacts : exclure ceux déjà équipés dans un autre slot artefact
+  if (ARTEFACT_SLOTS.includes(props.slotId)) {
+    items = items.filter(i => !equippedArtefactsElsewhere.value.includes(i.id))
+  }
   if (!showEvent.value) items = items.filter(i => !i.tags?.includes('event'))
   if (rarityFilter.value) items = items.filter(i => i.rarity === rarityFilter.value)
   if (palierFilter.value !== null) items = items.filter(i => i.palier === palierFilter.value)
@@ -314,8 +333,14 @@ function getStatLabel(statId) {
   padding: 0.75rem 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.35rem;
+  /* Scrollbar custom */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 }
+.item-list::-webkit-scrollbar { width: 5px; }
+.item-list::-webkit-scrollbar-track { background: transparent; }
+.item-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
 .empty-state {
   text-align: center;
@@ -335,11 +360,16 @@ function getStatLabel(statId) {
   transition: all 0.15s;
   overflow: hidden;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .item-row:hover { border-color: var(--accent-dim); background: var(--surface-3); }
-.item-row.selected { border-color: var(--accent); box-shadow: 0 0 8px var(--accent-dim); }
-.item-row.incompatible { opacity: 0.45; }
+.item-row.selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, var(--surface-2));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+.item-row.incompatible { opacity: 0.35; }
 
 .item-rarity-bar {
   width: 4px;

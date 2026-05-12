@@ -70,11 +70,44 @@ function onLogoError() {
 
 function shareBuild() {
   const code = buildStore.exportBuild()
-  const url = `${window.location.origin}${window.location.pathname}?build=${code}`
-  navigator.clipboard.writeText(url).then(() => {
-    shareToast.value = true
-    setTimeout(() => { shareToast.value = false }, 2500)
-  })
+  // Hash history : l'URL correcte est /#/?build=xxx (pas /?build=xxx)
+  const url = `${window.location.origin}${window.location.pathname}#/?build=${code}`
+  copyToClipboard(url)
+}
+
+function copyToClipboard(text) {
+  // Méthode moderne (HTTPS requis)
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(text)
+      .then(() => showToast())
+      .catch(() => fallbackCopy(text))
+    return
+  }
+  fallbackCopy(text)
+}
+
+function fallbackCopy(text) {
+  // Fallback DOM pour HTTP / anciens navigateurs
+  const ta = document.createElement('textarea')
+  ta.value = text
+  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0'
+  document.body.appendChild(ta)
+  ta.focus()
+  ta.select()
+  try {
+    document.execCommand('copy')
+    showToast()
+  } catch {
+    // Dernier recours : prompt
+    window.prompt('Copie ce lien :', text)
+  } finally {
+    document.body.removeChild(ta)
+  }
+}
+
+function showToast() {
+  shareToast.value = true
+  setTimeout(() => { shareToast.value = false }, 2500)
 }
 
 function confirmReset() {
