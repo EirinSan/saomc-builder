@@ -104,6 +104,59 @@
       </div>
     </div>
 
+    <!-- ════════ ONGLET RUNES ════════ -->
+    <div v-if="activeTab === 'runes'" class="tab-content">
+      <div class="content-header">
+        <div class="rune-header-left">
+          <span class="item-count">{{ runesStore.runesList.length }} rune(s)</span>
+          <button
+            v-if="isSupabaseConfigured"
+            class="btn-seed"
+            :disabled="seeding"
+            @click="seedRunes"
+            title="Importe les runes par défaut dans Supabase"
+          >
+            {{ seeding ? 'Import...' : '📥 Importer les runes par défaut' }}
+          </button>
+        </div>
+        <button class="btn-add" @click="openAddRune">+ Ajouter une rune</button>
+      </div>
+
+      <div class="runes-grid">
+        <div
+          v-for="rune in runesStore.runesList"
+          :key="rune.id"
+          class="rune-card"
+          :style="{ '--rc': rune.color }"
+        >
+          <div class="rune-card-header">
+            <span class="rune-card-icon" :style="{ background: rune.color + '22', borderColor: rune.color + '55' }">
+              {{ rune.icon }}
+            </span>
+            <div class="rune-card-info">
+              <span class="rune-card-name" :style="{ color: rune.color }">{{ rune.name }}</span>
+              <span class="rune-card-id">{{ rune.id }}</span>
+            </div>
+            <div class="rune-card-actions">
+              <button class="action-btn" @click="openEditRune(rune)" title="Modifier">✏️</button>
+              <button class="action-btn delete" @click="confirmDeleteRune(rune)" title="Supprimer">🗑</button>
+            </div>
+          </div>
+          <div class="rune-card-stats">
+            <span
+              v-for="(val, statId) in rune.stats" :key="statId"
+              class="rune-stat-chip"
+            >+{{ val }} {{ statLabelMap[statId] ?? statId }}</span>
+            <span v-if="!Object.keys(rune.stats).length" class="col-muted" style="font-size:.78rem">Aucune stat</span>
+          </div>
+        </div>
+
+        <div v-if="runesStore.runesList.length === 0" class="empty-sets">
+          Aucune rune. Ajoute-en ou importe les runes par défaut.
+        </div>
+      </div>
+    </div>
+
     <!-- ════════ ONGLET SETS ════════ -->
     <div v-if="activeTab === 'sets'" class="tab-content">
       <div class="content-header">
@@ -155,6 +208,21 @@
       </div>
     </Teleport>
 
+    <!-- ════════ MODAL RUNE ════════ -->
+    <Teleport to="body">
+      <div v-if="showRuneForm" class="modal-overlay">
+        <div class="modal-medium">
+          <div class="modal-header">
+            <h3>{{ editRuneTarget ? `Modifier — ${editRuneTarget.name}` : 'Ajouter une rune' }}</h3>
+            <button class="close-btn" @click="showRuneForm = false">✕</button>
+          </div>
+          <div class="modal-body">
+            <RuneForm :initial="editRuneTarget" @submit="handleRuneSubmit" @cancel="showRuneForm = false" />
+          </div>
+        </div>
+      </div>
+    </Teleport>
+
     <!-- ════════ MODAL SET ════════ -->
     <Teleport to="body">
       <div v-if="showSetForm" class="modal-overlay">
@@ -180,11 +248,15 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useItemsStore } from '@/stores/itemsStore'
-import { RARITIES } from '@/data/constants'
+import { useRunesStore }  from '@/stores/runesStore'
+import { isSupabaseConfigured } from '@/lib/supabase'
+import { RARITIES, STAT_CATEGORIES } from '@/data/constants'
 import ItemForm from '@/components/admin/ItemForm.vue'
-import SetForm from '@/components/admin/SetForm.vue'
+import SetForm  from '@/components/admin/SetForm.vue'
+import RuneForm from '@/components/admin/RuneForm.vue'
 
 const itemsStore = useItemsStore()
+const runesStore = useRunesStore()
 onMounted(() => itemsStore.init())
 
 // ── Auth ──────────────────────────────────────────────────────
@@ -203,9 +275,17 @@ function tryLogin() {
 const activeTab = ref('items')
 
 const TABS = [
-  { id: 'items', label: 'Items',  icon: '⚔️', count: () => itemsStore.items.length },
-  { id: 'sets',  label: 'Sets',   icon: '✨', count: () => itemsStore.setsList.length },
+  { id: 'items', label: 'Items', icon: '⚔️', count: () => itemsStore.items.length },
+  { id: 'sets',  label: 'Sets',  icon: '✨', count: () => itemsStore.setsList.length },
+  { id: 'runes', label: 'Runes', icon: '💎', count: () => runesStore.runesList.length },
 ]
+
+// Stat label map (pour l'affichage des stats des runes)
+const statLabelMap = computed(() => {
+  const map = {}
+  STAT_CATEGORIES.forEach(cat => cat.stats.forEach(s => { map[s.id] = s.label }))
+  return map
+})
 
 // ── Filtres items ─────────────────────────────────────────────
 const search = ref('')
@@ -315,6 +395,52 @@ async function confirmDeleteSet(set) {
     showToast(`🗑 Set "${set.name}" supprimé.`, 'success')
   } catch (e) {
     showToast('❌ Erreur suppression', 'error')
+  }
+}
+
+// ── CRUD runes ────────────────────────────────────────────────
+const showRuneForm  = ref(false)
+const editRuneTarget = ref(null)
+const seeding = ref(false)
+
+function openAddRune()  { editRuneTarget.value = null; showRuneForm.value = true }
+function openEditRune(rune) { editRuneTarget.value = rune; showRuneForm.value = true }
+
+async function handleRuneSubmit(payload) {
+  try {
+    if (editRuneTarget.value) {
+      await runesStore.updateRune(payload.id, payload)
+      showToast('✅ Rune modifiée !', 'success')
+    } else {
+      await runesStore.addRune(payload)
+      showToast('✅ Rune ajoutée !', 'success')
+    }
+    showRuneForm.value = false
+  } catch (e) {
+    showToast('❌ ' + (e.message ?? 'Erreur'), 'error')
+  }
+}
+
+async function confirmDeleteRune(rune) {
+  if (!confirm(`Supprimer la rune "${rune.name}" ?`)) return
+  try {
+    await runesStore.deleteRune(rune.id)
+    showToast(`🗑 "${rune.name}" supprimée.`, 'success')
+  } catch (e) {
+    showToast('❌ Erreur suppression', 'error')
+  }
+}
+
+async function seedRunes() {
+  if (!confirm('Importer les 20 runes par défaut dans Supabase ? Les existantes seront mises à jour.')) return
+  seeding.value = true
+  try {
+    await runesStore.seedDefaults()
+    showToast('✅ Runes par défaut importées !', 'success')
+  } catch (e) {
+    showToast('❌ ' + (e.message ?? 'Erreur'), 'error')
+  } finally {
+    seeding.value = false
   }
 }
 
@@ -542,6 +668,59 @@ function showToast(msg, type = 'success') {
 .close-btn:hover { color:var(--text); }
 
 .modal-body { overflow-y:auto; padding:1.25rem; flex:1; }
+
+/* ── Runes grid ── */
+.rune-header-left { display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+
+.btn-seed {
+  padding:.38rem .85rem; background:transparent;
+  border:1px solid var(--accent-dim); color:var(--accent);
+  border-radius:8px; font-size:.8rem; font-weight:600;
+  cursor:pointer; transition:all .2s;
+}
+.btn-seed:hover { background:color-mix(in srgb,var(--accent) 10%,transparent); }
+.btn-seed:disabled { opacity:.4; cursor:not-allowed; }
+
+.runes-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:.65rem;
+}
+
+.rune-card {
+  border:1px solid color-mix(in srgb,var(--rc,#888) 30%,transparent);
+  border-radius:10px; overflow:hidden;
+  background:color-mix(in srgb,var(--rc,#888) 5%,var(--surface-2));
+  transition:border-color .15s;
+}
+.rune-card:hover { border-color:color-mix(in srgb,var(--rc,#888) 55%,transparent); }
+
+.rune-card-header {
+  display:flex; align-items:center; gap:.55rem;
+  padding:.6rem .85rem;
+  background:color-mix(in srgb,var(--rc,#888) 10%,transparent);
+  border-bottom:1px solid color-mix(in srgb,var(--rc,#888) 18%,transparent);
+}
+
+.rune-card-icon {
+  width:34px; height:34px; border-radius:8px; border:1px solid;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.05rem; flex-shrink:0;
+}
+
+.rune-card-info { display:flex; flex-direction:column; flex:1; min-width:0; }
+.rune-card-name  { font-weight:700; font-size:.88rem; }
+.rune-card-id    { font-size:.65rem; color:var(--text-muted); font-family:monospace; }
+
+.rune-card-actions { display:flex; gap:.25rem; margin-left:auto; flex-shrink:0; }
+
+.rune-card-stats {
+  padding:.5rem .85rem; display:flex; flex-wrap:wrap; gap:.3rem;
+}
+
+.rune-stat-chip {
+  font-size:.7rem; color:#5dde8a;
+  background:rgba(93,222,138,.1); border:1px solid rgba(93,222,138,.2);
+  border-radius:4px; padding:.1rem .4rem;
+}
 
 /* ── Toast ── */
 .toast {

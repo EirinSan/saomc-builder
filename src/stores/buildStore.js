@@ -2,10 +2,14 @@ import { defineStore } from 'pinia'
 import { EQUIPMENT_SLOTS, ATTRIBUTES, STAT_CATEGORIES } from '@/data/constants'
 import { computeSetStats } from '@/data/sets'
 import { useItemsStore } from '@/stores/itemsStore'
-import { getRuneById } from '@/data/runes'
+import { useRunesStore }  from '@/stores/runesStore'
 
 function getItemById(id) {
   return useItemsStore().getById(id)
+}
+
+function getRuneById(id) {
+  return useRunesStore().getById(id)
 }
 
 const emptyEquipment = () =>

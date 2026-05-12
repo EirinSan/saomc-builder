@@ -100,12 +100,14 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { EQUIPMENT_SLOTS, RARITIES } from '@/data/constants'
-import { useBuildStore } from '@/stores/buildStore'
-import { getRuneById } from '@/data/runes'
+import { useBuildStore }  from '@/stores/buildStore'
+import { useRunesStore }  from '@/stores/runesStore'
 import ItemModal from './ItemModal.vue'
 import RuneModal from './RuneModal.vue'
 
-const buildStore     = useBuildStore()
+const buildStore  = useBuildStore()
+const runesStore  = useRunesStore()
+const getRuneById = (id) => runesStore.getById(id)
 const activeSlot     = ref(null)
 const activeRuneSlot = ref(null)
 const equippedItems  = computed(() => buildStore.equippedItems)

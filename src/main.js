@@ -11,4 +11,6 @@ const app = createApp(App).use(pinia).use(router)
 app.mount('#app')
 
 import { useItemsStore } from '@/stores/itemsStore'
+import { useRunesStore }  from '@/stores/runesStore'
 useItemsStore().init()
+useRunesStore().init()

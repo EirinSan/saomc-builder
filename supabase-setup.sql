@@ -3,6 +3,25 @@
 -- Colle ce SQL dans : Supabase → SQL Editor → New query
 -- ═══════════════════════════════════════════════════════════
 
+-- Table des runes
+create table if not exists runes (
+  id     text primary key,
+  name   text not null,
+  icon   text default '◇',
+  color  text default '#888888',
+  stats  jsonb default '{}'::jsonb
+);
+
+-- Row Level Security runes
+alter table runes enable row level security;
+create policy "Public read runes"  on runes for select using (true);
+create policy "Anon insert runes"  on runes for insert with check (true);
+create policy "Anon update runes"  on runes for update using (true);
+create policy "Anon delete runes"  on runes for delete using (true);
+
+-- Migration : ajouter la table si elle n'existe pas encore
+-- (exécuter dans Supabase → SQL Editor si la table n'est pas encore créée)
+
 -- Table des sets
 create table if not exists sets (
   id       text primary key,

@@ -65,8 +65,10 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { RUNES } from '@/data/runes'
+import { useRunesStore } from '@/stores/runesStore'
 import { STAT_CATEGORIES } from '@/data/constants'
+
+const runesStore = useRunesStore()
 
 const props = defineProps({
   slotId:       { type: String, required: true },
@@ -80,9 +82,10 @@ const search       = ref('')
 const pendingRuneId = ref(props.currentRuneId)
 
 const filteredRunes = computed(() => {
-  if (!search.value) return RUNES
+  const list = runesStore.runesList
+  if (!search.value) return list
   const q = search.value.toLowerCase()
-  return RUNES.filter(r => r.name.toLowerCase().includes(q))
+  return list.filter(r => r.name.toLowerCase().includes(q))
 })
 
 const statLabelMap = computed(() => {
