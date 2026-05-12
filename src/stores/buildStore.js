@@ -52,6 +52,7 @@ export const useBuildStore = defineStore('build', {
       stats.chance_critique              = 1
       stats.degats_critique              = 200
       stats.degats_critique_competence   = 200
+      stats.chance_critique_competence   = 1
       stats.mana                         = 20
       stats.sante                        = 20
 
@@ -128,6 +129,7 @@ export const useBuildStore = defineStore('build', {
       const BASE = {
         degats_attaque: 1, chance_critique: 1,
         degats_critique: 200, degats_critique_competence: 200,
+        chance_critique_competence: 1,
         mana: 20, sante: 20,
       }
 
