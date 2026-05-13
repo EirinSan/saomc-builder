@@ -3,12 +3,14 @@
     <BuildHeader />
     <RouterView />
     <Analytics />
+    <SpeedInsights />
   </div>
 </template>
 
 <script setup>
 import BuildHeader from '@/components/BuildHeader.vue'
 import { Analytics } from '@vercel/analytics/vue'
+import { SpeedInsights } from '@vercel/speed-insights/vue'
 </script>
 
 <style>
