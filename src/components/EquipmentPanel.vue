@@ -177,25 +177,10 @@ export default { components: { SlotButton } }
 </script>
 
 <style scoped>
-.equipment-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+.equipment-panel { display: flex; flex-direction: column; gap: 1rem; }
+.slots-section { display: flex; flex-direction: column; gap: 1rem; }
+.slots-group { display: flex; flex-direction: column; gap: 0.5rem; }
 
-.slots-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.slots-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-/* Armes + Artefacts côte à côte */
 .two-col-groups {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -203,226 +188,177 @@ export default { components: { SlotButton } }
   flex-direction: unset;
   align-items: start;
 }
-
-.sub-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
+.sub-group { display: flex; flex-direction: column; gap: 0.5rem; }
 
 .slots-label {
-  font-size: 0.6rem;
-  font-weight: 700;
+  font-size: 0.58rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   color: var(--text-muted);
-  padding-left: 0.2rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
-
 .slots-label::after {
   content: '';
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, rgba(124, 58, 237, 0.15), transparent);
+  background: linear-gradient(90deg, var(--border-hi), transparent);
 }
 
-.slots-grid {
-  display: grid;
-  gap: 0.45rem;
-}
+.slots-grid { display: grid; gap: 0.45rem; }
+.cols-2 { grid-template-columns: repeat(2, 172px); }
+.cols-3 { grid-template-columns: repeat(3, minmax(135px, 200px)); }
+.cols-4 { grid-template-columns: repeat(4, minmax(115px, 175px)); }
 
-.cols-2 { grid-template-columns: repeat(2, 175px); }
-.cols-3 { grid-template-columns: repeat(3, minmax(138px, 200px)); }
-.cols-4 { grid-template-columns: repeat(4, minmax(118px, 178px)); }
+.slot-cell { display: flex; flex-direction: column; gap: 0.2rem; }
 
-/* Wrapper pour slot + rune-row */
-.slot-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-/* Rangée de dots de rune */
 .rune-row {
   display: flex;
-  gap: 0.22rem;
-  padding: 0 0.5rem 0.05rem;
+  gap: 0.2rem;
+  padding: 0.1rem 0.5rem;
   flex-wrap: wrap;
 }
 
 .rune-dot {
-  width: 20px;
-  height: 20px;
+  width: 20px; height: 20px;
   border-radius: 50%;
-  border: 1px dashed rgba(124, 58, 237, 0.25);
-  background: rgba(124, 58, 237, 0.04);
+  border: 1px dashed rgba(120, 60, 240, 0.3);
+  background: rgba(120, 60, 240, 0.06);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   font-size: 0.55rem;
-  transition: all 0.18s;
+  transition: all 0.16s;
   padding: 0;
-  color: rgba(124, 58, 237, 0.3);
+  color: rgba(120, 60, 240, 0.4);
   flex-shrink: 0;
 }
-
 .rune-dot:hover {
-  border-color: rgba(124, 58, 237, 0.6);
   border-style: solid;
-  background: rgba(124, 58, 237, 0.12);
-  color: var(--accent);
-  box-shadow: 0 0 8px rgba(124, 58, 237, 0.25);
-  transform: scale(1.15);
+  border-color: var(--accent);
+  background: rgba(120, 60, 240, 0.18);
+  color: var(--accent-hi);
+  box-shadow: 0 0 10px rgba(120,60,240,0.35);
+  transform: scale(1.18);
 }
-
 .rune-dot.rune-filled {
   border-style: solid;
   border-color: var(--rune-color, #888);
-  background: color-mix(in srgb, var(--rune-color, #888) 22%, rgba(5, 4, 14, 0.8));
-  font-size: 0.7rem;
-  color: var(--text);
-  box-shadow: 0 0 6px color-mix(in srgb, var(--rune-color, #888) 40%, transparent);
+  background: color-mix(in srgb, var(--rune-color, #888) 25%, var(--surface-3));
+  font-size: 0.68rem;
+  color: white;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--rune-color, #888) 50%, transparent);
 }
-
 .rune-dot.rune-filled:hover {
-  background: color-mix(in srgb, var(--rune-color, #888) 35%, rgba(5, 4, 14, 0.7));
-  box-shadow: 0 0 12px color-mix(in srgb, var(--rune-color, #888) 50%, transparent);
-  transform: scale(1.15);
+  background: color-mix(in srgb, var(--rune-color, #888) 40%, var(--surface-3));
+  box-shadow: 0 0 14px color-mix(in srgb, var(--rune-color, #888) 60%, transparent);
+  transform: scale(1.18);
 }
 
-/* ── Slot button ── */
+/* ══════════════════════════════
+   SLOT BUTTON
+══════════════════════════════ */
 :deep(.slot-btn) {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.7rem;
   width: 100%;
   padding: 0.7rem 0.9rem;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   text-align: left;
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.2s ease;
   overflow: hidden;
   height: 62px;
 }
 
-/* ── État VIDE ── */
+/* VIDE */
 :deep(.slot-btn.empty) {
   background: var(--surface-2);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255,255,255,0.09);
 }
-
 :deep(.slot-btn.empty:hover) {
-  border-color: rgba(124, 58, 237, 0.45);
-  background: color-mix(in srgb, #7c3aed 8%, var(--surface-2));
+  border-color: var(--accent-dim);
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface-2));
   transform: translateY(-2px);
-  box-shadow:
-    0 6px 20px rgba(0, 0, 0, 0.4),
-    0 0 18px rgba(124, 58, 237, 0.15);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 20px rgba(120,60,240,0.12);
 }
-
 :deep(.slot-btn.empty:hover .slot-icon) {
-  opacity: 0.7 !important;
-  transform: scale(1.12) !important;
-  filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.7));
+  opacity: 0.65 !important;
+  transform: scale(1.1) !important;
+  filter: drop-shadow(0 0 10px rgba(120,60,240,0.8));
 }
 
-/* ── État REMPLI ── */
+/* REMPLI */
 :deep(.slot-btn.filled) {
-  background: color-mix(in srgb, var(--rc) 9%, var(--surface-2));
-  border: 1px solid color-mix(in srgb, var(--rc) 40%, transparent);
-  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--rc) 12%, transparent);
+  background: color-mix(in srgb, var(--rc) 11%, var(--surface-2));
+  border: 1px solid color-mix(in srgb, var(--rc) 45%, transparent);
 }
-
 :deep(.slot-btn.filled:hover) {
-  background: color-mix(in srgb, var(--rc) 16%, var(--surface-2));
-  border-color: color-mix(in srgb, var(--rc) 70%, transparent);
+  background: color-mix(in srgb, var(--rc) 18%, var(--surface-2));
+  border-color: color-mix(in srgb, var(--rc) 75%, transparent);
   transform: translateY(-2px);
   box-shadow:
-    0 8px 28px color-mix(in srgb, var(--rc) 28%, transparent),
-    0 2px 8px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 color-mix(in srgb, var(--rc) 20%, transparent);
+    0 10px 30px color-mix(in srgb, var(--rc) 30%, transparent),
+    0 2px 8px rgba(0,0,0,0.5);
 }
 
-/* Fond dégradé rarity */
+/* Dégradé diagonale rarity */
 :deep(.slot-bg) {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(130deg,
-      color-mix(in srgb, var(--rc) 22%, transparent) 0%,
-      transparent 48%);
+  position: absolute; inset: 0;
+  background: linear-gradient(130deg,
+    color-mix(in srgb, var(--rc) 25%, transparent) 0%,
+    transparent 50%);
   pointer-events: none;
 }
 
-/* Barre de rareté gauche */
+/* Barre rarity gauche */
 :deep(.rarity-bar) {
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
+  position: absolute; left: 0; top: 0; bottom: 0;
   width: 3px;
-  background: linear-gradient(180deg,
-    var(--rc) 0%,
-    color-mix(in srgb, var(--rc) 40%, transparent) 80%,
-    transparent 100%);
+  background: linear-gradient(180deg, var(--rc), color-mix(in srgb, var(--rc) 30%, transparent));
   border-radius: 3px 0 0 3px;
-  box-shadow: 2px 0 14px color-mix(in srgb, var(--rc) 55%, transparent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--rc) 60%, transparent);
 }
 
-/* Reflet top */
+/* Reflet haut sur filled */
 :deep(.slot-btn.filled)::after {
   content: '';
-  position: absolute;
-  top: 0; left: 8%; right: 8%;
+  position: absolute; top: 0; left: 10%; right: 10%;
   height: 1px;
-  background: linear-gradient(90deg,
-    transparent,
-    color-mix(in srgb, var(--rc) 50%, transparent) 40%,
-    color-mix(in srgb, var(--rc) 50%, transparent) 60%,
-    transparent);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--rc) 55%, transparent), transparent);
   pointer-events: none;
 }
 
 :deep(.slot-icon) {
   font-size: 1.5rem;
   flex-shrink: 0;
-  transition: opacity 0.2s, transform 0.22s, filter 0.2s;
   line-height: 1;
+  transition: opacity 0.2s, transform 0.2s, filter 0.2s;
 }
-
-:deep(.slot-btn.empty .slot-icon) {
-  opacity: 0.28;
-}
-
+:deep(.slot-btn.empty .slot-icon)  { opacity: 0.3; }
 :deep(.slot-btn.filled .slot-icon) {
-  opacity: 0.95;
-  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--rc) 50%, transparent));
-}
-
-:deep(.slot-btn.filled:hover .slot-icon) {
   opacity: 1;
-  transform: scale(1.08);
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--rc) 55%, transparent));
 }
+:deep(.slot-btn.filled:hover .slot-icon) { transform: scale(1.08); }
 
 :deep(.slot-text) {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: 0.08rem;
   min-width: 0;
   flex: 1;
 }
-
 :deep(.slot-name) {
-  font-size: 0.54rem;
+  font-size: 0.52rem;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   font-weight: 700;
 }
-
 :deep(.slot-item-name) {
   font-size: 0.82rem;
   font-weight: 700;
@@ -430,26 +366,22 @@ export default { components: { SlotButton } }
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 140px;
-  letter-spacing: 0.01em;
 }
-
 :deep(.slot-empty-label) {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   opacity: 0.35;
   font-style: italic;
 }
-
 :deep(.palier-badge) {
   flex-shrink: 0;
-  font-size: 0.56rem;
+  font-size: 0.54rem;
   font-weight: 800;
   color: var(--rc);
-  background: color-mix(in srgb, var(--rc) 16%, transparent);
+  background: color-mix(in srgb, var(--rc) 15%, transparent);
   border: 1px solid color-mix(in srgb, var(--rc) 35%, transparent);
   border-radius: 5px;
   padding: 0.1rem 0.38rem;
   letter-spacing: 0.06em;
-  box-shadow: 0 0 10px color-mix(in srgb, var(--rc) 22%, transparent);
 }
 </style>

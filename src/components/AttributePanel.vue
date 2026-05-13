@@ -152,7 +152,7 @@ const FORMULAS = [
 .attribute-panel {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: 0.9rem;
 }
 
 /* ── Niveau ── */
@@ -170,20 +170,21 @@ const FORMULAS = [
 
 .lvl-btn {
   width: 34px; height: 34px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-hi);
   background: var(--surface-3);
   color: var(--text);
-  font-size: 1.15rem; font-weight: 700; cursor: pointer;
+  font-size: 1.2rem; font-weight: 700; cursor: pointer;
   transition: all 0.18s;
   display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
 }
 .lvl-btn:hover {
-  border-color: var(--accent-dim);
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 14%, var(--surface-3));
-  box-shadow: 0 0 14px rgba(124, 58, 237, 0.25);
-  transform: scale(1.08);
+  border-color: var(--accent);
+  color: var(--accent-hi);
+  background: color-mix(in srgb, var(--accent) 16%, var(--surface-3));
+  box-shadow: 0 0 16px rgba(124,58,237,0.3);
+  transform: scale(1.1);
 }
 
 .level-display {
@@ -192,21 +193,22 @@ const FORMULAS = [
 }
 
 .level-input {
-  background: rgba(124, 58, 237, 0.06);
-  border: 1px solid rgba(124, 58, 237, 0.25);
-  border-radius: 8px; color: var(--accent);
-  font-size: 1.4rem; font-weight: 800;
+  background: var(--surface-3);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--radius-sm);
+  color: var(--accent-hi);
+  font-size: 1.5rem; font-weight: 800;
   font-family: var(--font);
-  width: 72px; text-align: center; padding: 0.2rem;
+  width: 76px; text-align: center; padding: 0.2rem 0.4rem;
   outline: none; transition: all 0.2s;
   -moz-appearance: textfield;
-  text-shadow: 0 0 16px rgba(124, 58, 237, 0.5);
+  text-shadow: 0 0 18px rgba(124,58,237,0.6);
 }
 .level-input::-webkit-outer-spin-button,
 .level-input::-webkit-inner-spin-button { -webkit-appearance: none; }
 .level-input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 16px rgba(124, 58, 237, 0.25);
+  box-shadow: 0 0 18px rgba(124,58,237,0.3), inset 0 0 8px rgba(124,58,237,0.08);
 }
 
 .level-label { font-size: 0.8rem; color: var(--text-muted); }
@@ -238,33 +240,33 @@ const FORMULAS = [
 }
 
 .points-badge {
-  display: flex; align-items: baseline; gap: 0.2rem;
-  background: color-mix(in srgb, var(--accent) 10%, rgba(255,255,255,0.02));
+  display: flex; align-items: baseline; gap: 0.25rem;
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface-3));
   border: 1px solid var(--accent-dim);
-  border-radius: 20px; padding: 0.2rem 0.8rem;
-  box-shadow: 0 0 12px rgba(124, 58, 237, 0.15);
+  border-radius: 20px; padding: 0.22rem 0.85rem;
+  box-shadow: 0 0 16px rgba(124,58,237,0.2);
 }
 .points-badge.empty {
-  background: rgba(224, 92, 92, 0.08);
-  border-color: rgba(224, 92, 92, 0.35);
-  box-shadow: 0 0 12px rgba(224, 92, 92, 0.1);
+  background: color-mix(in srgb, #ef4444 10%, var(--surface-3));
+  border-color: rgba(239,68,68,0.4);
+  box-shadow: 0 0 14px rgba(239,68,68,0.15);
 }
-.points-num { font-size: 1rem; font-weight: 800; color: var(--accent); text-shadow: 0 0 12px rgba(124,58,237,0.5); }
-.points-badge.empty .points-num { color: #e05c5c; text-shadow: 0 0 12px rgba(224,92,92,0.4); }
+.points-num { font-size: 1.05rem; font-weight: 800; color: var(--accent-hi); text-shadow: 0 0 14px rgba(124,58,237,0.6); }
+.points-badge.empty .points-num { color: #f87171; text-shadow: 0 0 14px rgba(239,68,68,0.5); }
 .points-label { font-size: 0.7rem; color: var(--text-muted); }
 
 /* ── Barre de progression ── */
 .points-bar-wrap {
-  height: 3px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 3px; overflow: hidden;
+  height: 4px;
+  background: var(--surface-3);
+  border-radius: 4px; overflow: hidden;
 }
 .points-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), #a78bfa, var(--accent-2));
-  border-radius: 3px;
-  transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
+  background: linear-gradient(90deg, var(--accent), var(--accent-hi), var(--cyan));
+  border-radius: 4px;
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 0 10px rgba(124,58,237,0.55);
 }
 
 /* ── Formules ── */
@@ -289,76 +291,84 @@ const FORMULAS = [
 .formula-desc { color: var(--text-muted); }
 
 /* ── Attributs ── */
-.attributes-list { display: flex; flex-direction: column; gap: 0.3rem; }
+.attributes-list { display: flex; flex-direction: column; gap: 0.32rem; }
 
 .attr-row {
-  display: flex; align-items: center; gap: 0.65rem;
-  padding: 0.55rem 0.85rem;
-  background: var(--surface-3);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 10px;
+  display: flex; align-items: center; gap: 0.7rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   transition: all 0.18s;
   position: relative;
   overflow: hidden;
 }
 
-/* Accent left bar */
+/* Bar gauche colorée */
 .attr-row::before {
   content: '';
   position: absolute;
-  left: 0; top: 18%; bottom: 18%;
-  width: 2.5px;
+  left: 0; top: 15%; bottom: 15%;
+  width: 3px;
   background: var(--attr-color);
-  border-radius: 0 2px 2px 0;
+  border-radius: 0 3px 3px 0;
   opacity: 0;
   transition: opacity 0.2s;
+  box-shadow: 2px 0 10px var(--attr-color);
 }
 
-.attr-row:hover::before { opacity: 0.8; }
-
-.attr-row:hover {
-  border-color: color-mix(in srgb, var(--attr-color) 35%, transparent);
-  background: color-mix(in srgb, var(--attr-color) 6%, var(--surface-3));
-}
-.attr-row.req-unmet {
-  border-color: rgba(224, 92, 92, 0.45);
-  background: color-mix(in srgb, #e05c5c 6%, var(--surface-3));
-}
-.attr-row.req-met {
-  border-color: color-mix(in srgb, var(--attr-color) 40%, transparent);
-  background: color-mix(in srgb, var(--attr-color) 5%, var(--surface-3));
-}
+.attr-row:hover::before { opacity: 0.85; }
 .attr-row.req-met::before { opacity: 1; }
 
-.attr-icon { font-size: 1.1rem; flex-shrink: 0; }
-.attr-label { flex: 1; font-size: 0.85rem; font-weight: 600; color: var(--text); letter-spacing: 0.01em; }
+.attr-row:hover {
+  border-color: color-mix(in srgb, var(--attr-color) 40%, transparent);
+  background: color-mix(in srgb, var(--attr-color) 7%, var(--surface-2));
+}
+.attr-row.req-unmet {
+  border-color: rgba(239,68,68,0.4);
+  background: color-mix(in srgb, #ef4444 6%, var(--surface-2));
+}
+.attr-row.req-met {
+  border-color: color-mix(in srgb, var(--attr-color) 45%, transparent);
+  background: color-mix(in srgb, var(--attr-color) 6%, var(--surface-2));
+}
 
-.attr-controls { display: flex; align-items: center; gap: 0.4rem; }
+.attr-icon { font-size: 1.1rem; flex-shrink: 0; }
+.attr-label {
+  flex: 1;
+  font-size: 0.84rem; font-weight: 600;
+  color: var(--text);
+}
+
+.attr-controls { display: flex; align-items: center; gap: 0.45rem; }
 
 .attr-btn {
-  width: 28px; height: 28px; border-radius: 7px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text); font-size: 1rem; font-weight: 700;
+  width: 30px; height: 30px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-hi);
+  background: var(--surface-3);
+  color: var(--text);
+  font-size: 1.05rem; font-weight: 700;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: all 0.15s; line-height: 1;
+  flex-shrink: 0;
 }
 .attr-btn:hover:not(:disabled) {
   border-color: var(--attr-color);
   color: var(--attr-color);
-  background: color-mix(in srgb, var(--attr-color) 18%, rgba(255,255,255,0.05));
-  box-shadow: 0 0 12px color-mix(in srgb, var(--attr-color) 30%, transparent);
-  transform: scale(1.1);
+  background: color-mix(in srgb, var(--attr-color) 16%, var(--surface-3));
+  box-shadow: 0 0 14px color-mix(in srgb, var(--attr-color) 35%, transparent);
+  transform: scale(1.12);
 }
-.attr-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+.attr-btn:disabled { opacity: 0.22; cursor: not-allowed; }
 
 .attr-value {
-  min-width: 36px; text-align: center;
-  font-size: 1.05rem; font-weight: 800;
+  min-width: 38px; text-align: center;
+  font-size: 1.1rem; font-weight: 800;
   color: var(--attr-color);
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 12px color-mix(in srgb, var(--attr-color) 50%, transparent);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--attr-color) 55%, transparent);
 }
 
 /* Badge de prérequis par attribut */
@@ -380,17 +390,18 @@ const FORMULAS = [
 
 /* ── Reset ── */
 .reset-btn {
-  background: var(--surface-3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-muted); border-radius: 8px;
-  padding: 0.42rem 0.85rem; cursor: pointer;
-  font-size: 0.78rem; font-weight: 600;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-2); border-radius: var(--radius-sm);
+  padding: 0.45rem 0.9rem; cursor: pointer;
+  font-size: 0.76rem; font-weight: 600;
   transition: all 0.2s; align-self: flex-start;
+  font-family: var(--font);
 }
 .reset-btn:hover {
-  border-color: rgba(224, 92, 92, 0.45);
-  color: #e05c5c;
-  background: rgba(224, 92, 92, 0.07);
+  border-color: rgba(239,68,68,0.45);
+  color: #f87171;
+  background: rgba(239,68,68,0.08);
 }
 
 /* ── Transitions ── */

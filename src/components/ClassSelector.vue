@@ -28,12 +28,12 @@ const buildStore = useBuildStore()
 .class-selector {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.8rem;
 }
 
 .class-grid {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.6rem;
   flex-wrap: wrap;
 }
 
@@ -43,97 +43,86 @@ const buildStore = useBuildStore()
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  padding: 0.85rem 0.5rem;
-  width: 108px;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem 0.85rem;
+  width: 106px;
   background: var(--surface-2);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
   cursor: pointer;
   color: var(--text-muted);
-  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   overflow: hidden;
 }
 
-/* Reflet haut de carte */
-.class-btn::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 10%; right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-  pointer-events: none;
-}
-
+/* Halo coloré de fond */
 .class-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 0%,
-    color-mix(in srgb, var(--cc) 28%, transparent) 0%,
+  background: radial-gradient(ellipse at 50% 10%,
+    color-mix(in srgb, var(--cc) 30%, transparent) 0%,
     transparent 70%);
   opacity: 0;
-  transition: opacity 0.25s;
+  transition: opacity 0.22s;
   pointer-events: none;
 }
 
-/* Bottom shimmer on active */
+/* Barre colorée en bas */
 .class-btn::after {
   content: '';
   position: absolute;
-  bottom: 0; left: 15%; right: 15%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--cc) 60%, transparent), transparent);
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent,
+    color-mix(in srgb, var(--cc) 80%, transparent),
+    transparent);
   opacity: 0;
-  transition: opacity 0.25s;
-  pointer-events: none;
+  transition: opacity 0.22s;
 }
 
 .class-btn:hover .class-glow,
 .class-btn.active .class-glow { opacity: 1; }
-
 .class-btn:hover::after,
 .class-btn.active::after { opacity: 1; }
 
 .class-btn:hover {
-  border-color: color-mix(in srgb, var(--cc) 50%, transparent);
+  border-color: color-mix(in srgb, var(--cc) 55%, transparent);
   color: var(--cc);
-  transform: translateY(-3px) scale(1.02);
-  box-shadow:
-    0 8px 24px color-mix(in srgb, var(--cc) 20%, transparent),
-    0 2px 8px rgba(0,0,0,0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--cc) 22%, transparent), 0 2px 8px rgba(0,0,0,0.5);
 }
 
 .class-btn.active {
-  border-color: color-mix(in srgb, var(--cc) 70%, transparent);
+  border-color: var(--cc);
   color: var(--cc);
-  background: color-mix(in srgb, var(--cc) 8%, rgba(255,255,255,0.01));
-  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--cc) 10%, var(--surface-2));
+  transform: translateY(-1px);
   box-shadow:
-    0 0 28px color-mix(in srgb, var(--cc) 30%, transparent),
-    0 4px 16px rgba(0,0,0,0.4),
+    0 0 0 1px color-mix(in srgb, var(--cc) 40%, transparent),
+    0 8px 32px color-mix(in srgb, var(--cc) 30%, transparent),
     inset 0 1px 0 color-mix(in srgb, var(--cc) 20%, transparent);
 }
 
 .class-icon {
-  font-size: 1.8rem;
+  font-size: 2rem;
   line-height: 1;
   transition: filter 0.2s, transform 0.2s;
-  filter: drop-shadow(0 2px 6px color-mix(in srgb, var(--cc) 30%, transparent));
-}
-
-.class-btn:hover .class-icon {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 10px var(--cc));
 }
 
 .class-btn.active .class-icon {
-  filter: drop-shadow(0 0 12px var(--cc)) brightness(1.2);
+  filter: drop-shadow(0 0 14px var(--cc)) brightness(1.15);
+  transform: scale(1.08);
+}
+.class-btn:hover:not(.active) .class-icon {
+  filter: drop-shadow(0 0 10px var(--cc));
+  transform: scale(1.05);
 }
 
 .class-label {
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 </style>

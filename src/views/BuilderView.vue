@@ -56,22 +56,20 @@ onMounted(() => {
   padding: 1.25rem 1.75rem;
 }
 
-/* ── Ligne du haut : Équipement+Classe | Attributs ── */
 .top-row {
   display: grid;
-  grid-template-columns: 1fr 270px;
+  grid-template-columns: 1fr 280px;
   gap: 1.25rem;
   align-items: start;
 }
 
 .top-row .panel {
   position: sticky;
-  top: 68px;
-  max-height: calc(100vh - 84px);
+  top: 66px;
+  max-height: calc(100vh - 80px);
   overflow-y: auto;
 }
 
-/* ── Ligne du bas : Stats (large) | Bonus sets | Calcul dégâts ── */
 .bottom-row {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
@@ -79,55 +77,32 @@ onMounted(() => {
   align-items: start;
 }
 
-/* ── Panel base ── */
+/* ── Panel ── */
 .panel {
-  background: linear-gradient(145deg, rgba(16, 14, 31, 0.95), rgba(11, 9, 24, 0.98));
+  background: var(--surface-1);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius);
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   position: relative;
   overflow: hidden;
-  box-shadow:
-    0 4px 32px rgba(0, 0, 0, 0.5),
-    0 1px 0 rgba(255, 255, 255, 0.03) inset,
-    0 0 0 1px rgba(255, 255, 255, 0.02) inset;
-  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.03) inset;
 }
 
-/* Ligne dégradée en haut de chaque panel */
 .panel::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0; left: 10%; right: 10%;
   height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    var(--accent-dim) 30%,
-    var(--accent-2-dim) 70%,
-    transparent 100%);
+  background: linear-gradient(90deg, transparent, var(--accent-dim), var(--cyan-dim), transparent);
   pointer-events: none;
 }
 
-/* Coin brillant subtil */
-.panel::after {
-  content: '';
-  position: absolute;
-  top: -60px; right: -60px;
-  width: 180px; height: 180px;
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.05) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-/* Scrollbar panel */
-.panel::-webkit-scrollbar       { width: 4px; }
+.panel::-webkit-scrollbar { width: 4px; }
 .panel::-webkit-scrollbar-track { background: transparent; }
-.panel::-webkit-scrollbar-thumb {
-  background: linear-gradient(var(--accent-dim), var(--accent-2-dim));
-  border-radius: 4px;
-}
+.panel::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 4px; }
 
 @media (max-width: 1100px) {
   .top-row    { grid-template-columns: 1fr 1fr; }
@@ -135,7 +110,6 @@ onMounted(() => {
   .panel-stats { grid-column: 1 / -1; }
   .top-row .panel { position: static; max-height: none; }
 }
-
 @media (max-width: 650px) {
   .top-row, .bottom-row { grid-template-columns: 1fr; }
   .builder-view { padding: 0.75rem; }
