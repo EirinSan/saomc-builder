@@ -1,5 +1,6 @@
 <template>
   <div class="attribute-panel">
+
     <!-- Niveau -->
     <div class="level-section">
       <h3 class="section-title">Niveau</h3>
@@ -18,6 +19,18 @@
         </div>
         <button class="lvl-btn" @click="buildStore.setLevel(buildStore.level + 1)">+</button>
       </div>
+
+      <!-- Niveau requis du build -->
+      <div v-if="buildStore.buildRequiredLevel > 1" class="req-level-row">
+        <span class="req-label">Requis pour ce build :</span>
+        <span
+          class="req-level-badge"
+          :class="buildStore.level >= buildStore.buildRequiredLevel ? 'met' : 'unmet'"
+        >
+          {{ buildStore.level >= buildStore.buildRequiredLevel ? '✓' : '✗' }}
+          Niv. {{ buildStore.buildRequiredLevel }}
+        </span>
+      </div>
     </div>
 
     <!-- Points d'attributs -->
@@ -30,13 +43,10 @@
     </div>
 
     <div class="points-bar-wrap">
-      <div
-        class="points-bar"
-        :style="{ width: pct + '%' }"
-      ></div>
+      <div class="points-bar" :style="{ width: pct + '%' }"></div>
     </div>
 
-    <!-- Tooltip formules -->
+    <!-- Formules -->
     <div class="formulas-toggle">
       <button class="formula-btn" @click="showFormulas = !showFormulas">
         {{ showFormulas ? '▲' : '▼' }} Formules des attributs
@@ -59,6 +69,10 @@
         :key="attr.id"
         class="attr-row"
         :style="{ '--attr-color': attr.color }"
+        :class="{
+          'req-unmet': reqUnmet(attr.id),
+          'req-met':   reqMet(attr.id),
+        }"
       >
         <span class="attr-icon">{{ attr.icon }}</span>
         <span class="attr-label">{{ attr.label }}</span>
@@ -78,6 +92,16 @@
             @click="buildStore.incrementAttribute(attr.id)"
           >+</button>
         </div>
+
+        <!-- Prérequis de l'attribut -->
+        <span
+          v-if="reqFor(attr.id) > 0"
+          class="attr-req"
+          :class="reqUnmet(attr.id) ? 'req-badge-unmet' : 'req-badge-met'"
+          :title="`Requis : ${reqFor(attr.id)} pts pour équiper certains items`"
+        >
+          {{ reqUnmet(attr.id) ? '✗' : '✓' }} {{ reqFor(attr.id) }}
+        </span>
       </div>
     </div>
 
@@ -92,7 +116,7 @@ import { ref, computed } from 'vue'
 import { ATTRIBUTES } from '@/data/constants'
 import { useBuildStore } from '@/stores/buildStore'
 
-const buildStore = useBuildStore()
+const buildStore   = useBuildStore()
 const showFormulas = ref(false)
 
 const pct = computed(() =>
@@ -100,6 +124,19 @@ const pct = computed(() =>
     ? (buildStore.spentPoints / buildStore.totalAttributePoints) * 100
     : 0
 )
+
+// Prérequis du build
+function reqFor(attrId) {
+  return buildStore.buildRequiredAttributes[attrId] ?? 0
+}
+function reqUnmet(attrId) {
+  const r = reqFor(attrId)
+  return r > 0 && buildStore.attributes[attrId] < r
+}
+function reqMet(attrId) {
+  const r = reqFor(attrId)
+  return r > 0 && buildStore.attributes[attrId] >= r
+}
 
 const FORMULAS = [
   { attr: 'force',        icon: '💪', label: 'Force',        desc: '+1 dégâts physiques · +2% dégâts critiques' },
@@ -132,233 +169,180 @@ const FORMULAS = [
 }
 
 .lvl-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--surface-2);
-  color: var(--text);
-  font-size: 1.1rem;
-  cursor: pointer;
+  width: 32px; height: 32px;
+  border-radius: 8px; border: 1px solid var(--border);
+  background: var(--surface-2); color: var(--text);
+  font-size: 1.1rem; cursor: pointer;
   transition: all 0.15s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
 }
-
 .lvl-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent); color: var(--accent);
   background: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 .level-display {
-  flex: 1;
-  display: flex;
-  align-items: baseline;
-  gap: 0.3rem;
-  justify-content: center;
+  flex: 1; display: flex; align-items: baseline;
+  gap: 0.3rem; justify-content: center;
 }
 
 .level-input {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--accent);
-  font-size: 1.4rem;
-  font-weight: 800;
-  width: 72px;
-  text-align: center;
-  padding: 0.2rem;
-  outline: none;
-  transition: border-color 0.2s;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--accent);
+  font-size: 1.4rem; font-weight: 800;
+  width: 72px; text-align: center; padding: 0.2rem;
+  outline: none; transition: border-color 0.2s;
   -moz-appearance: textfield;
 }
-
 .level-input::-webkit-outer-spin-button,
 .level-input::-webkit-inner-spin-button { -webkit-appearance: none; }
-
 .level-input:focus { border-color: var(--accent); }
 
-.level-label {
-  font-size: 0.8rem;
-  color: var(--text-muted);
+.level-label { font-size: 0.8rem; color: var(--text-muted); }
+
+/* Niveau requis */
+.req-level-row {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.76rem; color: var(--text-muted);
+}
+.req-label { }
+.req-level-badge {
+  font-weight: 700; font-size: 0.75rem;
+  padding: 0.15rem 0.55rem; border-radius: 20px; border: 1px solid;
+}
+.req-level-badge.met {
+  color: #5dde8a;
+  border-color: rgba(93, 222, 138, 0.35);
+  background: rgba(93, 222, 138, 0.1);
+}
+.req-level-badge.unmet {
+  color: #e05c5c;
+  border-color: rgba(224, 92, 92, 0.35);
+  background: rgba(224, 92, 92, 0.1);
 }
 
 /* ── Points header ── */
 .attr-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
 }
 
 .points-badge {
-  display: flex;
-  align-items: baseline;
-  gap: 0.2rem;
+  display: flex; align-items: baseline; gap: 0.2rem;
   background: color-mix(in srgb, var(--accent) 12%, transparent);
   border: 1px solid var(--accent-dim);
-  border-radius: 20px;
-  padding: 0.18rem 0.7rem;
+  border-radius: 20px; padding: 0.18rem 0.7rem;
 }
-
 .points-badge.empty {
   background: color-mix(in srgb, #e05c5c 10%, transparent);
   border-color: rgba(224, 92, 92, 0.3);
 }
-
-.points-num {
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--accent);
-}
-
+.points-num { font-size: 1rem; font-weight: 800; color: var(--accent); }
 .points-badge.empty .points-num { color: #e05c5c; }
-
-.points-label {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-}
+.points-label { font-size: 0.72rem; color: var(--text-muted); }
 
 /* ── Barre de progression ── */
 .points-bar-wrap {
-  height: 4px;
-  background: var(--surface-3);
-  border-radius: 2px;
-  overflow: hidden;
+  height: 4px; background: var(--surface-3); border-radius: 2px; overflow: hidden;
 }
-
 .points-bar {
   height: 100%;
   background: linear-gradient(90deg, var(--accent), #a78bfa);
-  border-radius: 2px;
-  transition: width 0.3s ease;
+  border-radius: 2px; transition: width 0.3s ease;
 }
 
 /* ── Formules ── */
-.formulas-toggle { }
-
 .formula-btn {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  cursor: pointer;
-  padding: 0;
-  transition: color 0.2s;
+  background: none; border: none; color: var(--text-muted);
+  font-size: 0.75rem; cursor: pointer; padding: 0; transition: color 0.2s;
 }
-
 .formula-btn:hover { color: var(--accent); }
 
 .formulas-list {
   margin-top: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.6rem 0.75rem;
+  display: flex; flex-direction: column; gap: 0.25rem;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.6rem 0.75rem;
 }
-
 .formula-row {
-  display: grid;
-  grid-template-columns: 1.2rem 80px 1fr;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.76rem;
+  display: grid; grid-template-columns: 1.2rem 80px 1fr;
+  align-items: center; gap: 0.4rem; font-size: 0.76rem;
 }
-
 .formula-icon { text-align: center; }
 .formula-name { font-weight: 700; color: var(--text); }
 .formula-desc { color: var(--text-muted); }
 
 /* ── Attributs ── */
-.attributes-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
+.attributes-list { display: flex; flex-direction: column; gap: 0.3rem; }
 
 .attr-row {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
+  display: flex; align-items: center; gap: 0.6rem;
   padding: 0.5rem 0.75rem;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  transition: border-color 0.2s;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 8px; transition: border-color 0.2s;
 }
-
 .attr-row:hover {
+  border-color: color-mix(in srgb, var(--attr-color) 40%, transparent);
+}
+.attr-row.req-unmet {
+  border-color: rgba(224, 92, 92, 0.45);
+  background: color-mix(in srgb, #e05c5c 5%, var(--surface-2));
+}
+.attr-row.req-met {
   border-color: color-mix(in srgb, var(--attr-color) 40%, transparent);
 }
 
 .attr-icon { font-size: 1.05rem; flex-shrink: 0; }
+.attr-label { flex: 1; font-size: 0.85rem; font-weight: 600; color: var(--text); }
 
-.attr-label {
-  flex: 1;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.attr-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
+.attr-controls { display: flex; align-items: center; gap: 0.35rem; }
 
 .attr-btn {
-  width: 26px;
-  height: 26px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: var(--surface-3);
-  color: var(--text);
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s;
-  line-height: 1;
+  width: 26px; height: 26px; border-radius: 6px;
+  border: 1px solid var(--border); background: var(--surface-3);
+  color: var(--text); font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; line-height: 1;
 }
-
 .attr-btn:hover:not(:disabled) {
-  border-color: var(--attr-color);
-  color: var(--attr-color);
+  border-color: var(--attr-color); color: var(--attr-color);
   background: color-mix(in srgb, var(--attr-color) 15%, transparent);
 }
-
 .attr-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
 .attr-value {
-  min-width: 32px;
-  text-align: center;
-  font-size: 1rem;
-  font-weight: 800;
+  min-width: 32px; text-align: center;
+  font-size: 1rem; font-weight: 800;
   color: var(--attr-color);
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Reset ── */
-.reset-btn {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  border-radius: 6px;
-  padding: 0.4rem 0.75rem;
-  cursor: pointer;
-  font-size: 0.8rem;
-  transition: all 0.2s;
-  align-self: flex-start;
+/* Badge de prérequis par attribut */
+.attr-req {
+  font-size: 0.68rem; font-weight: 700;
+  padding: 0.1rem 0.42rem; border-radius: 10px; border: 1px solid;
+  flex-shrink: 0; white-space: nowrap;
+}
+.req-badge-met {
+  color: #5dde8a;
+  border-color: rgba(93, 222, 138, 0.35);
+  background: rgba(93, 222, 138, 0.1);
+}
+.req-badge-unmet {
+  color: #e05c5c;
+  border-color: rgba(224, 92, 92, 0.35);
+  background: rgba(224, 92, 92, 0.1);
 }
 
+/* ── Reset ── */
+.reset-btn {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-muted); border-radius: 6px;
+  padding: 0.4rem 0.75rem; cursor: pointer;
+  font-size: 0.8rem; transition: all 0.2s; align-self: flex-start;
+}
 .reset-btn:hover { border-color: #e05c5c; color: #e05c5c; }
 
-/* ── Expand transition ── */
+/* ── Transitions ── */
 .expand-enter-active, .expand-leave-active { transition: all 0.2s ease; overflow: hidden; }
 .expand-enter-from, .expand-leave-to { max-height: 0; opacity: 0; }
 .expand-enter-to, .expand-leave-from { max-height: 300px; opacity: 1; }
