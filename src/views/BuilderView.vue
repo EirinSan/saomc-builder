@@ -58,7 +58,7 @@ onMounted(() => {
 
 .top-row {
   display: grid;
-  grid-template-columns: 1fr 280px;
+  grid-template-columns: 1fr 300px;
   gap: 1.25rem;
   align-items: start;
 }

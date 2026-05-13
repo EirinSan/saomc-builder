@@ -294,8 +294,8 @@ const FORMULAS = [
 .attributes-list { display: flex; flex-direction: column; gap: 0.32rem; }
 
 .attr-row {
-  display: flex; align-items: center; gap: 0.7rem;
-  padding: 0.6rem 0.9rem;
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.55rem 0.8rem;
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -336,19 +336,23 @@ const FORMULAS = [
 .attr-icon { font-size: 1.1rem; flex-shrink: 0; }
 .attr-label {
   flex: 1;
-  font-size: 0.84rem; font-weight: 600;
+  font-size: 0.83rem; font-weight: 600;
   color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
-.attr-controls { display: flex; align-items: center; gap: 0.45rem; }
+.attr-controls { display: flex; align-items: center; gap: 0.35rem; flex-shrink: 0; }
 
 .attr-btn {
-  width: 30px; height: 30px;
+  width: 28px; height: 28px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-hi);
   background: var(--surface-3);
   color: var(--text);
-  font-size: 1.05rem; font-weight: 700;
+  font-size: 1rem; font-weight: 700;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: all 0.15s; line-height: 1;
@@ -364,8 +368,8 @@ const FORMULAS = [
 .attr-btn:disabled { opacity: 0.22; cursor: not-allowed; }
 
 .attr-value {
-  min-width: 38px; text-align: center;
-  font-size: 1.1rem; font-weight: 800;
+  min-width: 34px; text-align: center;
+  font-size: 1.05rem; font-weight: 800;
   color: var(--attr-color);
   font-variant-numeric: tabular-nums;
   text-shadow: 0 0 14px color-mix(in srgb, var(--attr-color) 55%, transparent);
