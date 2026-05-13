@@ -103,7 +103,7 @@ import { useBuildStore } from '@/stores/buildStore'
 
 const buildStore     = useBuildStore()
 const computedStats  = computed(() => buildStore.computedStats)
-const statsMaxDelta  = computed(() => buildStore.statsMaxDelta)
+const statsMaxDelta  = computed(() => buildStore.statsMaxDelta ?? {})
 const openCategories = ref(new Set(STAT_CATEGORIES.map(c => c.id)))
 const selectedStat   = ref(null)
 const selectedStatUnit = ref('')
