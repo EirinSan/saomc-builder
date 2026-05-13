@@ -104,14 +104,18 @@ onMounted(() => {
 .panel::-webkit-scrollbar-track { background: transparent; }
 .panel::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 4px; }
 
-@media (max-width: 1100px) {
-  .top-row    { grid-template-columns: 1fr 1fr; }
+@media (max-width: 1200px) {
+  .top-row { grid-template-columns: 1fr 280px; }
+}
+@media (max-width: 960px) {
+  .top-row    { grid-template-columns: 1fr; }
   .bottom-row { grid-template-columns: 1fr 1fr; }
-  .panel-stats { grid-column: 1 / -1; }
+  .panel-attributes { order: -1; }
   .top-row .panel { position: static; max-height: none; }
 }
 @media (max-width: 650px) {
-  .top-row, .bottom-row { grid-template-columns: 1fr; }
-  .builder-view { padding: 0.75rem; }
+  .bottom-row { grid-template-columns: 1fr; }
+  .builder-view { padding: 0.6rem; gap: 0.6rem; }
+  .panel { padding: 0.85rem; }
 }
 </style>

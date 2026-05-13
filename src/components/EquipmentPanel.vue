@@ -263,15 +263,16 @@ export default { components: { SlotButton } }
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.5rem;
   width: 100%;
-  padding: 0.7rem 0.9rem;
+  padding: 0.55rem 0.7rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
   text-align: left;
   transition: all 0.2s ease;
   overflow: hidden;
-  height: 62px;
+  height: 56px;
+  min-width: 0;
 }
 
 /* VIDE */
@@ -333,7 +334,7 @@ export default { components: { SlotButton } }
 }
 
 :deep(.slot-icon) {
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   flex-shrink: 0;
   line-height: 1;
   transition: opacity 0.2s, transform 0.2s, filter 0.2s;
@@ -348,19 +349,23 @@ export default { components: { SlotButton } }
 :deep(.slot-text) {
   display: flex;
   flex-direction: column;
-  gap: 0.08rem;
+  gap: 0.05rem;
   min-width: 0;
   flex: 1;
+  overflow: hidden;
 }
 :deep(.slot-name) {
-  font-size: 0.52rem;
+  font-size: 0.5rem;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 :deep(.slot-item-name) {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
@@ -368,20 +373,32 @@ export default { components: { SlotButton } }
   max-width: 100%;
 }
 :deep(.slot-empty-label) {
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   color: var(--text-muted);
   opacity: 0.4;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 :deep(.palier-badge) {
   flex-shrink: 0;
-  font-size: 0.54rem;
+  font-size: 0.52rem;
   font-weight: 800;
   color: var(--rc);
   background: color-mix(in srgb, var(--rc) 15%, transparent);
   border: 1px solid color-mix(in srgb, var(--rc) 35%, transparent);
   border-radius: 5px;
-  padding: 0.1rem 0.38rem;
-  letter-spacing: 0.06em;
+  padding: 0.1rem 0.32rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* ── Responsive ── */
+@media (max-width: 800px) {
+  .slots-grid { gap: 0.35rem; }
+  .cols-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .cols-3 { grid-template-columns: repeat(2, 1fr); }
+  .two-col-groups { grid-template-columns: 1fr; }
 }
 </style>

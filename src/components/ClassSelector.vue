@@ -122,7 +122,19 @@ const buildStore = useBuildStore()
 .class-label {
   font-size: 0.63rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Compact sur petits écrans */
+@media (max-width: 900px) {
+  .class-grid { gap: 0.4rem; }
+  .class-btn { padding: 0.75rem 0.3rem 0.65rem; }
+  .class-icon { font-size: 1.6rem; }
+  .class-label { font-size: 0.56rem; letter-spacing: 0.06em; }
 }
 </style>
