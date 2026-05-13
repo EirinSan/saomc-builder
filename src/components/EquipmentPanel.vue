@@ -186,13 +186,13 @@ export default { components: { SlotButton } }
 .slots-section {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .slots-group {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.5rem;
 }
 
 /* Armes + Artefacts côte à côte */
@@ -231,60 +231,67 @@ export default { components: { SlotButton } }
 
 .slots-grid {
   display: grid;
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
 
-.cols-2 { grid-template-columns: repeat(2, 180px); }
-.cols-3 { grid-template-columns: repeat(3, minmax(140px, 200px)); }
-.cols-4 { grid-template-columns: repeat(4, minmax(120px, 180px)); }
+.cols-2 { grid-template-columns: repeat(2, 175px); }
+.cols-3 { grid-template-columns: repeat(3, minmax(138px, 200px)); }
+.cols-4 { grid-template-columns: repeat(4, minmax(118px, 178px)); }
 
 /* Wrapper pour slot + rune-row */
 .slot-cell {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.25rem;
 }
 
 /* Rangée de dots de rune */
 .rune-row {
   display: flex;
-  gap: 0.25rem;
-  padding: 0 0.3rem 0.1rem;
+  gap: 0.22rem;
+  padding: 0 0.5rem 0.05rem;
   flex-wrap: wrap;
 }
 
 .rune-dot {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  border: 1px dashed var(--border);
-  background: var(--surface-3);
+  border: 1px dashed rgba(124, 58, 237, 0.25);
+  background: rgba(124, 58, 237, 0.04);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.6rem;
-  transition: all 0.15s;
+  font-size: 0.55rem;
+  transition: all 0.18s;
   padding: 0;
-  color: var(--text-muted);
+  color: rgba(124, 58, 237, 0.3);
   flex-shrink: 0;
 }
 
 .rune-dot:hover {
-  border-color: var(--accent);
+  border-color: rgba(124, 58, 237, 0.6);
   border-style: solid;
-  background: color-mix(in srgb, var(--accent) 10%, var(--surface-3));
+  background: rgba(124, 58, 237, 0.12);
+  color: var(--accent);
+  box-shadow: 0 0 8px rgba(124, 58, 237, 0.25);
+  transform: scale(1.15);
 }
 
 .rune-dot.rune-filled {
   border-style: solid;
   border-color: var(--rune-color, #888);
-  background: color-mix(in srgb, var(--rune-color, #888) 18%, var(--surface-3));
-  font-size: 0.75rem;
+  background: color-mix(in srgb, var(--rune-color, #888) 22%, rgba(5, 4, 14, 0.8));
+  font-size: 0.7rem;
+  color: var(--text);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--rune-color, #888) 40%, transparent);
 }
 
 .rune-dot.rune-filled:hover {
-  background: color-mix(in srgb, var(--rune-color, #888) 30%, var(--surface-3));
+  background: color-mix(in srgb, var(--rune-color, #888) 35%, rgba(5, 4, 14, 0.7));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--rune-color, #888) 50%, transparent);
+  transform: scale(1.15);
 }
 
 /* ── Slot button ── */
@@ -292,80 +299,115 @@ export default { components: { SlotButton } }
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.6rem;
   width: 100%;
-  padding: 0.6rem 0.8rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.65rem 0.85rem;
   border-radius: 12px;
   cursor: pointer;
   text-align: left;
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   overflow: hidden;
-  height: 56px;
+  height: 60px;
 }
 
-/* Reflet subtil haut de bouton */
-:deep(.slot-btn)::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 20%; right: 20%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
-  pointer-events: none;
+/* ── État VIDE ── */
+:deep(.slot-btn.empty) {
+  background: transparent;
+  border: 1px dashed rgba(124, 58, 237, 0.22);
 }
 
 :deep(.slot-btn.empty:hover) {
-  border-color: rgba(124,58,237,0.3);
-  background: rgba(124,58,237,0.05);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  border-color: rgba(124, 58, 237, 0.55);
+  border-style: solid;
+  background: rgba(124, 58, 237, 0.06);
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 20px rgba(0,0,0,0.35),
+    0 0 16px rgba(124, 58, 237, 0.12);
 }
 
+:deep(.slot-btn.empty:hover .slot-icon) {
+  opacity: 1 !important;
+  transform: scale(1.15) !important;
+  filter: drop-shadow(0 0 6px rgba(124, 58, 237, 0.6));
+}
+
+/* ── État REMPLI ── */
 :deep(.slot-btn.filled) {
-  border-color: color-mix(in srgb, var(--rc) 28%, transparent);
-  background: color-mix(in srgb, var(--rc) 4%, rgba(255,255,255,0.01));
+  border: 1px solid color-mix(in srgb, var(--rc) 35%, transparent);
+  background: color-mix(in srgb, var(--rc) 6%, rgba(8, 6, 18, 0.9));
 }
 
 :deep(.slot-btn.filled:hover) {
-  border-color: color-mix(in srgb, var(--rc) 55%, transparent);
-  background: color-mix(in srgb, var(--rc) 9%, rgba(255,255,255,0.01));
+  border-color: color-mix(in srgb, var(--rc) 65%, transparent);
+  background: color-mix(in srgb, var(--rc) 12%, rgba(8, 6, 18, 0.9));
   transform: translateY(-2px);
   box-shadow:
-    0 6px 20px color-mix(in srgb, var(--rc) 20%, transparent),
-    0 2px 6px rgba(0,0,0,0.4);
+    0 8px 24px color-mix(in srgb, var(--rc) 25%, transparent),
+    0 2px 8px rgba(0,0,0,0.5),
+    inset 0 1px 0 color-mix(in srgb, var(--rc) 15%, transparent);
 }
 
+/* Fond dégradé rarity */
 :deep(.slot-bg) {
   position: absolute;
   inset: 0;
-  background: linear-gradient(125deg,
-    color-mix(in srgb, var(--rc) 12%, transparent) 0%,
-    transparent 50%);
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--rc) 18%, transparent) 0%,
+      transparent 45%),
+    linear-gradient(to right,
+      color-mix(in srgb, var(--rc) 8%, transparent) 0%,
+      transparent 60%);
   pointer-events: none;
 }
 
+/* Barre de rareté gauche */
 :deep(.rarity-bar) {
   position: absolute;
   left: 0; top: 0; bottom: 0;
   width: 3px;
-  background: linear-gradient(to bottom,
-    var(--rc),
-    color-mix(in srgb, var(--rc) 30%, transparent));
+  background: linear-gradient(180deg,
+    var(--rc) 0%,
+    color-mix(in srgb, var(--rc) 50%, transparent) 70%,
+    transparent 100%);
   border-radius: 3px 0 0 3px;
-  box-shadow: 0 0 8px color-mix(in srgb, var(--rc) 40%, transparent);
+  box-shadow: 2px 0 12px color-mix(in srgb, var(--rc) 50%, transparent);
+}
+
+/* Reflet haut */
+:deep(.slot-btn.filled)::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 12%; right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    color-mix(in srgb, var(--rc) 40%, transparent),
+    transparent);
+  pointer-events: none;
 }
 
 :deep(.slot-icon) {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   flex-shrink: 0;
-  opacity: 0.8;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity 0.2s, transform 0.22s;
+  line-height: 1;
 }
 
-:deep(.slot-btn:hover .slot-icon) {
+:deep(.slot-btn.empty .slot-icon) {
+  opacity: 0.22;
+  font-size: 1.5rem;
+}
+
+:deep(.slot-btn.filled .slot-icon) {
+  opacity: 0.9;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--rc) 45%, transparent));
+}
+
+:deep(.slot-btn.filled:hover .slot-icon) {
   opacity: 1;
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
 
 :deep(.slot-text) {
@@ -377,27 +419,29 @@ export default { components: { SlotButton } }
 }
 
 :deep(.slot-name) {
-  font-size: 0.56rem;
+  font-size: 0.54rem;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   font-weight: 700;
 }
 
+:deep(.slot-btn.empty .slot-name) {
+  opacity: 0.5;
+}
+
 :deep(.slot-item-name) {
-  font-size: 0.8rem;
+  font-size: 0.81rem;
   font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 130px;
+  max-width: 140px;
+  letter-spacing: 0.01em;
 }
 
 :deep(.slot-empty-label) {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  opacity: 0.3;
-  font-style: italic;
+  display: none;
 }
 
 :deep(.palier-badge) {
@@ -406,9 +450,10 @@ export default { components: { SlotButton } }
   font-weight: 800;
   color: var(--rc);
   background: color-mix(in srgb, var(--rc) 14%, transparent);
-  border: 1px solid color-mix(in srgb, var(--rc) 28%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rc) 30%, transparent);
   border-radius: 5px;
-  padding: 0.1rem 0.32rem;
-  letter-spacing: 0.05em;
+  padding: 0.1rem 0.35rem;
+  letter-spacing: 0.06em;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--rc) 20%, transparent);
 }
 </style>
