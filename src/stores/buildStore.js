@@ -185,7 +185,11 @@ export const useBuildStore = defineStore('build', {
         if (!set) continue
         const activeBonuses = (set.bonuses ?? []).filter(b => count >= b.count)
         let setVal = 0
-        activeBonuses.forEach(b => { setVal += b.stats?.[statId] ?? 0 })
+        activeBonuses.forEach(b => {
+          Object.entries(b.stats ?? {}).forEach(([rawKey, val]) => {
+            if (rawKey.split('|')[0] === statId) setVal += val
+          })
+        })
         if (setVal !== 0) lines.push({ source: `Set : ${set.name}`, value: setVal, type: 'set' })
       }
 

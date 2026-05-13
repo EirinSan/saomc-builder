@@ -14,7 +14,8 @@ export function computeSetStats(setCountMap, setsMap = SETS) {
   for (const [setId, count] of Object.entries(setCountMap)) {
     const bonuses = getActiveSetBonuses(setId, count, setsMap)
     for (const bonus of bonuses) {
-      for (const [stat, val] of Object.entries(bonus.stats ?? {})) {
+      for (const [rawKey, val] of Object.entries(bonus.stats ?? {})) {
+        const stat = rawKey.split('|')[0]
         totals[stat] = (totals[stat] || 0) + val
       }
     }

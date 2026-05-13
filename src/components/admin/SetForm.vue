@@ -63,11 +63,16 @@
               <option value="">— Choisir —</option>
               <optgroup v-for="cat in STAT_CATEGORIES" :key="cat.id" :label="cat.label">
                 <option v-for="stat in cat.stats" :key="stat.id" :value="stat.id">
-                  {{ stat.label }} {{ stat.unit }}
+                  {{ stat.label }}
                 </option>
               </optgroup>
             </select>
             <input v-model.number="entry.value" type="number" step="0.01" placeholder="valeur" class="stat-val-input" />
+            <select v-model="entry.unit" class="stat-unit-select" :title="'Unité : défaut = ' + getDefaultUnit(entry.key)">
+              <option value="">{{ getDefaultUnit(entry.key) || 'plat' }}</option>
+              <option v-if="getDefaultUnit(entry.key) !== '%'" value="%">%</option>
+              <option v-if="getDefaultUnit(entry.key) !== '/s'" value="/s">/s</option>
+            </select>
             <button type="button" class="btn-remove-stat" @click="removeStat(bi, si)" title="Supprimer">✕</button>
           </div>
           <div v-if="!bonus.statEntries.length" class="empty-stats-hint">
@@ -92,6 +97,13 @@
 import { ref, computed, watch } from 'vue'
 import { STAT_CATEGORIES } from '@/data/constants'
 
+const STAT_UNIT_MAP = {}
+STAT_CATEGORIES.forEach(cat => cat.stats.forEach(s => { STAT_UNIT_MAP[s.id] = s.unit ?? '' }))
+
+function getDefaultUnit(statId) {
+  return STAT_UNIT_MAP[statId] ?? ''
+}
+
 const props = defineProps({
   initial: { type: Object, default: null },
 })
@@ -105,12 +117,15 @@ function blankForm() {
   return { id: '', name: '', color: '#7c3aed', bonuses: [] }
 }
 
-// Convert bonuses (stats object) ↔ statEntries (array of {key, value}) for the UI
+// Convert bonuses (stats object) ↔ statEntries (array of {key, value, unit}) for the UI
 function bonusesToEntries(bonuses) {
   return (bonuses ?? []).map(b => ({
     count: b.count,
     label: b.label ?? '',
-    statEntries: Object.entries(b.stats ?? {}).map(([key, value]) => ({ key, value })),
+    statEntries: Object.entries(b.stats ?? {}).map(([rawKey, value]) => {
+      const [key, unit = ''] = rawKey.split('|')
+      return { key, value, unit }
+    }),
   }))
 }
 
@@ -119,7 +134,12 @@ function entriesToBonuses(entries) {
     count: e.count,
     label: e.label,
     stats: Object.fromEntries(
-      e.statEntries.filter(s => s.key).map(s => [s.key, s.value ?? 0])
+      e.statEntries
+        .filter(s => s.key)
+        .map(s => {
+          const rawKey = s.unit ? `${s.key}|${s.unit}` : s.key
+          return [rawKey, s.value ?? 0]
+        })
     ),
   }))
 }
@@ -157,7 +177,7 @@ function removeBonus(i) {
   form.value.bonuses.splice(i, 1)
 }
 function addStat(bi) {
-  form.value.bonuses[bi].statEntries.push({ key: '', value: 0 })
+  form.value.bonuses[bi].statEntries.push({ key: '', value: 0, unit: '' })
 }
 function removeStat(bi, si) {
   form.value.bonuses[bi].statEntries.splice(si, 1)
@@ -321,12 +341,12 @@ async function submit() {
 
 .stat-entry {
   display: grid;
-  grid-template-columns: 1fr 100px 28px;
+  grid-template-columns: 1fr 80px 58px 28px;
   gap: 0.35rem;
   align-items: center;
 }
 
-.stat-key-select, .stat-val-input {
+.stat-key-select, .stat-val-input, .stat-unit-select {
   background: var(--surface-3);
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -336,7 +356,15 @@ async function submit() {
   outline: none;
 }
 
-.stat-key-select:focus, .stat-val-input:focus { border-color: var(--accent); }
+.stat-unit-select {
+  font-size: 0.78rem;
+  color: var(--accent-hi);
+  border-color: var(--accent-dim);
+  text-align: center;
+  cursor: pointer;
+}
+
+.stat-key-select:focus, .stat-val-input:focus, .stat-unit-select:focus { border-color: var(--accent); }
 
 .btn-remove-stat {
   background: transparent;
