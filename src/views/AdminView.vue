@@ -9,6 +9,7 @@
         <button type="submit" class="btn-login">Connexion</button>
       </form>
       <p v-if="loginError" class="login-error">{{ loginError }}</p>
+      <RouterLink to="/" class="btn-back-login">← Retour au Builder</RouterLink>
     </div>
   </div>
 
@@ -477,6 +478,12 @@ function showToast(msg, type = 'success') {
 .login-error { color:#e05c5c; font-size:.85rem; }
 .login-hint { color:var(--text-muted); font-size:.75rem; text-align:center; }
 .login-hint code { color:var(--accent); }
+.btn-back-login {
+  font-size:.8rem; color:var(--text-muted); text-decoration:none;
+  padding:.35rem .7rem; border-radius:6px; border:1px solid var(--border);
+  transition:all .2s; text-align:center;
+}
+.btn-back-login:hover { color:var(--accent); border-color:var(--accent-dim); }
 
 /* ── Layout admin ── */
 .admin-view {
