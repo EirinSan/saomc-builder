@@ -211,6 +211,31 @@ export const useBuildStore = defineStore('build', {
       return result
     },
 
+    // Niveau minimum requis pour équiper tous les items du build
+    buildRequiredLevel: (state) => {
+      let max = 1
+      Object.values(state.equipment).forEach(itemId => {
+        if (!itemId) return
+        const item = getItemById(itemId)
+        if (item?.requiredLevel > max) max = item.requiredLevel
+      })
+      return max
+    },
+
+    // Attributs minimum requis pour équiper tous les items du build (max par attribut)
+    buildRequiredAttributes: (state) => {
+      const reqs = {}
+      Object.values(state.equipment).forEach(itemId => {
+        if (!itemId) return
+        const item = getItemById(itemId)
+        if (!item?.requiredAttributes) return
+        Object.entries(item.requiredAttributes).forEach(([attrId, val]) => {
+          if ((reqs[attrId] ?? 0) < val) reqs[attrId] = val
+        })
+      })
+      return reqs
+    },
+
     // Nombre de pièces équipées par set
     equippedSetCounts: (state) => {
       const counts = {}
