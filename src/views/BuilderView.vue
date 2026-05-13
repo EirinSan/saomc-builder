@@ -88,7 +88,7 @@ onMounted(() => {
   gap: 1rem;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.03) inset;
+  box-shadow: var(--shadow-panel);
 }
 
 .panel::before {

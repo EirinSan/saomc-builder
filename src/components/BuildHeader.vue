@@ -33,15 +33,19 @@
     <div class="header-right">
       <button class="action-btn share-btn" @click="shareBuild">
         <span>🔗</span>
-        <span>Partager</span>
+        <span class="btn-label">Partager</span>
       </button>
       <RouterLink to="/admin" class="action-btn admin-btn">
         <span>⚙</span>
-        <span>Admin</span>
+        <span class="btn-label">Admin</span>
       </RouterLink>
+      <button class="action-btn theme-btn" @click="toggleTheme" :title="isDark ? 'Thème clair' : 'Thème sombre'">
+        <span>{{ isDark ? '☀️' : '🌙' }}</span>
+        <span class="btn-label">{{ isDark ? 'Clair' : 'Sombre' }}</span>
+      </button>
       <button class="action-btn reset-btn" @click="confirmReset">
         <span>↺</span>
-        <span>Reset</span>
+        <span class="btn-label">Reset</span>
       </button>
     </div>
 
@@ -59,6 +63,14 @@ const buildStore = useBuildStore()
 const shareToast = ref(false)
 const logoFailed = ref(false)
 const logoSrc = ref('/logo.png')
+const isDark = ref(document.documentElement.getAttribute('data-theme') !== 'light')
+
+function toggleTheme() {
+  isDark.value = !isDark.value
+  const theme = isDark.value ? 'dark' : 'light'
+  document.documentElement.setAttribute('data-theme', theme)
+  localStorage.setItem('theme', theme)
+}
 
 function onLogoError() {
   if (logoSrc.value === '/logo.png') {
@@ -121,7 +133,7 @@ function confirmReset() {
   align-items: center;
   gap: 1rem;
   padding: 0 1.75rem;
-  background: rgba(6, 5, 15, 0.94);
+  background: var(--header-bg);
   backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border);
   position: sticky;
@@ -267,6 +279,36 @@ function confirmReset() {
   border-color: rgba(239,68,68,0.4);
   color: #f87171;
   background: rgba(239,68,68,0.1);
+}
+
+.theme-btn:hover {
+  border-color: var(--gold, #f59e0b);
+  color: var(--gold, #f59e0b);
+  background: rgba(245,158,11,0.1);
+}
+
+/* ── Responsive mobile ── */
+@media (max-width: 640px) {
+  .build-header {
+    padding: 0 0.75rem;
+    gap: 0.5rem;
+  }
+  .header-left { flex: 0 0 auto; }
+  .header-center { flex: 1; min-width: 0; }
+  .build-name-input {
+    width: 100%;
+    font-size: 0.8rem;
+  }
+  .logo-tag { display: none; }
+  .logo-main, .logo-sub { font-size: 1rem; }
+  .logo-img { height: 28px; }
+  .btn-label { display: none; }
+  .action-btn {
+    padding: 0.4rem 0.55rem;
+    gap: 0;
+    font-size: 0.9rem;
+  }
+  .header-right { gap: 0.3rem; flex: 0 0 auto; }
 }
 
 /* ── Toast ── */

@@ -22,6 +22,33 @@
   --font-title:   'Cinzel', serif;
   --radius:       14px;
   --radius-sm:    8px;
+  /* Tokens dynamiques (changent selon le thème) */
+  --header-bg:    rgba(6, 5, 15, 0.94);
+  --shadow-panel: 0 8px 40px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.03) inset;
+  --hover-row:    rgba(255,255,255,0.03);
+}
+
+/* ─── Thème clair ────────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg:           #f4f2ff;
+  --surface-1:    #ffffff;
+  --surface-2:    #ede9ff;
+  --surface-3:    #e0d9ff;
+  --surface-4:    #cfc5ff;
+  --border:       rgba(100, 60, 200, 0.16);
+  --border-hi:    rgba(100, 60, 200, 0.32);
+  --accent:       #6d28d9;
+  --accent-hi:    #7c3aed;
+  --accent-dim:   rgba(109, 40, 217, 0.28);
+  --cyan:         #0891b2;
+  --cyan-dim:     rgba(8, 145, 178, 0.28);
+  --gold:         #d97706;
+  --text:         #1a1040;
+  --text-2:       #3d2e7a;
+  --text-muted:   #7060a0;
+  --header-bg:    rgba(250, 248, 255, 0.95);
+  --shadow-panel: 0 2px 16px rgba(80,60,160,0.10), 0 1px 0 rgba(120,60,240,0.06) inset;
+  --hover-row:    rgba(0,0,0,0.04);
 }
 
 /* ─── Reset ──────────────────────────────────────────────────── */
@@ -49,6 +76,14 @@ body::before {
   background-size: auto, auto, 56px 56px, 56px 56px;
   pointer-events: none;
   z-index: 0;
+}
+[data-theme="light"] body::before {
+  background:
+    radial-gradient(ellipse 80% 50% at 15% 0%, rgba(100,40,220,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 100%, rgba(0,160,200,0.05) 0%, transparent 55%),
+    linear-gradient(rgba(100,40,220,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100,40,220,0.025) 1px, transparent 1px);
+  background-size: auto, auto, 56px 56px, 56px 56px;
 }
 #app { position: relative; z-index: 1; }
 
