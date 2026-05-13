@@ -74,7 +74,7 @@
                       class="detail-value"
                       :class="{ pos: line.value > 0, neg: line.value < 0 }"
                     >
-                      {{ line.value > 0 ? '+' : '' }}{{ line.value }}{{ selectedStatUnit }}
+                      {{ line.value > 0 ? '+' : '' }}{{ Math.round(line.value * 100) / 100 }}{{ selectedStatUnit }}
                     </span>
                   </div>
                   <div class="detail-total">
@@ -83,7 +83,7 @@
                       class="detail-value"
                       :class="{ pos: breakdown.total > 0, neg: breakdown.total < 0 }"
                     >
-                      {{ breakdown.total > 0 ? '+' : '' }}{{ breakdown.total }}{{ selectedStatUnit }}
+                      {{ breakdown.total > 0 ? '+' : '' }}{{ Math.round(breakdown.total * 100) / 100 }}{{ selectedStatUnit }}
                     </span>
                   </div>
                 </div>
@@ -129,7 +129,8 @@ function toggleDetail(stat) {
 function formatValue(val, unit) {
   if (val === 0) return '—'
   const prefix = val > 0 ? '+' : ''
-  return `${prefix}${val}${unit}`
+  const rounded = Math.round(val * 100) / 100
+  return `${prefix}${rounded}${unit}`
 }
 
 function typeIcon(type) {

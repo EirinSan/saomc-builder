@@ -98,9 +98,9 @@
                   class="stat-chip"
                   :class="{ negative: val < 0 }"
                 >
-                  {{ val > 0 ? '+' : '' }}{{ val }}
+                  {{ val > 0 ? '+' : '' }}{{ val }}{{ getStatUnit(statId) }}
                   <template v-if="item.statsMax?.[statId] && item.statsMax[statId] !== val">
-                    → {{ item.statsMax[statId] > 0 ? '+' : '' }}{{ item.statsMax[statId] }}
+                    → {{ item.statsMax[statId] > 0 ? '+' : '' }}{{ item.statsMax[statId] }}{{ getStatUnit(statId) }}
                   </template>
                   {{ getStatLabel(statId) }}
                 </span>
@@ -220,13 +220,16 @@ function formatClass(classId) {
 }
 
 // ── Stats ────────────────────────────────────────────────────────────────────
-const statLabelMap = computed(() => {
+const statMap = computed(() => {
   const map = {}
-  STAT_CATEGORIES.forEach(cat => cat.stats.forEach(s => { map[s.id] = s.label }))
+  STAT_CATEGORIES.forEach(cat => cat.stats.forEach(s => { map[s.id] = s }))
   return map
 })
 function getStatLabel(statId) {
-  return statLabelMap.value[statId] ?? statId
+  return statMap.value[statId]?.label ?? statId
+}
+function getStatUnit(statId) {
+  return statMap.value[statId]?.unit ?? ''
 }
 
 // ── Prérequis attributs ──────────────────────────────────────────────────────

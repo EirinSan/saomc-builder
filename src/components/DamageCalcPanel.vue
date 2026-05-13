@@ -53,27 +53,52 @@
 
     <!-- Détail des bonus -->
     <details class="bonus-detail">
-      <summary>Détail des bonus appliqués</summary>
+      <summary>Détail du calcul</summary>
       <div class="bonus-lines">
+
+        <!-- Étape 1 : base flat -->
+        <div class="bonus-section-label">① Base (flat)</div>
+        <div class="bonus-line">
+          <span>{{ isMagic ? 'Dégâts bruts arme' : "Dégâts d'attaque" }}</span>
+          <span class="bv">{{ baseArme || 0 }}</span>
+        </div>
+        <div class="bonus-line">
+          <span>Base compétence</span>
+          <span class="bv">{{ baseSkill || 0 }}</span>
+        </div>
+        <div class="bonus-line total-line">
+          <span>Sous-total flat</span>
+          <span class="bv">{{ (baseArme || 0) + (baseSkill || 0) }}</span>
+        </div>
+
+        <!-- Étape 2 : multiplicateurs % -->
+        <div class="bonus-section-label">② Multiplicateurs (%)</div>
         <div class="bonus-line">
           <span>{{ isMagic ? 'Dégâts magiques' : 'Dégâts physiques' }}</span>
-          <span class="bv">+{{ isMagic ? stats.degats_magiques : stats.degats_physiques }}%</span>
+          <span class="bv">+{{ isMagic ? (stats.degats_magiques ?? 0) : (stats.degats_physiques ?? 0) }}%</span>
         </div>
         <div v-if="!isMagic" class="bonus-line">
           <span>Dégâts d'arme</span>
-          <span class="bv">+{{ stats.degats_arme }}%</span>
+          <span class="bv">+{{ stats.degats_arme ?? 0 }}%</span>
         </div>
         <div class="bonus-line">
           <span>Dégâts des capacités</span>
-          <span class="bv">+{{ stats.degats_capacites }}%</span>
+          <span class="bv">+{{ stats.degats_capacites ?? 0 }}%</span>
         </div>
-        <div class="bonus-line">
-          <span>{{ isMagic ? 'Crit. comp. dégâts' : 'Dégâts critiques' }}</span>
-          <span class="bv crit-col">{{ isMagic ? stats.degats_critique_competence : stats.degats_critique }}% → ×{{ ((isMagic ? stats.degats_critique_competence : stats.degats_critique) / 100).toFixed(2) }}</span>
+        <div class="bonus-line total-line">
+          <span>Multiplicateur total</span>
+          <span class="bv">×{{ fmtMult(multiplier) }}</span>
         </div>
+
+        <!-- Étape 3 : critique -->
+        <div class="bonus-section-label">③ Critique</div>
         <div class="bonus-line">
           <span>{{ isMagic ? 'Crit. de compétence' : 'Chance de critique' }}</span>
           <span class="bv crit-col">{{ critChance }}%</span>
+        </div>
+        <div class="bonus-line">
+          <span>{{ isMagic ? 'Crit. comp. dégâts' : 'Dégâts critiques' }}</span>
+          <span class="bv crit-col">{{ critDamagePct }}% → ×{{ (critDamagePct / 100).toFixed(2) }}</span>
         </div>
       </div>
     </details>
@@ -430,16 +455,34 @@ function fmtMult(v) {
   background: var(--surface-1);
 }
 
+.bonus-section-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  padding: 0.4rem 0.75rem 0.15rem;
+  opacity: 0.8;
+}
+
 .bonus-line {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.25rem 0.75rem;
+  padding: 0.22rem 0.75rem;
   font-size: 0.78rem;
   color: var(--text-muted);
 }
 
 .bonus-line:hover { background: var(--surface-3); }
+
+.bonus-line.total-line {
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
 
 .bv {
   font-weight: 700;
@@ -447,10 +490,4 @@ function fmtMult(v) {
 }
 
 .bv.crit-col { color: #fbbf24; }
-
-.base-note {
-  font-size: 0.65rem;
-  opacity: 0.6;
-  font-weight: 400;
-}
 </style>
