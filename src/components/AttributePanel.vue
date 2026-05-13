@@ -169,19 +169,21 @@ const FORMULAS = [
 }
 
 .lvl-btn {
-  width: 32px; height: 32px;
+  width: 34px; height: 34px;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.07);
-  background: rgba(255,255,255,0.04);
-  color: var(--text-muted);
-  font-size: 1.1rem; cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--surface-3);
+  color: var(--text);
+  font-size: 1.15rem; font-weight: 700; cursor: pointer;
   transition: all 0.18s;
   display: flex; align-items: center; justify-content: center;
 }
 .lvl-btn:hover {
-  border-color: var(--accent-dim); color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  box-shadow: 0 0 12px rgba(124, 58, 237, 0.2);
+  border-color: var(--accent-dim);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface-3));
+  box-shadow: 0 0 14px rgba(124, 58, 237, 0.25);
+  transform: scale(1.08);
 }
 
 .level-display {
@@ -290,69 +292,73 @@ const FORMULAS = [
 .attributes-list { display: flex; flex-direction: column; gap: 0.3rem; }
 
 .attr-row {
-  display: flex; align-items: center; gap: 0.6rem;
-  padding: 0.55rem 0.8rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex; align-items: center; gap: 0.65rem;
+  padding: 0.55rem 0.85rem;
+  background: var(--surface-3);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 10px;
   transition: all 0.18s;
   position: relative;
   overflow: hidden;
 }
 
-/* Accent left line */
+/* Accent left bar */
 .attr-row::before {
   content: '';
   position: absolute;
-  left: 0; top: 20%; bottom: 20%;
-  width: 2px;
+  left: 0; top: 18%; bottom: 18%;
+  width: 2.5px;
   background: var(--attr-color);
   border-radius: 0 2px 2px 0;
   opacity: 0;
   transition: opacity 0.2s;
 }
 
-.attr-row:hover::before { opacity: 0.7; }
+.attr-row:hover::before { opacity: 0.8; }
 
 .attr-row:hover {
-  border-color: color-mix(in srgb, var(--attr-color) 30%, transparent);
-  background: color-mix(in srgb, var(--attr-color) 4%, rgba(255,255,255,0.01));
+  border-color: color-mix(in srgb, var(--attr-color) 35%, transparent);
+  background: color-mix(in srgb, var(--attr-color) 6%, var(--surface-3));
 }
 .attr-row.req-unmet {
-  border-color: rgba(224, 92, 92, 0.4);
-  background: rgba(224, 92, 92, 0.04);
+  border-color: rgba(224, 92, 92, 0.45);
+  background: color-mix(in srgb, #e05c5c 6%, var(--surface-3));
 }
 .attr-row.req-met {
-  border-color: color-mix(in srgb, var(--attr-color) 35%, transparent);
+  border-color: color-mix(in srgb, var(--attr-color) 40%, transparent);
+  background: color-mix(in srgb, var(--attr-color) 5%, var(--surface-3));
 }
-.attr-row.req-met::before { opacity: 0.9; }
+.attr-row.req-met::before { opacity: 1; }
 
-.attr-icon { font-size: 1.05rem; flex-shrink: 0; }
-.attr-label { flex: 1; font-size: 0.84rem; font-weight: 600; color: var(--text); letter-spacing: 0.01em; }
+.attr-icon { font-size: 1.1rem; flex-shrink: 0; }
+.attr-label { flex: 1; font-size: 0.85rem; font-weight: 600; color: var(--text); letter-spacing: 0.01em; }
 
-.attr-controls { display: flex; align-items: center; gap: 0.35rem; }
+.attr-controls { display: flex; align-items: center; gap: 0.4rem; }
 
 .attr-btn {
-  width: 26px; height: 26px; border-radius: 7px;
-  border: 1px solid rgba(255,255,255,0.07);
-  background: rgba(255,255,255,0.04);
-  color: var(--text-muted); font-size: 1rem; cursor: pointer;
+  width: 28px; height: 28px; border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text); font-size: 1rem; font-weight: 700;
+  cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: all 0.15s; line-height: 1;
 }
 .attr-btn:hover:not(:disabled) {
-  border-color: var(--attr-color); color: var(--attr-color);
-  background: color-mix(in srgb, var(--attr-color) 14%, transparent);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--attr-color) 25%, transparent);
+  border-color: var(--attr-color);
+  color: var(--attr-color);
+  background: color-mix(in srgb, var(--attr-color) 18%, rgba(255,255,255,0.05));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--attr-color) 30%, transparent);
+  transform: scale(1.1);
 }
-.attr-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.attr-btn:disabled { opacity: 0.2; cursor: not-allowed; }
 
 .attr-value {
-  min-width: 34px; text-align: center;
+  min-width: 36px; text-align: center;
   font-size: 1.05rem; font-weight: 800;
   color: var(--attr-color);
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 10px color-mix(in srgb, var(--attr-color) 40%, transparent);
+  text-shadow: 0 0 12px color-mix(in srgb, var(--attr-color) 50%, transparent);
 }
 
 /* Badge de prérequis par attribut */
@@ -374,12 +380,18 @@ const FORMULAS = [
 
 /* ── Reset ── */
 .reset-btn {
-  background: transparent; border: 1px solid var(--border);
-  color: var(--text-muted); border-radius: 6px;
-  padding: 0.4rem 0.75rem; cursor: pointer;
-  font-size: 0.8rem; transition: all 0.2s; align-self: flex-start;
+  background: var(--surface-3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted); border-radius: 8px;
+  padding: 0.42rem 0.85rem; cursor: pointer;
+  font-size: 0.78rem; font-weight: 600;
+  transition: all 0.2s; align-self: flex-start;
 }
-.reset-btn:hover { border-color: #e05c5c; color: #e05c5c; }
+.reset-btn:hover {
+  border-color: rgba(224, 92, 92, 0.45);
+  color: #e05c5c;
+  background: rgba(224, 92, 92, 0.07);
+}
 
 /* ── Transitions ── */
 .expand-enter-active, .expand-leave-active { transition: all 0.2s ease; overflow: hidden; }

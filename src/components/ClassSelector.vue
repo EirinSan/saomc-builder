@@ -46,8 +46,8 @@ const buildStore = useBuildStore()
   gap: 0.45rem;
   padding: 0.85rem 0.5rem;
   width: 108px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--surface-2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
   cursor: pointer;
   color: var(--text-muted);
