@@ -93,19 +93,34 @@ function maxPieces(setId) {
 }
 
 .set-card {
-  border: 1px solid color-mix(in srgb, var(--set-color) 35%, transparent);
-  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--set-color) 28%, transparent);
+  border-radius: 12px;
   overflow: hidden;
-  background: color-mix(in srgb, var(--set-color) 5%, var(--surface-2));
+  background: color-mix(in srgb, var(--set-color) 4%, rgba(255,255,255,0.01));
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+/* Accent line top */
+.set-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    color-mix(in srgb, var(--set-color) 60%, transparent),
+    transparent);
+  pointer-events: none;
 }
 
 .set-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 0.75rem;
-  background: color-mix(in srgb, var(--set-color) 15%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--set-color) 25%, transparent);
+  padding: 0.55rem 0.8rem;
+  background: color-mix(in srgb, var(--set-color) 12%, rgba(255,255,255,0.01));
+  border-bottom: 1px solid color-mix(in srgb, var(--set-color) 18%, transparent);
 }
 
 .set-name {

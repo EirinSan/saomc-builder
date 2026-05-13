@@ -211,12 +211,22 @@ export default { components: { SlotButton } }
 }
 
 .slots-label {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: var(--text-muted);
-  padding-left: 0.15rem;
+  padding-left: 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.slots-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(124, 58, 237, 0.15), transparent);
 }
 
 .slots-grid {
@@ -282,42 +292,56 @@ export default { components: { SlotButton } }
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
   width: 100%;
-  padding: 0.6rem 0.75rem;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
   cursor: pointer;
   text-align: left;
-  transition: all 0.18s;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   overflow: hidden;
-  height: 54px;
+  height: 56px;
+}
+
+/* Reflet subtil haut de bouton */
+:deep(.slot-btn)::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  pointer-events: none;
 }
 
 :deep(.slot-btn.empty:hover) {
-  border-color: rgba(124,58,237,0.4);
-  background: rgba(124,58,237,0.06);
+  border-color: rgba(124,58,237,0.3);
+  background: rgba(124,58,237,0.05);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
 
 :deep(.slot-btn.filled) {
-  border-color: color-mix(in srgb, var(--rc) 35%, transparent);
-  background: color-mix(in srgb, var(--rc) 4%, var(--surface-2));
+  border-color: color-mix(in srgb, var(--rc) 28%, transparent);
+  background: color-mix(in srgb, var(--rc) 4%, rgba(255,255,255,0.01));
 }
 
 :deep(.slot-btn.filled:hover) {
-  border-color: color-mix(in srgb, var(--rc) 65%, transparent);
-  background: color-mix(in srgb, var(--rc) 10%, var(--surface-2));
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px color-mix(in srgb, var(--rc) 18%, transparent);
+  border-color: color-mix(in srgb, var(--rc) 55%, transparent);
+  background: color-mix(in srgb, var(--rc) 9%, rgba(255,255,255,0.01));
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 20px color-mix(in srgb, var(--rc) 20%, transparent),
+    0 2px 6px rgba(0,0,0,0.4);
 }
 
 :deep(.slot-bg) {
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg,
-    color-mix(in srgb, var(--rc) 10%, transparent) 0%,
-    transparent 55%);
+  background: linear-gradient(125deg,
+    color-mix(in srgb, var(--rc) 12%, transparent) 0%,
+    transparent 50%);
   pointer-events: none;
 }
 
@@ -325,29 +349,38 @@ export default { components: { SlotButton } }
   position: absolute;
   left: 0; top: 0; bottom: 0;
   width: 3px;
-  background: linear-gradient(to bottom, var(--rc), color-mix(in srgb, var(--rc) 40%, transparent));
+  background: linear-gradient(to bottom,
+    var(--rc),
+    color-mix(in srgb, var(--rc) 30%, transparent));
   border-radius: 3px 0 0 3px;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--rc) 40%, transparent);
 }
 
 :deep(.slot-icon) {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   flex-shrink: 0;
-  opacity: 0.85;
+  opacity: 0.8;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+:deep(.slot-btn:hover .slot-icon) {
+  opacity: 1;
+  transform: scale(1.08);
 }
 
 :deep(.slot-text) {
   display: flex;
   flex-direction: column;
-  gap: 0.08rem;
+  gap: 0.06rem;
   min-width: 0;
   flex: 1;
 }
 
 :deep(.slot-name) {
-  font-size: 0.58rem;
+  font-size: 0.56rem;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.1em;
   font-weight: 700;
 }
 
@@ -361,21 +394,21 @@ export default { components: { SlotButton } }
 }
 
 :deep(.slot-empty-label) {
-  font-size: 0.73rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
-  opacity: 0.4;
+  opacity: 0.3;
   font-style: italic;
 }
 
 :deep(.palier-badge) {
   flex-shrink: 0;
-  font-size: 0.58rem;
+  font-size: 0.56rem;
   font-weight: 800;
   color: var(--rc);
-  background: color-mix(in srgb, var(--rc) 15%, transparent);
-  border: 1px solid color-mix(in srgb, var(--rc) 30%, transparent);
+  background: color-mix(in srgb, var(--rc) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rc) 28%, transparent);
   border-radius: 5px;
-  padding: 0.1rem 0.3rem;
-  letter-spacing: 0.04em;
+  padding: 0.1rem 0.32rem;
+  letter-spacing: 0.05em;
 }
 </style>

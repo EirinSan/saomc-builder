@@ -170,15 +170,18 @@ const FORMULAS = [
 
 .lvl-btn {
   width: 32px; height: 32px;
-  border-radius: 8px; border: 1px solid var(--border);
-  background: var(--surface-2); color: var(--text);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-muted);
   font-size: 1.1rem; cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.18s;
   display: flex; align-items: center; justify-content: center;
 }
 .lvl-btn:hover {
-  border-color: var(--accent); color: var(--accent);
+  border-color: var(--accent-dim); color: var(--accent);
   background: color-mix(in srgb, var(--accent) 12%, transparent);
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.2);
 }
 
 .level-display {
@@ -187,16 +190,22 @@ const FORMULAS = [
 }
 
 .level-input {
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: 6px; color: var(--accent);
+  background: rgba(124, 58, 237, 0.06);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  border-radius: 8px; color: var(--accent);
   font-size: 1.4rem; font-weight: 800;
+  font-family: var(--font);
   width: 72px; text-align: center; padding: 0.2rem;
-  outline: none; transition: border-color 0.2s;
+  outline: none; transition: all 0.2s;
   -moz-appearance: textfield;
+  text-shadow: 0 0 16px rgba(124, 58, 237, 0.5);
 }
 .level-input::-webkit-outer-spin-button,
 .level-input::-webkit-inner-spin-button { -webkit-appearance: none; }
-.level-input:focus { border-color: var(--accent); }
+.level-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.25);
+}
 
 .level-label { font-size: 0.8rem; color: var(--text-muted); }
 
@@ -228,26 +237,32 @@ const FORMULAS = [
 
 .points-badge {
   display: flex; align-items: baseline; gap: 0.2rem;
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, rgba(255,255,255,0.02));
   border: 1px solid var(--accent-dim);
-  border-radius: 20px; padding: 0.18rem 0.7rem;
+  border-radius: 20px; padding: 0.2rem 0.8rem;
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.15);
 }
 .points-badge.empty {
-  background: color-mix(in srgb, #e05c5c 10%, transparent);
-  border-color: rgba(224, 92, 92, 0.3);
+  background: rgba(224, 92, 92, 0.08);
+  border-color: rgba(224, 92, 92, 0.35);
+  box-shadow: 0 0 12px rgba(224, 92, 92, 0.1);
 }
-.points-num { font-size: 1rem; font-weight: 800; color: var(--accent); }
-.points-badge.empty .points-num { color: #e05c5c; }
-.points-label { font-size: 0.72rem; color: var(--text-muted); }
+.points-num { font-size: 1rem; font-weight: 800; color: var(--accent); text-shadow: 0 0 12px rgba(124,58,237,0.5); }
+.points-badge.empty .points-num { color: #e05c5c; text-shadow: 0 0 12px rgba(224,92,92,0.4); }
+.points-label { font-size: 0.7rem; color: var(--text-muted); }
 
 /* ── Barre de progression ── */
 .points-bar-wrap {
-  height: 4px; background: var(--surface-3); border-radius: 2px; overflow: hidden;
+  height: 3px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 3px; overflow: hidden;
 }
 .points-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), #a78bfa);
-  border-radius: 2px; transition: width 0.3s ease;
+  background: linear-gradient(90deg, var(--accent), #a78bfa, var(--accent-2));
+  border-radius: 3px;
+  transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
 }
 
 /* ── Formules ── */
@@ -276,44 +291,68 @@ const FORMULAS = [
 
 .attr-row {
   display: flex; align-items: center; gap: 0.6rem;
-  padding: 0.5rem 0.75rem;
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: 8px; transition: border-color 0.2s;
-}
-.attr-row:hover {
-  border-color: color-mix(in srgb, var(--attr-color) 40%, transparent);
-}
-.attr-row.req-unmet {
-  border-color: rgba(224, 92, 92, 0.45);
-  background: color-mix(in srgb, #e05c5c 5%, var(--surface-2));
-}
-.attr-row.req-met {
-  border-color: color-mix(in srgb, var(--attr-color) 40%, transparent);
+  padding: 0.55rem 0.8rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  transition: all 0.18s;
+  position: relative;
+  overflow: hidden;
 }
 
+/* Accent left line */
+.attr-row::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20%; bottom: 20%;
+  width: 2px;
+  background: var(--attr-color);
+  border-radius: 0 2px 2px 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.attr-row:hover::before { opacity: 0.7; }
+
+.attr-row:hover {
+  border-color: color-mix(in srgb, var(--attr-color) 30%, transparent);
+  background: color-mix(in srgb, var(--attr-color) 4%, rgba(255,255,255,0.01));
+}
+.attr-row.req-unmet {
+  border-color: rgba(224, 92, 92, 0.4);
+  background: rgba(224, 92, 92, 0.04);
+}
+.attr-row.req-met {
+  border-color: color-mix(in srgb, var(--attr-color) 35%, transparent);
+}
+.attr-row.req-met::before { opacity: 0.9; }
+
 .attr-icon { font-size: 1.05rem; flex-shrink: 0; }
-.attr-label { flex: 1; font-size: 0.85rem; font-weight: 600; color: var(--text); }
+.attr-label { flex: 1; font-size: 0.84rem; font-weight: 600; color: var(--text); letter-spacing: 0.01em; }
 
 .attr-controls { display: flex; align-items: center; gap: 0.35rem; }
 
 .attr-btn {
-  width: 26px; height: 26px; border-radius: 6px;
-  border: 1px solid var(--border); background: var(--surface-3);
-  color: var(--text); font-size: 1rem; cursor: pointer;
+  width: 26px; height: 26px; border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-muted); font-size: 1rem; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: all 0.15s; line-height: 1;
 }
 .attr-btn:hover:not(:disabled) {
   border-color: var(--attr-color); color: var(--attr-color);
-  background: color-mix(in srgb, var(--attr-color) 15%, transparent);
+  background: color-mix(in srgb, var(--attr-color) 14%, transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--attr-color) 25%, transparent);
 }
-.attr-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.attr-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 
 .attr-value {
-  min-width: 32px; text-align: center;
-  font-size: 1rem; font-weight: 800;
+  min-width: 34px; text-align: center;
+  font-size: 1.05rem; font-weight: 800;
   color: var(--attr-color);
   font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--attr-color) 40%, transparent);
 }
 
 /* Badge de prérequis par attribut */

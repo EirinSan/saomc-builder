@@ -155,9 +155,11 @@ function rarityColor(id) {
 }
 
 .stat-category {
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
   overflow: hidden;
+  background: rgba(255, 255, 255, 0.01);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .cat-header {
@@ -165,23 +167,36 @@ function rarityColor(id) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.6rem 0.9rem;
-  background: color-mix(in srgb, var(--cat-color) 10%, var(--surface-2));
+  padding: 0.65rem 1rem;
+  background: color-mix(in srgb, var(--cat-color) 12%, rgba(255,255,255,0.01));
   border: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--cat-color) 15%, transparent);
   cursor: pointer;
   color: var(--cat-color);
   font-weight: 700;
-  font-size: 0.85rem;
-  letter-spacing: 0.04em;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: background 0.2s;
+  position: relative;
+}
+
+/* Accent left bar on categories */
+.cat-header::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 25%; bottom: 25%;
+  width: 2px;
+  background: var(--cat-color);
+  border-radius: 0 2px 2px 0;
+  opacity: 0.8;
 }
 
 .cat-header:hover {
-  background: color-mix(in srgb, var(--cat-color) 18%, var(--surface-2));
+  background: color-mix(in srgb, var(--cat-color) 20%, rgba(255,255,255,0.01));
 }
 
-.cat-toggle { font-size: 0.7rem; opacity: 0.7; }
+.cat-toggle { font-size: 0.65rem; opacity: 0.6; }
 
 .stat-rows { padding: 0.25rem 0; }
 
@@ -189,18 +204,17 @@ function rarityColor(id) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.28rem 0.9rem;
-  font-size: 0.82rem;
+  padding: 0.3rem 1rem;
+  font-size: 0.81rem;
   transition: background 0.12s;
   cursor: pointer;
-  border-radius: 0;
   user-select: none;
 }
 
-.stat-row:hover { background: var(--surface-3); }
+.stat-row:hover { background: rgba(255,255,255,0.03); }
 
 .stat-row.active {
-  background: color-mix(in srgb, var(--cat-color) 8%, var(--surface-2));
+  background: color-mix(in srgb, var(--cat-color) 7%, rgba(255,255,255,0.01));
 }
 
 .stat-row.non-zero .stat-label { color: var(--text); }
