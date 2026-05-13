@@ -45,12 +45,14 @@ export const STAT_CATEGORIES = [
       { id: 'degats_attaque',              label: "Dégâts d'attaque",        unit: '' },
       { id: 'vitesse_attaque',             label: "Vitesse d'attaque",       unit: '/s' },
       { id: 'chance_critique',             label: 'Chance de critique',      unit: '%' },
-      { id: 'chance_critique_competence',  label: 'Crit. de compétence',     unit: '%' },
+      { id: 'chance_critique_competence',  label: 'Chance crit. compétence', unit: '%' },
       { id: 'degats_critique',             label: 'Dégâts critiques',        unit: '%' },
       { id: 'degats_critique_competence',  label: 'Crit. comp. dégâts',      unit: '%' },
       { id: 'degats_capacites',            label: 'Dégâts des capacités',    unit: '%' },
       { id: 'degats_projectile',           label: 'Dégâts de projectile',    unit: '%' },
       { id: 'degats_magiques',             label: 'Dégâts magiques',         unit: '%' },
+      { id: 'degats_physiques',            label: 'Dégâts physiques',        unit: '%' },
+      { id: 'degats_arme',               label: "Dégâts d'arme",           unit: '%' },
     ],
   },
   {
@@ -62,6 +64,8 @@ export const STAT_CATEGORIES = [
       { id: 'reduction_degats',  label: 'Réduction des dégâts', unit: '%' },
       { id: 'esquive',           label: 'Esquive',              unit: '%' },
       { id: 'tenacite',          label: 'Ténacité',             unit: '' },
+      { id: 'chance_blocage',    label: 'Chance de blocage',    unit: '%' },
+      { id: 'degats_blocage',    label: 'Dégâts de blocage',    unit: '%' },
     ],
   },
   {
@@ -85,6 +89,8 @@ export const STAT_CATEGORIES = [
       { id: 'regen_sante',       label: 'Rég. de santé',        unit: '/s' },
       { id: 'regen_mana',        label: 'Rég. de mana',         unit: '/s' },
       { id: 'regen_stamina',     label: 'Rég. de stamina',      unit: '/s' },
+      { id: 'vampirise',         label: 'Vampirise',            unit: '%' },
+      { id: 'vol_de_vie',        label: 'Vol de vie',           unit: '%' },
     ],
   },
 ]

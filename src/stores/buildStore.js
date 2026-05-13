@@ -47,8 +47,7 @@ export const useBuildStore = defineStore('build', {
         cat.stats.forEach(s => { stats[s.id] = 0 })
       )
 
-      // ── Stats de base (avant items & attributs) ──
-      stats.degats_attaque               = 1
+      // ── Stats de base fixes (toujours appliquées) ──
       stats.chance_critique              = 1
       stats.degats_critique              = 200
       stats.degats_critique_competence   = 200
@@ -64,6 +63,9 @@ export const useBuildStore = defineStore('build', {
           if (stats[statId] !== undefined) stats[statId] += value
         })
       })
+
+      // degats_attaque : base 1 seulement si aucun item n'en a fourni
+      if (stats.degats_attaque === 0) stats.degats_attaque = 1
 
       // Ajoute les stats des runes équipées
       Object.entries(state.runes).forEach(([, runeIds]) => {
@@ -125,8 +127,15 @@ export const useBuildStore = defineStore('build', {
       const a = state.attributes
 
       // Valeurs de base
+      // degats_attaque : base 1 seulement si aucun item équipé ne le fournit
+      const hasWeaponDmg = Object.values(state.equipment).some(itemId => {
+        if (!itemId) return false
+        const item = itemsStore.getById(itemId)
+        return item?.stats?.degats_attaque != null && item.stats.degats_attaque !== 0
+      })
       const BASE = {
-        degats_attaque: 1, chance_critique: 1,
+        degats_attaque: hasWeaponDmg ? 0 : 1,
+        chance_critique: 1,
         degats_critique: 200, degats_critique_competence: 200,
         mana: 20, sante: 20,
       }
@@ -152,13 +161,15 @@ export const useBuildStore = defineStore('build', {
       const base = BASE[statId] ?? 0
       if (base !== 0) lines.push({ source: 'Base', value: base, type: 'base' })
 
-      // Items équipés
+      // Items équipés (contributions positives ET négatives)
       Object.values(state.equipment).forEach(itemId => {
         if (!itemId) return
         const item = itemsStore.getById(itemId)
         if (!item) return
         const val = item.stats?.[statId]
-        if (val) lines.push({ source: item.name, value: val, type: 'item', rarity: item.rarity })
+        if (val !== undefined && val !== null && val !== 0) {
+          lines.push({ source: item.name, value: val, type: 'item', rarity: item.rarity })
+        }
       })
 
       // Bonus de sets
@@ -198,33 +209,6 @@ export const useBuildStore = defineStore('build', {
         result[slot] = itemId ? getItemById(itemId) : null
       })
       return result
-    },
-
-    // Niveau minimum requis pour équiper tout le build
-    buildRequiredLevel: (state) => {
-      let max = 1
-      Object.values(state.equipment).forEach(itemId => {
-        if (!itemId) return
-        const item = getItemById(itemId)
-        const lvl = item?.requiredLevel ?? 1
-        if (lvl > max) max = lvl
-      })
-      return max
-    },
-
-    // Attributs requis pour équiper tout le build (max par attribut sur tous les items)
-    buildRequiredAttributes: (state) => {
-      const req = {}
-      Object.values(state.equipment).forEach(itemId => {
-        if (!itemId) return
-        const item = getItemById(itemId)
-        if (!item?.requiredAttributes) return
-        Object.entries(item.requiredAttributes).forEach(([attrId, val]) => {
-          if (!val) return
-          req[attrId] = Math.max(req[attrId] ?? 0, val)
-        })
-      })
-      return req
     },
 
     // Nombre de pièces équipées par set
