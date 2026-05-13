@@ -2,11 +2,13 @@
   <div id="app">
     <BuildHeader />
     <RouterView />
+    <Analytics />
   </div>
 </template>
 
 <script setup>
 import BuildHeader from '@/components/BuildHeader.vue'
+import { Analytics } from '@vercel/analytics/vue'
 </script>
 
 <style>
