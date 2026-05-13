@@ -52,14 +52,14 @@ onMounted(() => {
 .builder-view {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  padding: 1.25rem 1.75rem;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
 }
 
 .top-row {
   display: grid;
   grid-template-columns: 1fr 300px;
-  gap: 1.25rem;
+  gap: 1rem;
   align-items: start;
 }
 

@@ -166,7 +166,7 @@ const SlotButton = defineComponent({
           h('span', { class: 'slot-name' }, slot.label),
           item
             ? h('span', { class: 'slot-item-name', style: { color: rc } }, item.name)
-            : h('span', { class: 'slot-empty-label' }, 'Vide'),
+            : h('span', { class: 'slot-empty-label' }, '— Vide —'),
         ]),
         item?.palier ? h('span', { class: 'palier-badge' }, `P${item.palier}`) : null,
       ])
@@ -183,7 +183,7 @@ export default { components: { SlotButton } }
 
 .two-col-groups {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 2fr 3fr;
   gap: 1rem;
   flex-direction: unset;
   align-items: start;
@@ -207,10 +207,10 @@ export default { components: { SlotButton } }
   background: linear-gradient(90deg, var(--border-hi), transparent);
 }
 
-.slots-grid { display: grid; gap: 0.45rem; }
-.cols-2 { grid-template-columns: repeat(2, 172px); }
-.cols-3 { grid-template-columns: repeat(3, minmax(135px, 200px)); }
-.cols-4 { grid-template-columns: repeat(4, minmax(115px, 175px)); }
+.slots-grid { display: grid; gap: 0.5rem; }
+.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.cols-4 { grid-template-columns: repeat(4, 1fr); }
 
 .slot-cell { display: flex; flex-direction: column; gap: 0.2rem; }
 
@@ -338,7 +338,7 @@ export default { components: { SlotButton } }
   line-height: 1;
   transition: opacity 0.2s, transform 0.2s, filter 0.2s;
 }
-:deep(.slot-btn.empty .slot-icon)  { opacity: 0.3; }
+:deep(.slot-btn.empty .slot-icon)  { opacity: 0.35; filter: grayscale(0.4); }
 :deep(.slot-btn.filled .slot-icon) {
   opacity: 1;
   filter: drop-shadow(0 0 8px color-mix(in srgb, var(--rc) 55%, transparent));
@@ -365,13 +365,13 @@ export default { components: { SlotButton } }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 140px;
+  max-width: 100%;
 }
 :deep(.slot-empty-label) {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: var(--text-muted);
-  opacity: 0.35;
-  font-style: italic;
+  opacity: 0.4;
+  letter-spacing: 0.04em;
 }
 :deep(.palier-badge) {
   flex-shrink: 0;

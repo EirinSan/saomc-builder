@@ -32,9 +32,9 @@ const buildStore = useBuildStore()
 }
 
 .class-grid {
-  display: flex;
-  gap: 0.6rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.55rem;
 }
 
 .class-btn {
@@ -44,8 +44,8 @@ const buildStore = useBuildStore()
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 1rem 0.5rem 0.85rem;
-  width: 106px;
+  padding: 1rem 0.4rem 0.85rem;
+  width: 100%;
   background: var(--surface-2);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: var(--radius);
